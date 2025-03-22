@@ -18,44 +18,50 @@
     <link rel="shortcut icon" href="assets/images/favicon.svg">
 
     <!-- Title -->
-    <title>Free Admin Dashboards</title>
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
 
     <!-- *************
 			************ Common Css Files *************
 		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
 
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
     <!-- Animated css -->
     <link rel="stylesheet" href="assets/css/animate.css">
-
     <!-- Bootstrap font icons css -->
     <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
-
     <!-- Main css -->
     <link rel="stylesheet" href="assets/css/main.min.css">
-
-
     <!-- *************
 			************ Vendor Css Files *************
 		************ -->
-
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
-
   </head>
 
   <body>
 
     <!-- Loading wrapper start -->
-    <!-- <div id="loading-wrapper">
-			<div class="spinner">
-                <div class="line1"></div>
-				<div class="line2"></div>
-				<div class="line3"></div>
-				<div class="line4"></div>
-				<div class="line5"></div>
-				<div class="line6"></div>
-            </div>
-		</div> -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
     <!-- Loading wrapper end -->
 
     <!-- Page wrapper start -->
@@ -67,7 +73,7 @@
         <!-- Sidebar brand starts -->
         <div class="sidebar-brand">
           <a href="index.html" class="logo">
-            <img src="assets/images/logo.svg" alt="Max Free Admin Dashboard" />
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
           </a>
         </div>
         <!-- Sidebar brand starts -->
@@ -79,120 +85,70 @@
               <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-house"></i>
-                  <span class="menu-text">Dashboards</span>
+                  <span class="menu-text">主页</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="index.html">Sales</a>
-                    </li>
-                    <li>
-                      <a href="social.html">Social</a>
+                      <a href="index.html" style="font-size: 16px;">实时监控</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown active">
                 <a href="#">
-                  <i class="bi bi-handbag"></i>
-                  <span class="menu-text">Product</span>
+                  <i class="bi bi-people"></i>
+                  <span class="menu-text">用户管理</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="orders.html">Order History</a>
+                      <a href="admin.html" style="font-size: 16px;">管理员</a>
                     </li>
                     <li>
-                      <a href="products.html">Products</a>
-                    </li>
-                    <li>
-                      <a href="view-cart.html">Shopping Cart</a>
-                    </li>
-                    <li>
-                      <a href="checkout.html">Billing Details</a>
-                    </li>
-                    <li>
-                      <a href="customers.html" class="current-page">Customers</a>
-                    </li>
-                    <li>
-                      <a href="add-product.html">Add Product</a>
-                    </li>
-                    <li>
-                      <a href="reviews.html">Reviews</a>
+                      <a href="customers.html" class="current-page">普通用户</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
                 <a href="#">
-                  <i class="bi bi-gem"></i>
-                  <span class="menu-text">Widgets</span>
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">风险评估</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="widgets.html">Widgets</a>
-                    </li>
-                    <li>
-                      <a href="graph-widgets.html">Graph Widgets</a>
+                      <a href="form-layout3.html" style="font-size: 16px;">开始测评</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
                 <a href="#">
-                  <i class="bi bi-collection"></i>
-                  <span class="menu-text">UI Elements</span>
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="accordions.html">Accordions</a>
+                      <a href="social.html" style="font-size: 16px;">合规溯源</a>
                     </li>
                     <li>
-                      <a href="alerts.html">Alerts</a>
+                      <a href="orders.html" style="font-size: 16px;">风险预警</a>
                     </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
                     <li>
-                      <a href="buttons.html">Buttons</a>
-                    </li>
-                    <li>
-                      <a href="badges.html">Badges</a>
-                    </li>
-                    <li>
-                      <a href="cards.html">Cards</a>
-                    </li>
-                    <li>
-                      <a href="carousel.html">Carousel</a>
-                    </li>
-                    <li>
-                      <a href="dropdowns.html">Dropdowns</a>
-                    </li>
-                    <li>
-                      <a href="icons.html">Icons</a>
-                    </li>
-                    <li>
-                      <a href="modals.html">Modals</a>
-                    </li>
-                    <li>
-                      <a href="offcanvas.html">Off Canvas</a>
-                    </li>
-                    <li>
-                      <a href="placeholders.html">Placeholders</a>
-                    </li>
-                    <li>
-                      <a href="progress.html">Progress Bars</a>
-                    </li>
-                    <li>
-                      <a href="spinners.html">Spinners</a>
-                    </li>
-                    <li>
-                      <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li>
-                      <a href="tooltips.html">Tooltips</a>
-                    </li>
-                    <li>
-                      <a href="typography.html">Typography</a>
+                      <a href="add-product.html" style="font-size: 16px;">开始处置</a>
                     </li>
                   </ul>
                 </div>
@@ -200,192 +156,44 @@
               <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-stickies"></i>
-                  <span class="menu-text">Pages</span>
+                  <span class="menu-text">数据集</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="create-invoice.html">Create Invoice</a>
+                      <a href="invoice-list.html">数据集管理</a>
                     </li>
                     <li>
-                      <a href="view-invoice.html">View Invoice</a>
-                    </li>
-                    <li>
-                      <a href="invoice-list.html">Invoice List</a>
-                    </li>
-                    <li>
-                      <a href="subscribers.html">Subscribers</a>
-                    </li>
-                    <li>
-                      <a href="contacts.html">Contacts</a>
-                    </li>
-                    <li>
-                      <a href="pricing.html">Pricing</a>
-                    </li>
-                    <li>
-                      <a href="profile.html">Profile</a>
-                    </li>
-                    <li>
-                      <a href="account-settings.html">Account Settings</a>
+                      <a href="morris.html" style="font-size: 16px;">数据集评估</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
                 <a href="#">
-                  <i class="bi bi-calendar4"></i>
-                  <span class="menu-text">Calendars</span>
+                  <i class="bi bi-gear"></i>
+                  <span class="menu-text">检测引擎</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="calendar.html">Daygrid View</a>
+                      <a href="model-list.html" style="font-size: 16px;">模型管理</a>
                     </li>
                     <li>
-                      <a href="calendar-external-draggable.html">External Draggable</a>
-                    </li>
-                    <li>
-                      <a href="calendar-google.html">Google Calendar</a>
-                    </li>
-                    <li>
-                      <a href="calendar-list-view.html">List View</a>
-                    </li>
-                    <li>
-                      <a href="calendar-selectable.html">Selectable</a>
+                      <a href="apex.html" style="font-size: 16px;">模型评估</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
                 <a href="#">
-                  <i class="bi bi-columns-gap"></i>
-                  <span class="menu-text">Forms</span>
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智能问答</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="form-inputs.html">Form Inputs</a>
-                    </li>
-                    <li>
-                      <a href="form-checkbox-radio.html">Checkbox &amp; Radio</a>
-                    </li>
-                    <li>
-                      <a href="form-file-input.html">File Input</a>
-                    </li>
-                    <li>
-                      <a href="form-validations.html">Validations</a>
-                    </li>
-                    <li>
-                      <a href="bs-select.html">Bootstrap Select</a>
-                    </li>
-                    <li>
-                      <a href="date-time-pickers.html">Date Time Pickers</a>
-                    </li>
-                    <li>
-                      <a href="input-mask.html">Input Masks</a>
-                    </li>
-                    <li>
-                      <a href="summernote.html">Summernote</a>
-                    </li>
-                    <li>
-                      <a href="form-layout1.html">Form Layout</a>
-                    </li>
-                    <li>
-                      <a href="form-layout2.html">Form Layout 2</a>
-                    </li>
-                    <li>
-                      <a href="form-layout3.html">Form Layout 3</a>
-                    </li>
-                    <li>
-                      <a href="form-layout4.html">Form Layout Horizontal</a>
-                    </li>
-                    <li>
-                      <a href="form-layout5.html">Form Layout Tabs</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-window-split"></i>
-                  <span class="menu-text">Tables</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="tables.html">Tables</a>
-                    </li>
-                    <li>
-                      <a href="data-tables.html">Data Tables</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-pie-chart"></i>
-                  <span class="menu-text">Graphs &amp; Maps</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="apex.html">Apex</a>
-                    </li>
-                    <li>
-                      <a href="morris.html">Morris</a>
-                    </li>
-                    <li>
-                      <a href="maps.html">Maps</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-layout-sidebar"></i>
-                  <span class="menu-text">Layouts</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="layout.html">Default Layout</a>
-                    </li>
-                    <li>
-                      <a href="layout-grid.html">Grid Layout</a>
-                    </li>
-                    <li>
-                      <a href="layout-mega-menu.html">Mega Menu</a>
-                    </li>
-                    <li>
-                      <a href="layout-full-screen.html">Full Screen</a>
-                    </li>
-                    <li>
-                      <a href="layout-toggle-screen.html">Toggle Screen</a>
-                    </li>
-                    <li>
-                      <a href="layout-welcome.html">Welcome Layout</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-x-diamond"></i>
-                  <span class="menu-text">Authentication</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="login.html">Login</a>
-                    </li>
-                    <li>
-                      <a href="signup.html">Signup</a>
-                    </li>
-                    <li>
-                      <a href="error.html">Error</a>
-                    </li>
-                    <li>
-                      <a href="maintenance.html">Maintenance</a>
+                      <a href="question-and-answer.html" style="font-size: 16px;">一键测评</a>
                     </li>
                   </ul>
                 </div>
@@ -419,7 +227,7 @@
             <li class="breadcrumb-item">
               <i class="bi bi-house"></i>
             </li>
-            <li class="breadcrumb-item breadcrumb-active" aria-current="page">Customers</li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 普通用户管理</li>
           </ol>
           <!-- Breadcrumb end -->
 
@@ -431,7 +239,7 @@
 
               <!-- Search input group start -->
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="搜索">
                 <button class="btn" type="button">
                   <i class="bi bi-search"></i>
                 </button>
@@ -452,11 +260,11 @@
                 <div class="dropdown-menu dropdown-menu-end shadow">
                   <div class="dropdown-item">
                     <div class="d-flex py-2 border-bottom">
-                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
                       <div class="m-0">
-                        <h6 class="mb-1">Sophie Michiels</h6>
-                        <p class="mb-2">Membership has been ended.</p>
-                        <p class="small m-0 text-secondary">Today, 07:30pm</p>
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
                       </div>
                     </div>
                   </div>
@@ -464,9 +272,9 @@
                     <div class="d-flex py-2 border-bottom">
                       <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
                       <div class="m-0">
-                        <h6 class="mb-1">Sophie Michiels</h6>
-                        <p class="mb-2">Congratulate, James for new job.</p>
-                        <p class="small m-0 text-secondary">Today, 08:00pm</p>
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
                       </div>
                     </div>
                   </div>
@@ -474,9 +282,9 @@
                     <div class="d-flex py-2">
                       <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
                       <div class="m-0">
-                        <h6 class="mb-1">Sophie Michiels</h6>
-                        <p class="mb-2">Lewis added new schedule release.</p>
-                        <p class="small m-0 text-secondary">Today, 09:30pm</p>
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
                       </div>
                     </div>
                   </div>
@@ -486,7 +294,7 @@
 
               <li class="dropdown d-none d-md-block">
                 <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
-                  <img src="assets/images/flags/1x1/gb.svg" class="flag-img" alt="Free Admin Dashboards" />
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
                 </a>
                 <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
                   <div class="country-container">
@@ -510,7 +318,7 @@
               </li>
               <li class="dropdown">
                 <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
-                  <span class="user-name d-none d-md-block">Tony Robbins</span>
+                  <span class="user-name d-none d-md-block">小红</span>
                   <span class="avatar">
                     <img src="assets/images/user3.png" alt="Free Admin Templates">
                     <span class="status busy"></span>
@@ -544,7 +352,7 @@
               <div class="col-sm-12 col-12">
                 <div class="card">
                   <div class="card-header">
-                    <div class="card-title">Customers</div>
+                    <div class="card-title">管理员</div>
                   </div>
                   <div class="card-body">
 
@@ -552,39 +360,31 @@
                       <table class="table v-middle m-0">
                         <thead>
                           <tr>
-                            <th>Country</th>
-                            <th>Customer</th>
-                            <th>Contact</th>
-                            <th>Status</th>
-                            <th>Orders</th>
-                            <th>Last Order</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
+                            <th style="width: 30%;">昵称</th>
+                            <th style="width: 20%;">联系方式</th>
+                            <th style="width: 10%;">状态</th>
+                            <th style="width: 10%;">评估总数</th>
+                            <th style="width: 20%;">上次评估</th>
+                            <th style="width: 10%;">操作</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              <img src="assets/images/flags/4x3/ca.svg" class="flag-img-lg"
-                                alt="Free Bootstrap Dashboards" />
-                              Canada
-                            </td>
-                            <td>
+                            <td class="text-start">
                               <div class="media-box">
-                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Themes" />
+                                <img src="assets/images/user6.png" class="media-avatar" alt="Bootstrap Themes" />
                                 <div class="media-box-body">
-                                  <div class="text-truncate">Dolly Winters</div>
+                                  <div class="text-truncate">小美</div>
                                   <p>ID: #Max00763</p>
                                 </div>
                               </div>
                             </td>
-                            <td>067-676-98320</td>
-                            <td>
-                              <span class="badge shade-green min-70">Active</span>
+                            <td class="text-start">067-676-98320</td>
+                            <td class="text-start">
+                              <span class="badge shade-green min-70">活跃中</span>
                             </td>
-                            <td>87</td>
-                            <td>2022/01/25</td>
-                            <td>$32800</td>
+                            <td class="text-start">87</td>
+                            <td class="text-start">2025年3月25日</td>
                             <td>
                               <div class="actions">
                                 <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
@@ -597,26 +397,21 @@
                             </td>
                           </tr>
                           <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/jp.svg" class="flag-img-lg" alt="Clean Dashboards" />
-                              Japan
-                            </td>
-                            <td>
+                            <td class="text-start">
                               <div class="media-box">
-                                <img src="assets/images/user5.png" class="media-avatar" alt="Bootstrap Themes" />
+                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Themes" />
                                 <div class="media-box-body">
-                                  <div class="text-truncate">Cedric Kelly</div>
+                                  <div class="text-truncate">小明</div>
                                   <p>ID: #Max00582</p>
                                 </div>
                               </div>
                             </td>
-                            <td>009-543-77650</td>
-                            <td>
-                              <span class="badge shade-green min-70">Active</span>
+                            <td class="text-start">009-543-77650</td>
+                            <td class="text-start">
+                              <span class="badge shade-green min-70">活跃中</span>
                             </td>
-                            <td>34</td>
-                            <td>2022/01/22</td>
-                            <td>$65890</td>
+                            <td class="text-start">34</td>
+                            <td class="text-start">2025年3月22日</td>
                             <td>
                               <div class="actions">
                                 <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
@@ -629,26 +424,48 @@
                             </td>
                           </tr>
                           <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/us.svg" class="flag-img-lg" alt="Clean Dashboards" />
-                              United States
+                            <td class="text-start">
+                              <div class="media-box">
+                                <img src="assets/images/user3.png" class="media-avatar" alt="Bootstrap Themes" />
+                                <div class="media-box-body">
+                                  <div class="text-truncate">小华</div>
+                                  <p>ID: #Max00987</p>
+                                </div>
+                              </div>
                             </td>
+                            <td class="text-start">030-998-03437</td>
+                            <td class="text-start">
+                              <span class="badge shade-dark min-70">离线</span>
+                            </td>
+                            <td class="text-start">61</td>
+                            <td class="text-start">2025年3月18日</td>
                             <td>
+                              <div class="actions">
+                                <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
+                                  <i class="bi bi-list text-green"></i>
+                                </a>
+                                <a href="#" class="deleteRow">
+                                  <i class="bi bi-trash text-red"></i>
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="text-start">
                               <div class="media-box">
                                 <img src="assets/images/user.png" class="media-avatar" alt="Bootstrap Themes" />
                                 <div class="media-box-body">
-                                  <div class="text-truncate">Tiya Davidson</div>
+                                  <div class="text-truncate">小红</div>
                                   <p>ID: #Max00554</p>
                                 </div>
                               </div>
                             </td>
-                            <td>067-676-98320</td>
-                            <td>
-                              <span class="badge shade-green min-70">Active</span>
+                            <td class="text-start">067-676-98320</td>
+                            <td class="text-start">
+                              <span class="badge shade-green min-70">活跃中</span>
                             </td>
-                            <td>21</td>
-                            <td>2022/01/10</td>
-                            <td>$25678</td>
+                            <td class="text-start">21</td>
+                            <td class="text-start">2025年3月10日</td>
                             <td>
                               <div class="actions">
                                 <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
@@ -661,27 +478,21 @@
                             </td>
                           </tr>
                           <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/tr.svg" class="flag-img-lg"
-                                alt="Free Modern Dashboards" />
-                              Turkey
-                            </td>
-                            <td>
+                            <td class="text-start">
                               <div class="media-box">
-                                <img src="assets/images/user4.png" class="media-avatar" alt="Bootstrap Themes" />
+                                <img src="assets/images/user5.png" class="media-avatar" alt="Bootstrap Themes" />
                                 <div class="media-box-body">
-                                  <div class="text-truncate">Zozi Williams</div>
-                                  <p>ID: #Max00831</p>
+                                  <div class="text-truncate">小丽</div>
+                                  <p>ID: #Max00145</p>
                                 </div>
                               </div>
                             </td>
-                            <td>002-434-66659</td>
-                            <td>
-                              <span class="badge shade-green min-70">Active</span>
+                            <td class="text-start">009-543-77650</td>
+                            <td class="text-start">
+                              <span class="badge shade-green min-70">活跃中</span>
                             </td>
-                            <td>55</td>
-                            <td>2022/01/21</td>
-                            <td>$24571</td>
+                            <td class="text-start">34</td>
+                            <td class="text-start">2025年3月22日</td>
                             <td>
                               <div class="actions">
                                 <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
@@ -694,92 +505,21 @@
                             </td>
                           </tr>
                           <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/in.svg" class="flag-img-lg"
-                                alt="Free Google Dashboards" />
-                              India
-                            </td>
-                            <td>
-                              <div class="media-box">
-                                <img src="assets/images/user3.png" class="media-avatar" alt="Bootstrap Themes" />
-                                <div class="media-box-body">
-                                  <div class="text-truncate">Karan Kumar</div>
-                                  <p>ID: #Max00987</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>030-998-03437</td>
-                            <td>
-                              <span class="badge shade-green min-70">Active</span>
-                            </td>
-                            <td>61</td>
-                            <td>2021/09/18</td>
-                            <td>$12309</td>
-                            <td>
-                              <div class="actions">
-                                <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
-                                  <i class="bi bi-list text-green"></i>
-                                </a>
-                                <a href="#" class="deleteRow">
-                                  <i class="bi bi-trash text-red"></i>
-                                </a>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/br.svg" class="flag-img-lg" alt="Free Admin Panels" />
-                              Brazil
-                            </td>
-                            <td>
-                              <div class="media-box">
-                                <img src="assets/images/user6.png" class="media-avatar" alt="Bootstrap Themes" />
-                                <div class="media-box-body">
-                                  <div class="text-truncate">Lilly Desmet</div>
-                                  <p>ID: #Max00987</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>030-998-03437</td>
-                            <td>
-                              <span class="badge shade-red min-70">Blocked</span>
-                            </td>
-                            <td>61</td>
-                            <td>2021/09/18</td>
-                            <td>$12309</td>
-                            <td>
-                              <div class="actions">
-                                <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">
-                                  <i class="bi bi-list text-green"></i>
-                                </a>
-                                <a href="#" class="deleteRow">
-                                  <i class="bi bi-trash text-red"></i>
-                                </a>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img src="assets/images/flags/1x1/it.svg" class="flag-img-lg"
-                                alt="Free Google Dashboards" />
-                              Italy
-                            </td>
-                            <td>
+                            <td class="text-start">
                               <div class="media-box">
                                 <img src="assets/images/user7.png" class="media-avatar" alt="Bootstrap Themes" />
                                 <div class="media-box-body">
-                                  <div class="text-truncate">Tiya Nixon</div>
-                                  <p>ID: #Max00987</p>
+                                  <div class="text-truncate">小花</div>
+                                  <p>ID: #Max00484</p>
                                 </div>
                               </div>
                             </td>
-                            <td>030-998-03437</td>
-                            <td>
-                              <span class="badge shade-red min-70">Blocked</span>
+                            <td class="text-start">030-998-03437</td>
+                            <td class="text-start">
+                              <span class="badge shade-dark min-70">离线</span>
                             </td>
-                            <td>61</td>
-                            <td>2021/09/18</td>
-                            <td>$12309</td>
+                            <td class="text-start">61</td>
+                            <td class="text-start">2025年3月18日</td>
                             <td>
                               <div class="actions">
                                 <a href="#" class="viewRow" data-bs-toggle="modal" data-bs-target="#viewRow">

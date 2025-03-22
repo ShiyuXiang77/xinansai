@@ -124,7 +124,7 @@
                   </ul>
                 </div>
               </li>
-              <li class="sidebar-dropdown active">
+              <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-list-task"></i>
                   <span class="menu-text">任务管理</span>
@@ -135,7 +135,7 @@
                       <a href="social.html" style="font-size: 16px;">合规溯源</a>
                     </li>
                     <li>
-                      <a href="orders.html" class="current-page">风险预警</a>
+                      <a href="orders.html" style="font-size: 16px;">风险预警</a>
                     </li>
                   </ul>
                 </div>
@@ -185,7 +185,7 @@
                   </ul>
                 </div>
               </li>
-              <li class="sidebar-dropdown">
+              <li class="sidebar-dropdown active">
                 <a href="#">
                   <i class="bi bi-robot"></i>
                   <span class="menu-text">智能问答</span>
@@ -193,7 +193,7 @@
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="question-and-answer.html" style="font-size: 16px;">一键测评</a>
+                      <a href="question-and-answer.html" class="current-page">一键测评</a>
                     </li>
                   </ul>
                 </div>
@@ -227,7 +227,7 @@
             <li class="breadcrumb-item">
               <i class="bi bi-house"></i>
             </li>
-            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 风险预警</li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 一键测评</li>
           </ol>
           <!-- Breadcrumb end -->
 
@@ -349,219 +349,25 @@
 
             <!-- Row start -->
             <div class="row gx-3">
-              <div class="col-sm-12 col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-title">历史任务</div>
+              <div class="col-sm-8 col-12" style="margin: 3px auto;">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">🧠 智能问答系统</h5>
                   </div>
                   <div class="card-body">
-
-                    <div class="table-responsive">
-                      <table class="table v-middle">
-                        <thead>
-                          <tr>
-                            <th style="width: 18%;">模型名称</th>
-                            <th style="width: 30%;">测评维度</th>
-                            <th style="width: 10%;">类别</th>
-                            <th style="width: 16%;">时间</th>
-                            <th style="width: 16%;">评估结果</th>
-                            <th style="width: 10%;">报告</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user5.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">文心一言</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img1.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月21日</td>
-<!--                            <td>$46.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">深度求索</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img2.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">隐私</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月25日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user3.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">可灵AI</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img3.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 伦理</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">VLM</td>
-                            <td class="text-start">2025年3月30日</td>
-<!--                            <td>$65.00</td>-->
-                            <td class="text-start">
-                              <span class="text-green"><i class="bi bi-check-circle-fill"></i> 评估通过</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-green min-90">报告下载</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">百川智能</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img4.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">隐私 安全 政策</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">202年3月12日</td>
-<!--                            <td>$88.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">智谱清言</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img5.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月11日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">商汤日日新</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img2.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">安全 伦理 公平</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月21日</td>
-<!--                            <td>$46.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user4.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">通义千问</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img4.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月25日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <!-- 输入区 -->
+                    <label class="form-label mb-2">请输入您的问题</label>
+                    <textarea id="userQuestion" class="form-control mb-3" rows="4" placeholder="例：大模型如何防止越狱攻击？"></textarea>
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-success" onclick="handleQuestion()">发送问题</button>
                     </div>
 
+                    <!-- 回答区域 -->
+                    <div id="chatBox" class="mt-4">
+                      <div class="alert alert-secondary" role="alert">
+                        👋 欢迎使用智能问答系统，请输入你的问题开始对话。
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -592,6 +398,32 @@
 			************ Required JavaScript Files *************
 		************* -->
     <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script>
+      function handleQuestion() {
+        const question = document.getElementById('userQuestion').value.trim();
+        const chatBox = document.getElementById('chatBox');
+
+        if (question === '') {
+          alert("请输入你的问题再点击发送！");
+          return;
+        }
+
+        // 用户提问展示
+        const userMsg = `<div class="alert alert-primary"><strong>你问：</strong> ${question}</div>`;
+        chatBox.innerHTML += userMsg;
+
+        // 模拟AI回应
+        setTimeout(() => {
+          const aiReply = `<div class="alert alert-success"><strong>AI答：</strong> 这是一个好问题，大语言模型通常采用安全过滤器与对抗训练机制来降低越狱风险。</div>`;
+          chatBox.innerHTML += aiReply;
+          // 清空输入框
+          document.getElementById('userQuestion').value = '';
+          // 滚动到底部
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }, 600);
+      }
+    </script>
+
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/modernizr.js"></script>
@@ -605,6 +437,9 @@
     <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
     <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
 
+    <!-- Date Range JS -->
+    <script src="assets/vendor/daterange/daterange.js"></script>
+    <script src="assets/vendor/daterange/custom-daterange.js"></script>
 
     <!-- Main Js Required -->
     <script src="assets/js/main.js"></script>

@@ -5,55 +5,55 @@ var options = {
 		name: 'In Millions',
 	  data: [
 		{
-		  	x: 'United States',
+		  	x: '数据泄露',
 		  	y: 218
 		},		
 		{
-		  	x: 'India',
+		  	x: '虚假',
 		  	y: 197
 		},
 		{
-			x: 'Brazil',
+			x: '用户数据',
 			y: 149
 	  	},
 		{
-		  	x: 'Turkey',
+		  	x: '性别偏见',
 		  	y: 55
 		},
 		{
-		  	x: 'Indonesia',
+		  	x: '误导',
 		  	y: 84
 		},
 		{
-		  	x: 'United Kingdom',
+		  	x: '少数群体',
 		  	y: 31
 		},
 		{
-		  	x: 'Saudi Arabia',
+		  	x: '敏感话题',
 		  	y: 70
 		},
 		{
-		  	x: 'Germany',
+		  	x: '多元文化',
 		  	y: 30
 		},
 		{
-		  	x: 'Mexico',
+		  	x: '注入攻击',
 		  	y: 44
 		},
 		{
-		  	x: 'France',
+		  	x: '越狱',
 		  	y: 68
 		},
 		{
-		  	x: 'Vietnam',
+		  	x: '内容合规',
 		  	y: 28
 		},
 		{
-		  	x: 'Hungary',
+		  	x: '模型偏向',
 		  	y: 19
 		},
 		{
-		  	x: 'Philippines',
+		  	x: '恶意生成',
 		  	y: 29
 		}
 	  ]
@@ -69,7 +69,7 @@ var options = {
 			show: false,
 	  },
   	},
-	  colors: ["#7943ef", "#EB3333"],
+	  colors: ["#EB3333", "#7943ef"],
 	  tooltip: {
         y: {
             formatter: function(val) {

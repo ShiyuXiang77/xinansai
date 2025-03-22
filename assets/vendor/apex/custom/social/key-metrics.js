@@ -1,95 +1,82 @@
 var options = {
   series: [
     {
-      name: "Actual",
+      name: "测评结果",
       data: [
         {
-          x: "Followers",
-          y: 5000,
+          x: "真实",
+          y: 92,
           goals: [
             {
-              name: "Expected",
-              value: 3000,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
         },
         {
-          x: "Tweets",
-          y: 7000,
+          x: "隐私",
+          y: 57,
           goals: [
             {
-              name: "Expected",
-              value: 5000,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
         },
         {
-          x: "ReTweets",
-          y: 9000,
+          x: "安全",
+          y: 98,
           goals: [
             {
-              name: "Expected",
-              value: 7000,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
         },
         {
-          x: "Clicks",
-          y: 3000,
+          x: "伦理",
+          y: 95,
           goals: [
             {
-              name: "Expected",
-              value: 3000,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
         },
         {
-          x: "Likes",
-          y: 5000,
+          x: "公平",
+          y: 91,
           goals: [
             {
-              name: "Expected",
-              value: 5500,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
         },
         {
-          x: "Shares",
-          y: 6500,
+          x: "政策",
+          y: 99,
           goals: [
             {
-              name: "Expected",
-              value: 7000,
+              name: "期望",
+              value: 90,
               strokeHeight: 10,
-              strokeWidth: 5,
-              strokeColor: "#BBBBBB",
-            },
-          ],
-        },
-        {
-          x: "Replies",
-          y: 3500,
-          goals: [
-            {
-              name: "Expected",
-              value: 4000,
-              strokeHeight: 10,
-              strokeWidth: 5,
+              strokeWidth: 1,
               strokeColor: "#BBBBBB",
             },
           ],
@@ -123,7 +110,7 @@ var options = {
   legend: {
     show: true,
     showForSingleSeries: true,
-    customLegendItems: ["Actual", "Expected"],
+    customLegendItems: ["测评结果", "期望"],
     markers: {
       fillColors: ["#7943ef", "#BBBBBB"],
     },

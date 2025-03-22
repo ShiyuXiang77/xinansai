@@ -124,7 +124,7 @@
                   </ul>
                 </div>
               </li>
-              <li class="sidebar-dropdown active">
+              <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-list-task"></i>
                   <span class="menu-text">任务管理</span>
@@ -135,7 +135,7 @@
                       <a href="social.html" style="font-size: 16px;">合规溯源</a>
                     </li>
                     <li>
-                      <a href="orders.html" class="current-page">风险预警</a>
+                      <a href="orders.html" style="font-size: 16px;">风险预警</a>
                     </li>
                   </ul>
                 </div>
@@ -153,7 +153,7 @@
                   </ul>
                 </div>
               </li>
-              <li class="sidebar-dropdown">
+              <li class="sidebar-dropdown active">
                 <a href="#">
                   <i class="bi bi-stickies"></i>
                   <span class="menu-text">数据集</span>
@@ -161,7 +161,7 @@
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="invoice-list.html" style="font-size: 16px;">数据集管理</a>
+                      <a href="invoice-list.html" class="current-page">数据集管理</a>
                     </li>
                     <li>
                       <a href="morris.html" style="font-size: 16px;">数据集评估</a>
@@ -227,7 +227,7 @@
             <li class="breadcrumb-item">
               <i class="bi bi-house"></i>
             </li>
-            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 风险预警</li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 数据集管理</li>
           </ol>
           <!-- Breadcrumb end -->
 
@@ -352,216 +352,163 @@
               <div class="col-sm-12 col-12">
                 <div class="card">
                   <div class="card-header">
-                    <div class="card-title">历史任务</div>
+                    <div class="card-title">数据集管理</div>
+                    <a href="create-invoice.html" class="btn btn-dark">添加数据集</a>
                   </div>
                   <div class="card-body">
-
                     <div class="table-responsive">
-                      <table class="table v-middle">
+                      <table class="table table-bordered invoice-table">
                         <thead>
                           <tr>
-                            <th style="width: 18%;">模型名称</th>
-                            <th style="width: 30%;">测评维度</th>
-                            <th style="width: 10%;">类别</th>
-                            <th style="width: 16%;">时间</th>
-                            <th style="width: 16%;">评估结果</th>
-                            <th style="width: 10%;">报告</th>
+                            <td>添加人</td>
+                            <td>数据集名称</td>
+                            <td>评估维度</td>
+                            <td>评估次数</td>
+                            <td>添加时间</td>
+                            <td>状态</td>
+                            <td>数据集测评</td>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user5.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">文心一言</div>
-                                </div>
+                            <td>
+                              <div class="customer">
+                                <img src="assets/images/user2.png" class="user-avatar" alt="Free Web Dashboards">
+                                <div class="name">小美</div>
                               </div>
                             </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img1.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
+                            <td>数据集1</td>
+                            <td>
+                              <div class="details">
+                                <h5>真实 隐私 安全 伦理 公平 政策</h5>
+<!--                                <h6>(128) 898-0326</h6>-->
                               </div>
                             </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月21日</td>
-<!--                            <td>$46.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
+                            <td>23</td>
+                            <td>2025年3月10日</td>
+                            <td>
+                              <span class="badge shade-green">正在使用</span>
                             </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
+                            <td>
+                              <button class="btn btn-dark">报告查看</button>
                             </td>
                           </tr>
                           <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">深度求索</div>
-                                </div>
+                            <td>
+                              <div class="customer">
+                                <img src="assets/images/user3.png" class="user-avatar" alt="Free Web Dashboards">
+                                <div class="name">小红</div>
                               </div>
                             </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img2.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">隐私</div>
-                                </div>
+                            <td>数据集2</td>
+                            <td>
+                              <div class="details">
+                                <h5>隐私 安全 伦理</h5>
+<!--                                <h6>(902) 786-2891</h6>-->
                               </div>
                             </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月25日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
+                            <td>23</td>
+                            <td>2024年3月13日</td>
+                            <td>
+                              <span class="badge shade-yellow">待更新</span>
                             </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
+                            <td>
+                              <button class="btn btn-dark">报告查看</button>
                             </td>
                           </tr>
                           <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user3.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">可灵AI</div>
-                                </div>
+                            <td>
+                              <div class="customer">
+                                <img src="assets/images/user4.png" class="user-avatar" alt="Free Web Dashboards">
+                                <div class="name">小花</div>
                               </div>
                             </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img3.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 伦理</div>
-                                </div>
+                            <td>数据集3</td>
+                            <td>
+                              <div class="details">
+                                <h5>政策</h5>
+<!--                                <h6>(989) 878-9980</h6>-->
                               </div>
                             </td>
-                            <td class="text-start">VLM</td>
-                            <td class="text-start">2025年3月30日</td>
-<!--                            <td>$65.00</td>-->
-                            <td class="text-start">
-                              <span class="text-green"><i class="bi bi-check-circle-fill"></i> 评估通过</span>
+                            <td>17</td>
+                            <td>2022年10月28日</td>
+                            <td>
+                              <span class="badge shade-red">已弃用</span>
                             </td>
-                            <td class="text-start">
-                              <span class="badge shade-green min-90">报告下载</span>
+                            <td>
+                              <button class="btn btn-dark">报告查看</button>
                             </td>
                           </tr>
                           <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">百川智能</div>
-                                </div>
+                            <td>
+                              <div class="customer">
+                                <img src="assets/images/user5.png" class="user-avatar" alt="Free Web Dashboards">
+                                <div class="name">小丽</div>
                               </div>
                             </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img4.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">隐私 安全 政策</div>
-                                </div>
+                            <td>数据集4</td>
+                            <td>
+                              <div class="details">
+                                <h5>隐私 安全</h5>
+<!--                                <h6>(902) 324-8890</h6>-->
                               </div>
                             </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">202年3月12日</td>
-<!--                            <td>$88.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
+                            <td>41</td>
+                            <td>2025年1月19日</td>
+                            <td>
+                              <span class="badge shade-green">使用中</span>
                             </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
+                            <td>
+                              <button class="btn btn-dark">报告查看</button>
                             </td>
                           </tr>
                           <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user2.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">智谱清言</div>
-                                </div>
+                            <td>
+                              <div class="customer">
+                                <img src="assets/images/user.png" class="user-avatar" alt="Free Web Dashboards">
+                                <div class="name">小华</div>
                               </div>
                             </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img5.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
+                            <td>数据集5</td>
+                            <td>
+                              <div class="details">
+                                <h5>真实 隐私 安全 伦理 公平 政策</h5>
+<!--                                <h6>(453) 264-4453</h6>-->
                               </div>
                             </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月11日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
+                            <td>28</td>
+                            <td>2024年10月12日</td>
+                            <td>
+                              <span class="badge shade-yellow">待更新</span>
                             </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">商汤日日新</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img2.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">安全 伦理 公平</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月21日</td>
-<!--                            <td>$46.00</td>-->
-                            <td class="text-start">
-                              <span class="text-red"><i class="bi bi-x-circle-fill"></i> 评估未通过</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-red min-90">报告下载</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/user4.png" class="media-avatar" alt="Bootstrap Gallery">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">通义千问</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">
-                              <div class="media-box">
-<!--                                <img src="assets/images/food/img4.jpg" class="media-avatar" alt="Free Admin Themes">-->
-                                <div class="media-box-body">
-                                  <div class="text-truncate">真实 隐私 安全 伦理 公平 政策</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-start">LLM</td>
-                            <td class="text-start">2025年3月25日</td>
-<!--                            <td>$87.00</td>-->
-                            <td class="text-start">
-                              <span class="text-blue"><i class="bi bi-clock-fill"></i> 等待</span>
-                            </td>
-                            <td class="text-start">
-                              <span class="badge shade-blue min-90">评估中</span>
+                            <td>
+                              <button class="btn btn-dark">报告查看</button>
                             </td>
                           </tr>
                         </tbody>
                       </table>
+                      <nav aria-label="Page Navigation">
+                        <ul class="pagination justify-content-end">
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                              <span aria-hidden="true">
+                                <i class="bi bi-arrow-left"></i>
+                              </span>
+                            </a>
+                          </li>
+                          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                              <span aria-hidden="true">
+                                <i class="bi bi-arrow-right"></i>
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -605,6 +552,9 @@
     <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
     <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
 
+    <!-- Date Range JS -->
+    <script src="assets/vendor/daterange/daterange.js"></script>
+    <script src="assets/vendor/daterange/custom-daterange.js"></script>
 
     <!-- Main Js Required -->
     <script src="assets/js/main.js"></script>
