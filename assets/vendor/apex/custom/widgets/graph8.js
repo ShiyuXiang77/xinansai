@@ -4,7 +4,7 @@ var options = {
       type: 'radialBar',
     },
     labels: ['Current Customers', 'New Customers', 'Targeted Customers'],
-    series: [75, 50, 25],
+    series: [85, 50, 45],
     plotOptions: {
       radialBar: {
         dataLabels: {
