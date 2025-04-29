@@ -47,6 +47,37 @@
 		************ -->
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+    <style>
+      .chatbox {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .user-message {
+        background-color: #e1f5fe;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+      }
+      .ai-message {
+        background-color: #c8e6c9;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+      }
+      .blocked-message {
+        background-color: #ffcdd2;
+        color: #c62828;
+        padding: 8px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+    </style>
+
   </head>
 
   <body>
@@ -85,46 +116,17 @@
               <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-house"></i>
-                  <span class="menu-text">主页</span>
+                  <span class="menu-text">实时监控</span>
                 </a>
-                <div class="sidebar-submenu">
+                <div class="sidebar-submenu active">
                   <ul>
                     <li>
-                      <a href="index.html" style="font-size: 16px;">实时监控</a>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-people"></i>
-                  <span class="menu-text">用户管理</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="admin.html" style="font-size: 16px;">管理员</a>
-                    </li>
-                    <li>
-                      <a href="customers.html" style="font-size: 16px;">普通用户</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-graph-up-arrow"></i>
-                  <span class="menu-text">风险评估</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="form-layout3.html" style="font-size: 16px;">开始测评</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown active">
                 <a href="#">
                   <i class="bi bi-list-task"></i>
                   <span class="menu-text">任务管理</span>
@@ -132,15 +134,31 @@
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="orders.html" style="font-size: 16px;">风险预警</a>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
                     </li>
                     <li>
-                      <a href="social.html" class="current-page">合规溯源</a>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
                     </li>
                   </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
                 <a href="#">
                   <i class="bi bi-exclamation-triangle"></i>
                   <span class="menu-text">风险处置</span>
@@ -148,39 +166,7 @@
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="add-product.html" style="font-size: 16px;">开始处置</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-stickies"></i>
-                  <span class="menu-text">数据集</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="invoice-list.html" style="font-size: 16px;">数据集管理</a>
-                    </li>
-                    <li>
-                      <a href="morris.html" style="font-size: 16px;">数据集评估</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="sidebar-dropdown">
-                <a href="#">
-                  <i class="bi bi-gear"></i>
-                  <span class="menu-text">检测引擎</span>
-                </a>
-                <div class="sidebar-submenu">
-                  <ul>
-                    <li>
-                      <a href="model-list.html" style="font-size: 16px;">模型管理</a>
-                    </li>
-                    <li>
-                      <a href="apex.html" style="font-size: 16px;">模型评估</a>
+                      <a href="risk-disposal.html" class="current-page">沙盒演示</a>
                     </li>
                   </ul>
                 </div>
@@ -188,12 +174,12 @@
               <li class="sidebar-dropdown">
                 <a href="#">
                   <i class="bi bi-robot"></i>
-                  <span class="menu-text">智能问答</span>
+                  <span class="menu-text">智慧问答</span>
                 </a>
                 <div class="sidebar-submenu">
                   <ul>
                     <li>
-                      <a href="question-and-answer.html" style="font-size: 16px;">一键测评</a>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
                     </li>
                   </ul>
                 </div>
@@ -227,7 +213,7 @@
             <li class="breadcrumb-item">
               <i class="bi bi-house"></i>
             </li>
-            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 合规溯源</li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 风险处置</li>
           </ol>
           <!-- Breadcrumb end -->
 
@@ -346,17 +332,59 @@
 
           <!-- Content wrapper start -->
           <div class="content-wrapper">
-            <!-- Row start 7个指标-->
-            <div class="row gx-3 flex-nowrap overflow-auto">
+
+            <!-- Row start -->
+            <div class="row gx-3">
+              <div class="col-sm-8 col-12" style="margin: 3px auto;">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">沙盒演示</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row gx-3">
+                      <div class="container mt-4">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="card">
+                              <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">生成式模型防火墙沙盒</h5>
+                              </div>
+                              <div class="card-body chat-container">
+                                <div id="chatbox" class="chatbox">
+                                  <!-- 聊天内容会动态填充 -->
+                                </div>
+                                <div class="input-group mt-3">
+                                  <input type="text" id="userInput" class="form-control" placeholder="请输入...">
+                                  <button class="btn btn-primary" onclick="processInput()">发送</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-12">
+                        <div class="custom-btn-group flex-end">
+                          <button type="button" class="btn btn-light">取消试用</button>
+                          <a href="javascript:void(0);" class="btn btn-success" id="startTrialBtn">立即试用</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+            <div id="evaluation-cards" class="row gx-3 d-none mt-4 fade-in">
+              <div class="row gx-3 flex-nowrap overflow-auto">
                   <div class="col" style="min-width: 170px;">
                     <div class="social-tile">
                       <div class="social-icon">
                         <img src="assets/images/真实可信.svg" alt="真实" style="width: 60px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">72%</h1>
+                        <h1 class="text-green">92%</h1>
                         <h5>真实</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
@@ -366,9 +394,9 @@
                         <img src="assets/images/隐私.svg" alt="隐私" style="width: 60px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">57%</h1>
+                        <h1 class="text-green">97%</h1>
                         <h5>隐私</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
@@ -378,9 +406,9 @@
                         <img src="assets/images/安全.svg" alt="安全" style="width: 50px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">78%</h1>
+                        <h1 class="text-green">98%</h1>
                         <h5>安全</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
@@ -390,9 +418,9 @@
                         <img src="assets/images/越狱.svg" alt="越狱" style="width: 50px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">66%</h1>
+                        <h1 class="text-green">96%</h1>
                         <h5>越狱</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估成功</p>
                       </div>
                     </div>
                   </div>
@@ -402,9 +430,9 @@
                         <i class="bi bi-people-fill"></i>
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">85%</h1>
+                        <h1 class="text-green">95%</h1>
                         <h5>伦理</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
@@ -414,9 +442,9 @@
                         <img src="assets/images/公平验证选中.svg" alt="公平" style="width: 50px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">41%</h1>
+                        <h1 class="text-green">91%</h1>
                         <h5>公平</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
@@ -426,221 +454,13 @@
                         <img src="assets/images/政策.svg" alt="政策" style="width: 50px;">
                       </div>
                       <div class="social-details">
-                        <h1 class="text-red">89%</h1>
+                        <h1 class="text-green">99%</h1>
                         <h5>政策</h5>
-                        <p class="growth low">评估中...</p>
+                        <p class="growth high">评估通过</p>
                       </div>
                     </div>
                   </div>
                   </div>
-            <!-- Row end -->
-
-            <!-- Row start -->
-            <div class="row gx-3">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-title">弱点词云图</div>
-                  </div>
-                  <div class="card-body card-320">
-                    <div id="adsRevenue"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-6 col-sm-12 col-12">
-                <div class="card">
-                  <div class="card-body">
-                    <!-- Row start -->
-                    <div class="row gx-3">
-                      <div class="col-sm-6 col-12">
-                        <div class="stats-tile2-container">
-                          <div class="stats-tile2">
-                            <div class="sale-icon">
-                              <i class="bi bi-person text-blue"></i>
-                            </div>
-                            <div class="sale-details">
-                              <h5>全部任务</h5>
-                              <p class="growth">124</p>
-                            </div>
-                          </div>
-                          <div class="stats-tile2">
-                            <div class="sale-icon">
-                              <i class="bi bi-person-check text-green"></i>
-                            </div>
-                            <div class="sale-details">
-                              <h5>评估通过</h5>
-                              <p class="growth">53</p>
-                            </div>
-                          </div>
-                          <div class="stats-tile2">
-                            <div class="sale-icon">
-                              <i class="bi bi-person-plus text-red"></i>
-                            </div>
-                            <div class="sale-details">
-                              <h5>预警</h5>
-                              <p class="growth ">41</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-12">
-                        <div id="graph8"></div>
-                      </div>
-                    </div>
-                    <!-- Row end -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Row end -->
-
-            <!-- Row start 4个指标-->
-            <div class="row gx-3">
-              <div class="col-xxl-3 col-sm-6 col-12">
-                <div class="stats-tile">
-                  <div class="sale-icon shade-bdr-white">
-                    <img src="assets/images/AI大模型配置.svg" alt="大模型" style="width: 80px;">
-                  </div>
-                  <div class="sale-details">
-                    <h3 class="text-blue">
-                      37
-                    </h3>
-                    <p class="text-black">已检测数量</p>
-                  </div>
-                  <div class="sale-graph">
-                    <div id="sparklineLine1"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-3 col-sm-6 col-12">
-                <div class="stats-tile">
-                  <div class="sale-icon shade-bdr-white">
-                    <img src="assets/images/预警.svg" alt="预警 图标" style="width: 60px;">
-                  </div>
-                  <div class="sale-details">
-                    <h3 class="text-red">20</h3>
-                    <p class="text-black">已预警数量</p>
-                  </div>
-                  <div class="sale-graph">
-                    <div id="sparklineLine3"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-3 col-sm-6 col-12">
-                <div class="stats-tile">
-                  <div class="sale-icon shade-bdr-white">
-                    <img src="assets/images/指标统计.svg" alt="指标 图标" style="width: 60px;">
-                  </div>
-                  <div class="sale-details">
-                    <h3 class="text-yellow">16</h3>
-                    <p class="text-black">攻击数量</p>
-                  </div>
-                  <div class="sale-graph">
-                    <div id="sparklineLine2"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xxl-3 col-sm-6 col-12">
-                <div class="stats-tile">
-                  <div class="sale-icon shade-bdr-white">
-                    <img src="assets/images/时间.svg" alt="时间 图标" style="width: 60px;">
-                  </div>
-                  <div class="sale-details">
-                    <h3 class="text-green">602s</h3>
-                    <p class="text-black">平均响应时长</p>
-                  </div>
-                  <div class="sale-graph">
-                    <div id="sparklineLine4"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Row end -->
-
-            <!-- 添加 TrustGen Benchmark 和 Leaderboard 表格到 GenGuardian 主页 -->
-
-            <!-- Benchmark Section -->
-            <div class="row gx-3">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-title text-blue">模型基准测试 (Benchmark)</div>
-                  </div>
-                  <div class="card-body">
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue" >Large Language Models</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="llm-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue" >Vision Language Models</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="vlm-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue">Text-to-Image Models</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="t2i-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Leaderboard Section -->
-            <div class="row gx-3">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-title text-blue">模型排行榜 (Leaderboard)</div>
-                  </div>
-                  <div class="card-body">
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue">Large Language Model Results</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="llm-res-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue">Vision Language Model Results</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="vlm-res-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    <div class="container mt-4">
-                      <h4 class="mb-3 text-blue">Text-to-Image Results</h4>
-                      <div class="rounded-4 border border-light overflow-hidden">
-                        <table class="table table-hover mb-0 custom-table" id="t2i-res-table">
-                          <thead></thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
           </div>
@@ -666,25 +486,49 @@
     <!-- *************
 			************ Required JavaScript Files *************
 		************* -->
-    <!-- trustgen -->
-    <!-- Vendor JS Files -->
-    <script src="trustgen/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="trustgen/vendor/php-email-form/validate.js"></script>
-    <script src="trustgen/vendor/aos/aos.js"></script>
-    <script src="trustgen/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="trustgen/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="trustgen/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="trustgen/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
-    <!-- Main JS File -->
-    <script src="trustgen/js/main.js"></script>
-    <script src="trustgen/js/table.js"></script>
-    <script src="trustgen/js/anime.js"></script>
-
-    <!-- map -->
-    <script type="text/javascript" src="static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="static/js/app.js"></script>
     <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script>
+      function processInput() {
+        let inputBox = document.getElementById("userInput");
+        let chatBox = document.getElementById("chatbox");
+        let userPrompt = inputBox.value.trim();
+        if (userPrompt === "") return;
+        // 添加用户输入
+        chatBox.innerHTML += `<div class="user-message"><strong>用户:</strong> ${userPrompt}</div>`;
+        // 进行简单恶意检测（示例）
+        let blockedKeywords = ["爆炸", "攻击", "黑客", "毒品", "炸弹"];
+        let isBlocked = blockedKeywords.some(keyword => userPrompt.includes(keyword));
+        let response;
+        if (isBlocked) {
+          response = `<div class="blocked-message"><strong>生成式模型防火墙:</strong> 该请求包含敏感内容，已被拦截。</div>`;
+        } else {
+          response = `<div class="ai-message"><strong>AI:</strong> 你的请求已通过，正常响应: ${userPrompt}。</div>`;
+        }
+
+        // 添加 AI 响应
+        chatBox.innerHTML += response;
+
+        // 清空输入框
+        inputBox.value = "";
+
+        // 滚动到底部
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    </script>
+
+    <script>
+      document.getElementById('startTrialBtn').addEventListener('click', function () {
+        const cards = document.getElementById('evaluation-cards');
+        if (cards.classList.contains('d-none')) {
+          cards.classList.remove('d-none');
+          // 触发重新渲染以激活动画
+          void cards.offsetWidth;
+          cards.classList.add('fade-in');
+          // 滚动至卡片区域
+          cards.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    </script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/modernizr.js"></script>
@@ -698,17 +542,8 @@
     <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
     <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
 
-    <!-- Apex Charts -->
-    <script src="assets/vendor/apex/apexcharts.min.js"></script>
-    <script src="assets/vendor/apex/custom/social/demography.js"></script>
-    <script src="assets/vendor/apex/custom/social/key-metrics.js"></script>
-    <script src="assets/vendor/apex/custom/social/ads-revenue.js"></script>
-    <script src="assets/vendor/apex/custom/social/instagram-followers.js"></script>
-    <script src="assets/vendor/apex/custom/social/followers-growth.js"></script>
-    <script src="assets/vendor/apex/custom/social/comments-history.js"></script>
-    <script src="assets/vendor/apex/custom/social/likes-history.js"></script>
-    <script src="assets/vendor/apex/custom/social/shares-history.js"></script>
-    <script src="assets/vendor/apex/custom/widgets/graph8.js"></script>
+    <!-- Dropzone JS -->
+    <script src="assets/vendor/dropzone/dropzone.min.js"></script>
 
     <!-- Main Js Required -->
     <script src="assets/js/main.js"></script>
