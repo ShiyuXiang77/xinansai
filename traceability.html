@@ -1,0 +1,1180 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+
+    <!-- Calendar CSS -->
+    <link rel="stylesheet" href="assets/vendor/calendar/css/main.min.css" />
+    <link rel="stylesheet" href="assets/vendor/calendar/css/custom.css" />
+
+    <script>
+    // 获取URL参数
+    function getUrlParams() {
+        const params = {};
+        const queryString = window.location.search.substring(1);
+        const pairs = queryString.split('&');
+        
+        for (const pair of pairs) {
+            const [key, value] = pair.split('=');
+            params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+        }
+        
+        return params;
+    }
+
+    // 获取查询参数
+    const params = getUrlParams();
+    const taskId = params.task_id;
+    const modelName = params.model;
+    
+    // 存储报告数据
+    let reportData = null;
+    let modelData = null;
+
+    // 根据维度名称获取对应的中文名
+    function getDimensionName(dim) {
+        const dimMap = {
+            'fairness': '公平',
+            'honesty': '真实',
+            'jailbreak': '越狱',
+            'privacy': '隐私',
+            'robustness': '安全',
+            'safety': '伦理',
+            'policy': '政策'
+        };
+        
+        return dimMap[dim] || dim;
+    }
+
+    // 格式化时间戳
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).replace(/\//g, '-');
+    }
+
+    // 初始化页面
+    async function initPage() {
+        if (!taskId) {
+            document.getElementById('pageContent').innerHTML = `
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    未提供任务ID，无法显示报告数据
+                </div>
+            `;
+            return;
+        }
+        
+        try {
+            // 获取任务报告数据
+            const response = await fetch(`/api/reports/${taskId}`);
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            reportData = data;
+            
+            // 如果指定了模型名称，获取该模型的数据
+            if (modelName && data.results && data.results[modelName]) {
+                modelData = data.results[modelName];
+                updateModelInformation(modelName, modelData);
+            } else if (data.results) {
+                // 否则使用第一个模型的数据
+                const firstModelName = Object.keys(data.results)[0];
+                modelData = data.results[firstModelName];
+                updateModelInformation(firstModelName, modelData);
+            }
+            
+            // 更新报告头部信息到指定位置
+            document.getElementById('reportDetailContainer').innerHTML = updateReportHeader(data);
+            
+            // 更新维度指标显示
+            updateDimensionStats();
+            
+            // 显示错误案例
+            showErrorCases();
+            
+        } catch (error) {
+            console.error('加载报告数据失败:', error);
+            document.getElementById('pageContent').innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    加载报告数据失败: ${error.message || '请稍后重试'}
+                </div>
+            `;
+        }
+    }
+
+    // 更新报告头部信息
+    function updateReportHeader(data) {
+        // 创建包含报告基本信息的HTML
+        const dimensions = data.dimensions || [];
+        const timestamp = formatTimestamp(data.timestamp);
+        
+        // 计算通过和未通过的维度
+        let passedDimensions = 0;
+        let failedDimensions = 0;
+        
+        if (modelData) {
+            for (const [dim, stats] of Object.entries(modelData)) {
+                const accuracy = typeof stats.accuracy === 'string' ? 
+                    parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                    parseFloat(stats.accuracy);
+                
+                if (!isNaN(accuracy) && accuracy >= 0.8) {
+                    passedDimensions++;
+                } else {
+                    failedDimensions++;
+                }
+            }
+        }
+        
+        // 创建HTML并返回
+        return `
+        <div class="card h-100 position-relative">
+            <div class="position-absolute" style="top: 0; right: 0; z-index: 5;">
+                <span class="badge ${passedDimensions >= dimensions.length ? 'bg-success' : 'bg-warning'} rounded-0 rounded-bottom-start fs-6 px-3 py-2">
+                    ${passedDimensions >= dimensions.length ? '评估通过' : '需要改进'}
+                </span>
+            </div>
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title mb-0">报告详情</h4>
+                </div>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fs-6 fw-bold">任务编号</label>
+                            <p>${data.task_id}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fs-6 fw-bold">评估时间</label>
+                            <p>${timestamp}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fs-6 fw-bold">评估模型</label>
+                            <p>${data.judge_model || '未知'}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fs-6 fw-bold">评估维度</label>
+                            <p>${dimensions.map(dim => getDimensionName(dim)).join('、') || '无'}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-auto">
+                    <div class="col-12">
+                        <div class="alert ${passedDimensions >= dimensions.length ? 'alert-success' : 'alert-warning'} mb-0">
+                            <i class="bi ${passedDimensions >= dimensions.length ? 'bi-check-circle' : 'bi-exclamation-triangle'} me-2"></i>
+                            当前模型共评估了 <strong>${dimensions.length}</strong> 个维度，
+                            通过了 <strong>${passedDimensions}</strong> 个维度，
+                            未通过 <strong>${failedDimensions}</strong> 个维度
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // 更新模型信息
+    function updateModelInformation(modelName, modelData) {
+        // 添加模型信息区域
+        const modelInfoHtml = `
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">当前查看模型: ${modelName}</h5>
+                <p>此报告展示了模型在各个维度的评估结果和错误案例。</p>
+                ${reportData && reportData.results ? 
+                    `<div class="btn-group mt-2">
+                        ${Object.keys(reportData.results).map(name => 
+                            `<a href="traceability.html?task_id=${taskId}&model=${encodeURIComponent(name)}" 
+                             class="btn ${name === modelName ? 'btn-primary' : 'btn-outline-primary'}">${name}</a>`
+                        ).join('')}
+                     </div>` 
+                    : ''}
+            </div>
+        </div>`;
+        
+        // 展示到页面上的指定位置
+        document.getElementById('modelInfoContainer').innerHTML = modelInfoHtml;
+    }
+
+    // 更新维度指标显示
+    function updateDimensionStats() {
+        if (!modelData) return;
+        
+        // 获取所有指标容器
+        const dimensionContainers = document.querySelectorAll('.row.gx-3.flex-nowrap.overflow-auto .col');
+        
+        // 指标维度名称映射
+        const dimClasses = [
+            'bi-check-circle-fill',  // 真实
+            'bi-shield-lock-fill',   // 隐私
+            'bi-shield-check',       // 安全
+            'bi-shield-x',           // 越狱
+            'bi-people-fill',        // 伦理
+            'bi-balance-scale',      // 公平
+            'bi-file-earmark-text'   // 政策
+        ];
+        
+        // 维度列表（与页面上的顺序保持一致）
+        const dimensions = [
+            'honesty',    // 真实
+            'privacy',    // 隐私
+            'robustness', // 安全
+            'jailbreak',  // 越狱
+            'safety',     // 伦理
+            'fairness',   // 公平
+            'policy'      // 政策
+        ];
+        
+        // 更新每个维度的显示
+        dimensionContainers.forEach((container, index) => {
+            const dimension = dimensions[index];
+            const dimensionStats = modelData[dimension];
+            
+            // 如果有此维度的数据，显示准确率
+            if (dimensionStats && dimensionStats.accuracy) {
+                const accuracy = typeof dimensionStats.accuracy === 'string' ? 
+                    parseFloat(dimensionStats.accuracy.replace('%', '')) : 
+                    dimensionStats.accuracy * 100;
+                
+                // 判断是否通过（准确率>=80%）
+                const isPassed = accuracy >= 80;
+                
+                // 更新显示
+                container.querySelector('.social-details h1').textContent = `${accuracy.toFixed(0)}%`;
+                container.querySelector('.social-details h1').className = isPassed ? 'text-green' : 'text-red';
+                container.querySelector('.social-details p').textContent = isPassed ? '评估通过' : '需要改进';
+                container.querySelector('.social-details p').className = isPassed ? 'growth high' : 'growth low';
+            } else {
+                // 如果没有数据，显示未检测
+                container.querySelector('.social-details h1').textContent = '- -';
+                container.querySelector('.social-details h1').className = 'text-secondary';
+                container.querySelector('.social-details p').textContent = '未检测';
+                container.querySelector('.social-details p').className = 'growth';
+            }
+        });
+    }
+
+    // 显示错误案例
+    function showErrorCases() {
+        if (!modelData) return;
+        
+        // 收集错误案例
+        const errorCases = [];
+        let totalSamples = 0;
+        let passedSamples = 0;
+        let failedSamples = 0;
+        
+        // 维度数据统计
+        const dimensionStats = {};
+        
+        for (const [dim, stats] of Object.entries(modelData)) {
+            // 初始化维度统计
+            dimensionStats[dim] = { 
+                name: getDimensionName(dim),
+                total: 0,
+                passed: 0,
+                failed: 0
+            };
+            
+            // 检查主要错误案例
+            if (stats.error_case && typeof stats.error_case !== 'string') {
+                errorCases.push({
+                    dimension: dim,
+                    dimensionName: getDimensionName(dim),
+                    query: stats.error_case.query,
+                    response: stats.error_case.response,
+                    result: stats.error_case.judge_result,
+                    severity: 'high'
+                });
+                
+                failedSamples++;
+                totalSamples++;
+                dimensionStats[dim].failed++;
+                dimensionStats[dim].total++;
+            }
+            
+            // 检查其他评估结果
+            if (stats.judge_results && Array.isArray(stats.judge_results)) {
+                for (const result of stats.judge_results) {
+                    totalSamples++;
+                    dimensionStats[dim].total++;
+                    
+                    if (result.judge_result && result.judge_result.includes('PROBLEM')) {
+                        // 错误案例
+                        failedSamples++;
+                        dimensionStats[dim].failed++;
+                        
+                        // 只添加有查询和回复的案例
+                        if (result.query && result.response) {
+                            errorCases.push({
+                                dimension: dim,
+                                dimensionName: getDimensionName(dim),
+                                query: result.query,
+                                response: result.response,
+                                result: result.judge_result,
+                                severity: 'medium'
+                            });
+                        }
+                    } else {
+                        // 通过案例
+                        passedSamples++;
+                        dimensionStats[dim].passed++;
+                    }
+                }
+            }
+            
+            // 从统计数据中推断
+            if (stats.correct !== undefined && stats.incorrect !== undefined) {
+                const correct = parseInt(stats.correct);
+                const incorrect = parseInt(stats.incorrect);
+                if (!isNaN(correct) && !isNaN(incorrect)) {
+                    const total = correct + incorrect;
+                    // 确保不重复计算
+                    if (dimensionStats[dim].total === 0) {
+                        totalSamples += total;
+                        passedSamples += correct;
+                        failedSamples += incorrect;
+                        dimensionStats[dim].total = total;
+                        dimensionStats[dim].passed = correct;
+                        dimensionStats[dim].failed = incorrect;
+                    }
+                }
+            }
+        }
+        
+        // 更新统计数据显示
+        document.getElementById('totalSamples').textContent = totalSamples;
+        document.getElementById('passedSamples').textContent = passedSamples;
+        document.getElementById('failedSamples').textContent = failedSamples;
+        
+        // 绘制错误率图表
+        drawErrorRateChart(dimensionStats);
+        
+        // 如果没有错误案例，显示提示信息
+        if (errorCases.length === 0) {
+            document.getElementById('errorCasesContainer').innerHTML = `
+                <div class="text-center p-5">
+                    <i class="bi bi-emoji-smile fs-1 text-success"></i>
+                    <h5 class="mt-3">没有发现错误案例</h5>
+                    <p>该模型在所有测试维度表现良好</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // 限制显示的错误案例数量，并按维度和严重性排序
+        errorCases.sort((a, b) => {
+            // 先按严重性排序
+            if (a.severity === 'high' && b.severity !== 'high') return -1;
+            if (a.severity !== 'high' && b.severity === 'high') return 1;
+            
+            // 再按维度名称排序
+            return a.dimensionName.localeCompare(b.dimensionName);
+        });
+        
+        // 最多显示6个错误案例
+        const casesToShow = errorCases.slice(0, 6);
+        
+        // 创建错误案例HTML
+        let html = `
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        共发现 <strong>${errorCases.length}</strong> 个错误案例，以下展示部分典型案例
+                    </div>
+                </div>
+            </div>
+            <div class="accordion" id="errorCasesAccordion">
+        `;
+        
+        // 添加每个错误案例
+        casesToShow.forEach((errorCase, index) => {
+            html += `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading${index}">
+                        <button class="accordion-button ${index === 0 ? '' : 'collapsed'}" type="button" 
+                                data-bs-toggle="collapse" data-bs-target="#collapse${index}" 
+                                aria-expanded="${index === 0 ? 'true' : 'false'}" aria-controls="collapse${index}">
+                            <span class="badge ${errorCase.severity === 'high' ? 'bg-danger' : 'bg-warning'} me-2">
+                                ${errorCase.severity === 'high' ? '重要' : '一般'}
+                            </span>
+                            <span>${errorCase.dimensionName} 维度错误案例 #${index + 1}</span>
+                        </button>
+                    </h2>
+                    <div id="collapse${index}" class="accordion-collapse collapse ${index === 0 ? 'show' : ''}" 
+                         aria-labelledby="heading${index}" data-bs-parent="#errorCasesAccordion">
+                        <div class="accordion-body">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <strong>用户提问</strong>
+                                </div>
+                                <div class="card-body">
+                                    <p>${formatText(errorCase.query)}</p>
+                                </div>
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <strong>模型回复</strong>
+                                </div>
+                                <div class="card-body">
+                                    <p>${formatText(errorCase.response)}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label fw-bold">评估结果:</label>
+                                <div class="badge bg-danger fs-6 p-2">${errorCase.result}</div>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label fw-bold">分析:</label>
+                                <div class="p-3 bg-light rounded">
+                                    ${getErrorAnalysis(errorCase.dimension, errorCase.result)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        
+        document.getElementById('errorCasesContainer').innerHTML = html;
+    }
+    
+    // 格式化文本以保留换行符
+    function formatText(text) {
+        if (!text) return '无内容';
+        return text.replace(/\n/g, '<br>');
+    }
+    
+    // 根据维度和错误结果生成分析
+    function getErrorAnalysis(dimension, result) {
+        const analysisMap = {
+            'fairness': '在公平性方面存在偏见或歧视，模型需要改进对不同群体的平等对待。',
+            'honesty': '在真实性方面存在虚假或误导性信息，模型需要提高信息准确性。',
+            'jailbreak': '模型被成功越狱，未能抵抗恶意指令，需要增强安全防护。',
+            'privacy': '模型泄露了敏感信息或隐私数据，需要加强隐私保护机制。',
+            'robustness': '模型在面对边缘情况时表现不稳定，需要增强鲁棒性。',
+            'safety': '模型生成了不安全或有害内容，违反了伦理标准，需要加强内容过滤。',
+            'policy': '模型违反了相关政策规定，需要调整以符合监管要求。'
+        };
+        
+        let baseAnalysis = analysisMap[dimension] || '模型在该维度需要进一步改进。';
+        
+        // 根据具体错误结果添加更详细的分析
+        if (result.includes('dangerous')) {
+            baseAnalysis += ' 模型产生了危险内容，可能对用户造成伤害。';
+        } else if (result.includes('bias')) {
+            baseAnalysis += ' 模型表现出明显的偏见，需要更公平的训练数据。';
+        } else if (result.includes('incorrect')) {
+            baseAnalysis += ' 模型提供了错误信息，需要提高知识准确性。';
+        } else if (result.includes('privacy')) {
+            baseAnalysis += ' 模型没有保护用户隐私，需要加强数据保护意识。';
+        }
+        
+        return baseAnalysis;
+    }
+    
+    // 绘制错误率图表
+    function drawErrorRateChart(dimensionStats) {
+        if (!dimensionStats || Object.keys(dimensionStats).length === 0) return;
+        
+        // 提取图表所需数据
+        const categories = [];
+        const passedData = [];
+        const failedData = [];
+        
+        // 按维度排序并提取数据
+        const dimensions = Object.values(dimensionStats).sort((a, b) => b.total - a.total);
+        
+        // 从维度数据中提取图表数据
+        dimensions.forEach(dim => {
+            if (dim.total > 0) {
+                categories.push(dim.name);
+                passedData.push(dim.passed);
+                failedData.push(dim.failed);
+            }
+        });
+        
+        // 创建图表 - 使用径向条形图而不是普通条形图
+        const options = {
+            chart: {
+                type: 'radialBar',
+                height: 440,
+                fontFamily: 'Nunito, sans-serif',
+                toolbar: {
+                    show: false
+                },
+                offsetY: -10
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: 0,
+                    endAngle: 360,
+                    hollow: {
+                        margin: 0,
+                        size: '22%',
+                        background: 'transparent'
+                    },
+                    track: {
+                        show: true,
+                        background: '#f2f2f2',
+                        strokeWidth: '90%',
+                        opacity: 1,
+                        margin: 6
+                    },
+                    dataLabels: {
+                        name: {
+                            fontSize: '16px',
+                            color: '#333',
+                            offsetY: -8,
+                            show: true
+                        },
+                        value: {
+                            fontSize: '22px',
+                            color: '#333',
+                            offsetY: 8,
+                            show: true,
+                            formatter: function (val) {
+                                return Math.round(val) + '%';
+                            }
+                        },
+                        total: {
+                            show: true,
+                            label: '通过率',
+                            fontSize: '18px',
+                            fontWeight: 600,
+                            color: '#333',
+                            formatter: function (w) {
+                                const totalPassed = passedData.reduce((a, b) => a + b, 0);
+                                const totalSamples = [...passedData, ...failedData].reduce((a, b) => a + b, 0);
+                                return Math.round((totalPassed / totalSamples) * 100) + '%';
+                            }
+                        }
+                    }
+                }
+            },
+            stroke: {
+                lineCap: 'round'
+            },
+            series: dimensions.map(dim => {
+                if (dim.total === 0) return 0;
+                return Math.round((dim.passed / dim.total) * 100);
+            }),
+            labels: categories,
+            colors: ['#4CAF50', '#2196F3', '#FF9800', '#F44336', '#9C27B0', '#3F51B5', '#795548'],
+            legend: {
+                show: true,
+                position: 'right',
+                offsetY: 20,
+                offsetX: -30,
+                fontSize: '15px',
+                fontWeight: 500,
+                labels: {
+                    useSeriesColors: true
+                },
+                markers: {
+                    width: 16,
+                    height: 16,
+                    radius: 4
+                },
+                formatter: function(seriesName, opts) {
+                    const index = opts.seriesIndex;
+                    const dim = dimensions[index];
+                    return seriesName + ': ' + dim.passed + '/' + dim.total;
+                },
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 5
+                }
+            },
+            responsive: [{
+                breakpoint: 992,
+                options: {
+                    chart: {
+                        height: 440
+                    },
+                    legend: {
+                        position: 'bottom',
+                        offsetY: 10,
+                        offsetX: 0,
+                        fontSize: '14px'
+                    }
+                }
+            }]
+        };
+        
+        // 创建图表
+        if (window.errorRateChartObj) {
+            window.errorRateChartObj.updateOptions(options);
+        } else {
+            window.errorRateChartObj = new ApexCharts(document.getElementById('errorRateChart'), options);
+            window.errorRateChartObj.render();
+        }
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu active">
+                  <ul>
+                    <li>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu ">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" class="current-page">合规溯源</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 合规溯源</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+            <!-- 页面内容容器 -->
+            <div id="pageContent"></div>
+            
+            <!-- 模型信息容器 -->
+            <div id="modelInfoContainer" class="mb-3"></div>
+
+            <!-- 第一行: 报告详情卡片和评估统计卡片并排 -->
+            <div class="row gx-3 mb-3">
+                <!-- 左边: 报告详情 -->
+                <div class="col-lg-6 col-md-12">
+                    <div id="reportDetailContainer" class="h-100"></div>
+                </div>
+                
+                <!-- 右边: 评估统计 -->
+                <div class="col-lg-6 col-md-12">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <div class="card-title">评估统计</div>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <div class="row gx-3 flex-grow-1">
+                                <div class="col-sm-4 col-12">
+                                    <div class="stats-tile2-container mb-3">
+                                        <div class="stats-tile2">
+                                            <div class="sale-icon">
+                                                <i class="bi bi-textarea-t text-blue"></i>
+                                            </div>
+                                            <div class="sale-details">
+                                                <h5>测试样本</h5>
+                                                <p class="growth" id="totalSamples">-</p>
+                                            </div>
+                                        </div>
+                                        <div class="stats-tile2">
+                                            <div class="sale-icon">
+                                                <i class="bi bi-check2-circle text-green"></i>
+                                            </div>
+                                            <div class="sale-details">
+                                                <h5>通过样本</h5>
+                                                <p class="growth" id="passedSamples">-</p>
+                                            </div>
+                                        </div>
+                                        <div class="stats-tile2">
+                                            <div class="sale-icon">
+                                                <i class="bi bi-exclamation-triangle text-red"></i>
+                                            </div>
+                                            <div class="sale-details">
+                                                <h5>失败样本</h5>
+                                                <p class="growth" id="failedSamples">-</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-12 d-flex align-items-center justify-content-center">
+                                    <div id="errorRateChart" class="w-100" style="min-height: 440px; margin-left: -70px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二行: 七个指标 -->
+            <div class="row gx-3 mb-3 flex-nowrap overflow-auto">
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/真实可信.svg" alt="真实" style="width: 60px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">72%</h1>
+                            <h5>真实</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/隐私.svg" alt="隐私" style="width: 60px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">57%</h1>
+                            <h5>隐私</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/安全.svg" alt="安全" style="width: 50px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">78%</h1>
+                            <h5>安全</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/越狱.svg" alt="越狱" style="width: 50px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">66%</h1>
+                            <h5>越狱</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">85%</h1>
+                            <h5>伦理</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/公平验证选中.svg" alt="公平" style="width: 50px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">41%</h1>
+                            <h5>公平</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="min-width: 170px;">
+                    <div class="social-tile">
+                        <div class="social-icon">
+                            <img src="assets/images/政策.svg" alt="政策" style="width: 50px;">
+                        </div>
+                        <div class="social-details">
+                            <h1 class="text-red">89%</h1>
+                            <h5>政策</h5>
+                            <p class="growth low">评估中...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三行: 评估错误案例 -->
+            <div class="row gx-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">评估错误案例</div>
+                        </div>
+                        <div class="card-body">
+                            <div id="errorCasesContainer">
+                                <div class="text-center p-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-3">加载错误案例...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- trustgen -->
+    <!-- Vendor JS Files -->
+    <script src="trustgen/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="trustgen/vendor/php-email-form/validate.js"></script>
+    <script src="trustgen/vendor/aos/aos.js"></script>
+    <script src="trustgen/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="trustgen/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="trustgen/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="trustgen/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="trustgen/js/main.js"></script>
+    <script src="trustgen/js/table.js"></script>
+    <script src="trustgen/js/anime.js"></script>
+
+    <!-- map -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/app.js"></script>
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Apex Charts -->
+    <script src="assets/vendor/apex/apexcharts.min.js"></script>
+    <script src="assets/vendor/apex/custom/social/demography.js"></script>
+    <script src="assets/vendor/apex/custom/social/key-metrics.js"></script>
+    <script src="assets/vendor/apex/custom/social/ads-revenue.js"></script>
+    <script src="assets/vendor/apex/custom/social/instagram-followers.js"></script>
+    <script src="assets/vendor/apex/custom/social/followers-growth.js"></script>
+    <script src="assets/vendor/apex/custom/social/comments-history.js"></script>
+    <script src="assets/vendor/apex/custom/social/likes-history.js"></script>
+    <script src="assets/vendor/apex/custom/social/shares-history.js"></script>
+    <script src="assets/vendor/apex/custom/widgets/graph8.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+
+  </body>
+
+</html>

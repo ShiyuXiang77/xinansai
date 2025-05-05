@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu active">
+                  <ul>
+                    <li>
+                      <a href="index.html" class="current-page">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 生成式AI自适应可信监管系统</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+
+            <!-- Row start 四个指标-->
+            <div class="row gx-3">
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/指标统计.svg" alt="统计" style="width: 80px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-yellow" id="totalTasksCount">9</h3>
+                    <p class="text-black">已检测次数</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine1"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/AI大模型配置.svg" alt="大模型" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-blue" id="totalModelsCount">3</h3>
+                    <p class="text-black">已评估数量</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine3"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/预警.svg" alt="指标 图标" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-red" id="totalWarningsCount">4</h3>
+                    <p class="text-black">已预警</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine2"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/时间.svg" alt="时间 图标" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-green">602s</h3>
+                    <p class="text-black">平均响应时长</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start  地图-->
+            <div class="row gx-3">
+              <div class="col-xxl-9  col-sm-12 col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">大模型地图</div>
+                  </div>
+                  <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row gx-3">
+                      <div class="col-sm-12 col-12 position-relative" style="overflow: visible; min-height: 420px;">
+                          <div id="cityMap" class="chart-height position-absolute"
+                               style="width: 135%; height: 135%; top: -20%; left: 50%; transform: translateX(-50%);"></div>
+                      </div>
+                    </div>
+                    <!-- Row end -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-12 col-12 pb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">统计</div>
+                  </div>
+                  <div class="card-body">
+                    <div id="taskGraph"></div>
+                    <ul class="task-list-container">
+                      <li class="task-list-item">
+                        <div class="task-icon shade-bdr-white">
+                          <img src="assets/images/AI大模型配置.svg" alt="大模型" style="width: 60px;">
+                        </div>
+                        <div class="task-info">
+                          <h5 class="task-title text-blue">已检测</h5>
+                          <p class="amount-spend" id="sidebarTasksCount">9</p>
+                        </div>
+                      </li>
+                      <li class="task-list-item">
+                        <div class="task-icon shade-bdr-white">
+                          <img src="assets/images/预警.svg" alt="预警 图标" style="width: 50px;">
+                        </div>
+                        <div class="task-info">
+                          <h5 class="task-title text-red">预警</h5>
+                          <p class="amount-spend" id="sidebarWarningsCount">4</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- 添加 TrustGen Benchmark 和 Leaderboard 表格到 GenGuardian 主页 -->
+
+            <!-- Benchmark Section -->
+            <div class="row gx-3">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">模型基准测试 (Benchmark)</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue" >Large Language Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="llm-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue" >Vision Language Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="vlm-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Text-to-Image Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="t2i-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="row gx-3">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">模型排行榜 (Leaderboard)</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Large Language Model Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="llm-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Vision Language Model Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="vlm-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Text-to-Image Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="t2i-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- trustgen -->
+    <!-- Vendor JS Files -->
+    <script src="trustgen/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="trustgen/vendor/php-email-form/validate.js"></script>
+    <script src="trustgen/vendor/aos/aos.js"></script>
+    <script src="trustgen/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="trustgen/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="trustgen/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="trustgen/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="trustgen/js/main.js"></script>
+    <script src="trustgen/js/table.js"></script>
+    <script src="trustgen/js/anime.js"></script>
+
+    <!-- map -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/app.js"></script>
+
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Apex Charts -->
+    <script src="assets/vendor/apex/apexcharts.min.js"></script>
+    <script src="assets/vendor/apex/custom/sales/sparkline.js"></script>
+    <script src="assets/vendor/apex/custom/sales/salesGraph.js"></script>
+    <script src="assets/vendor/apex/custom/sales/revenueGraph.js"></script>
+    <script src="assets/vendor/apex/custom/sales/taskGraph.js"></script>
+
+    <!-- Vector Maps -->
+    <script src="assets/vendor/jvectormap/jquery-jvectormap-2.0.5.min.js"></script>
+    <script src="assets/vendor/jvectormap/world-mill-en.js"></script>
+    <script src="assets/vendor/jvectormap/gdp-data.js"></script>
+    <script src="assets/vendor/jvectormap/custom/world-map-markers2.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+    
+    <!-- 添加统计卡片动态更新功能 -->
+    <script>
+      // 获取当前年月
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      
+      // 全局变量，存储图表实例
+      let taskChart = null;
+      
+      // 初始化任务图表
+      function initTaskGraph(totalTasks, warningTasks) {
+        // 确保有默认值，避免传入0导致图表不显示
+        totalTasks = totalTasks || 9;
+        warningTasks = warningTasks || 4;
+        
+        // 计算完成任务数和百分比
+        const completedTasks = totalTasks - warningTasks;
+        const completedPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 55;
+        const warningPercentage = totalTasks > 0 ? Math.round((warningTasks / totalTasks) * 100) : 45;
+        
+        const options = {
+          chart: {
+            height: 310,
+            type: 'radialBar',
+            toolbar: {
+              show: false,
+            },
+            dropShadow: {
+              enabled: true,
+              opacity: 0.2,
+              blur: 10,
+              left: 10,
+              top: 10
+            },
+          },
+          plotOptions: {
+            radialBar: {
+              startAngle: -135,
+              endAngle: 225,
+              hollow: {
+                margin: 0,
+                size: '40%',
+                background: '#fff',
+              },
+              track: {
+                background: '#e7e7e7',
+                strokeWidth: '67%',
+                margin: 0,
+                dropShadow: {
+                  enabled: true,
+                  top: -3,
+                  left: 0,
+                  blur: 4,
+                  opacity: 0.15
+                }
+              },
+              dataLabels: {
+                name: {
+                  fontSize: '14px',
+                  fontFamily: 'Nunito, sans-serif',
+                  color: '#888',
+                  offsetY: -10
+                },
+                value: {
+                  fontSize: '22px',
+                  fontFamily: 'Nunito, sans-serif',
+                  color: '#111',
+                  offsetY: -2,
+                  formatter: function (val) {
+                    return val + '%';
+                  }
+                },
+                total: {
+                  show: true,
+                  label: '总任务数',
+                  color: '#111',
+                  fontFamily: 'Nunito, sans-serif',
+                  formatter: function (w) {
+                    return totalTasks;
+                  }
+                }
+              }
+            }
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shade: 'dark',
+              type: 'horizontal',
+              shadeIntensity: 0.5,
+              gradientToColors: ['#10B981', '#F59E0B'],
+              inverseColors: false,
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0, 100]
+            }
+          },
+          stroke: {
+            lineCap: 'round'
+          },
+          series: [completedPercentage, warningPercentage],
+          labels: ['评估通过', '需要改进'],
+          colors: ['#10B981', '#F59E0B'],
+        };
+      
+        // 如果图表已存在，先销毁
+        if (taskChart) {
+          taskChart.destroy();
+        }
+        
+        // 创建新图表
+        taskChart = new ApexCharts(
+          document.querySelector("#taskGraph"),
+          options
+        );
+        
+        // 渲染图表
+        taskChart.render();
+      }
+      
+      // 更新顶部卡片的统计数据
+      function updateStatisticCards() {
+        // 获取统计数据
+        fetch(`/api/monthly-tasks?year=${currentYear}&month=${currentMonth}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('API请求失败');
+            }
+            return response.json();
+          })
+          .then(tasks => {
+            if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+              // 如果没有数据，使用默认值
+              document.getElementById('totalTasksCount').textContent = '9';
+              document.getElementById('totalWarningsCount').textContent = '4';
+              document.getElementById('totalModelsCount').textContent = '3';
+              
+              // 更新右侧统计卡片
+              document.getElementById('sidebarTasksCount').textContent = '9';
+              document.getElementById('sidebarWarningsCount').textContent = '4';
+              
+              // 更新图表 - 默认值
+              initTaskGraph(9, 4);
+              return;
+            }
+
+            // 统计任务数
+            const totalTasks = tasks.length;
+            
+            // 统计需要改进的任务数
+            let improveTasks = 0;
+            
+            // 收集所有模型名称
+            const uniqueModels = new Set();
+            
+            // 批量处理所有任务
+            let processedTasks = 0;
+            const processTask = (task) => {
+              // 添加模型到统计
+              const modelNames = Array.isArray(task.models) 
+                ? task.models 
+                : (task.model_name ? task.model_name.split(', ') : []);
+              
+              modelNames.forEach(model => {
+                if (model && model !== '未知') uniqueModels.add(model);
+              });
+              
+              // 检查是否需要改进（基于accuracy字段）
+              if (task.accuracy !== undefined && task.accuracy < 0.8) {
+                improveTasks++;
+              }
+              
+              processedTasks++;
+              
+              // 当所有任务处理完毕，更新UI
+              if (processedTasks === totalTasks) {
+                updateUI(totalTasks, improveTasks, uniqueModels.size);
+              }
+            };
+            
+            // 处理每个任务
+            tasks.forEach(task => {
+              // 如果任务已有accuracy字段，直接处理
+              if (task.accuracy !== undefined) {
+                processTask(task);
+              } else {
+                // 否则尝试获取任务详情
+                fetch(`/api/reports/${task.task_id}`)
+                  .then(response => response.json())
+                  .then(taskDetail => {
+                    // 计算平均准确率
+                    let totalAccuracy = 0;
+                    let count = 0;
+                    
+                    if (taskDetail.results) {
+                      for (const modelResults of Object.values(taskDetail.results)) {
+                        for (const stats of Object.values(modelResults)) {
+                          if (stats.accuracy) {
+                            const accuracy = typeof stats.accuracy === 'string' ? 
+                              parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                              parseFloat(stats.accuracy);
+                            
+                            if (!isNaN(accuracy)) {
+                              totalAccuracy += accuracy;
+                              count++;
+                            }
+                          }
+                        }
+                      }
+                    }
+                    
+                    task.accuracy = count > 0 ? totalAccuracy / count : 0;
+                    processTask(task);
+                  })
+                  .catch(error => {
+                    console.error(`Error fetching task details: ${error}`);
+                    processTask(task);
+                  });
+              }
+            });
+          })
+          .catch(error => {
+            console.error('获取任务统计数据失败:', error);
+            
+            // 发生错误时使用默认值
+            document.getElementById('totalTasksCount').textContent = '9';
+            document.getElementById('totalWarningsCount').textContent = '4';
+            document.getElementById('totalModelsCount').textContent = '3';
+            
+            // 更新右侧统计卡片
+            document.getElementById('sidebarTasksCount').textContent = '9';
+            document.getElementById('sidebarWarningsCount').textContent = '4';
+            
+            // 更新图表 - 默认值
+            initTaskGraph(9, 4);
+          });
+      }
+      
+      // 更新UI
+      function updateUI(totalTasks, improveTasks, modelCount) {
+        // 更新主要指标卡片
+        document.getElementById('totalTasksCount').textContent = totalTasks;
+        document.getElementById('totalWarningsCount').textContent = improveTasks;
+        document.getElementById('totalModelsCount').textContent = modelCount;
+        
+        // 更新右侧统计卡片
+        document.getElementById('sidebarTasksCount').textContent = totalTasks;
+        document.getElementById('sidebarWarningsCount').textContent = improveTasks;
+        
+        // 更新图表
+        initTaskGraph(totalTasks, improveTasks);
+      }
+      
+      // 初始化页面 - 先显示默认值，然后异步更新
+      document.addEventListener('DOMContentLoaded', function() {
+        // 先用默认值初始化图表
+        initTaskGraph(9, 4);
+        
+        // 异步获取实际数据
+        updateStatisticCards();
+        
+        // 每60秒自动刷新一次数据
+        setInterval(updateStatisticCards, 60000);
+      });
+    </script>
+  </body>
+
+</html>

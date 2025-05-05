@@ -1,0 +1,10 @@
+{
+  "glm-4": {
+    "api_key": "06af1a7b94a042c2b43b7f036e54f4fb.KjbhEF4evnFzQdKQ",
+    "base_url": "https://open.bigmodel.cn/api/paas/v4/"
+  },
+  "glm-4-plus": {
+    "api_key": "06af1a7b94a042c2b43b7f036e54f4fb.KjbhEF4evnFzQdKQ",
+    "base_url": "https://open.bigmodel.cn/api/paas/v4/"
+  }
+}

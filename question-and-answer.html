@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu active">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" class="current-page">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 一键测评</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+
+            <!-- Row start -->
+            <div class="row gx-3">
+              <div class="col-sm-8 col-12" style="margin: 3px auto;">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">🧠 智能助手</h5>
+                  </div>
+                  <div class="card-body">
+                    <!-- 输入区 -->
+                    <label class="form-label mb-2">请输入您的需要执行的操作</label>
+                    <textarea id="userQuestion" class="form-control mb-3" rows="4" placeholder="例：请对所有大模型进行评估"></textarea>
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-success" onclick="handleQuestion()">发送请求</button>
+                    </div>
+
+                    <!-- 回答区域 -->
+                    <div id="chatBox" class="mt-4">
+                      <div class="alert alert-secondary" role="alert">
+                        👋 欢迎使用智能助手，请输入你的请求开始对话。
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script>
+      function handleQuestion() {
+        const question = document.getElementById('userQuestion').value.trim();
+        const chatBox = document.getElementById('chatBox');
+
+        if (question === '') {
+          alert("请输入你的问题再点击发送！");
+          return;
+        }
+
+        // 用户提问展示
+        const userMsg = `<div class="alert alert-primary"><strong>用户：</strong> ${question}</div>`;
+        chatBox.innerHTML += userMsg;
+
+        // 模拟AI回应
+        setTimeout(() => {
+          const aiReply = `<div class="alert alert-success"><strong>智能助手：</strong> 正在对包括深度求索在内的31个大模型进行全维度评测...</div>`;
+          chatBox.innerHTML += aiReply;
+          // 清空输入框
+          document.getElementById('userQuestion').value = '';
+          // 滚动到底部
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }, 600);
+      }
+    </script>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Date Range JS -->
+    <script src="assets/vendor/daterange/daterange.js"></script>
+    <script src="assets/vendor/daterange/custom-daterange.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,2748 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************* -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+
+    <!-- Calendar CSS -->
+    <link rel="stylesheet" href="assets/vendor/calendar/css/main.min.css" />
+    <link rel="stylesheet" href="assets/vendor/calendar/css/custom.css" />
+
+    <script>
+    // 获取当前年月
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    // 初始化图表和周数据
+    let taskChart = null;
+    let modelChart = null;
+    let taskWeekData = [];
+    let modelWeekData = [];
+    let currentTaskWeek = 1;
+    let currentModelWeek = 1;
+
+    // 获取某一天是星期几（0-6，0表示周日）
+    function getDayOfWeek(year, month, day) {
+        return new Date(year, month - 1, day).getDay();
+    }
+
+    // 将月度数据按周分组（从周日开始）
+    function groupDataByWeek(data) {
+        const weeks = [];
+        let currentWeek = [];
+        let currentWeekData = {
+            dates: [],
+            pass: [],
+            improve: []
+        };
+        
+        // 获取月份第一天是星期几
+        const firstDayOfWeek = getDayOfWeek(currentYear, currentMonth, 1);
+        
+        // 如果月份不是从周日开始，需要补充上个月的数据
+        if (firstDayOfWeek !== 0) {
+            const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+            const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+            const lastMonthDays = new Date(lastMonthYear, lastMonth, 0).getDate();
+            
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const day = lastMonthDays - firstDayOfWeek + i + 1;
+                currentWeekData.dates.push(day);
+                currentWeekData.pass.push(0);
+                currentWeekData.improve.push(0);
+            }
+        }
+        
+        // 添加当前月的数据
+        for (let i = 0; i < data.dates.length; i++) {
+            const dayOfWeek = getDayOfWeek(currentYear, currentMonth, data.dates[i]);
+            
+            currentWeekData.dates.push(data.dates[i]);
+            currentWeekData.pass.push(data.pass[i]);
+            currentWeekData.improve.push(data.improve[i]);
+            
+            // 如果是周六或者是月份的最后一天，完成当前周的数据
+            if (dayOfWeek === 6 || i === data.dates.length - 1) {
+                // 如果最后一周不足7天，补充下个月的数据
+                const daysToAdd = 6 - dayOfWeek;
+                if (daysToAdd > 0 && i === data.dates.length - 1) {
+                    const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+                    const nextMonthYear = currentMonth === 12 ? currentYear + 1 : currentYear;
+                    
+                    for (let j = 1; j <= daysToAdd; j++) {
+                        currentWeekData.dates.push(j);
+                        currentWeekData.pass.push(0);
+                        currentWeekData.improve.push(0);
+                    }
+                }
+                
+                weeks.push({
+                    dates: [...currentWeekData.dates],
+                    pass: [...currentWeekData.pass],
+                    improve: [...currentWeekData.improve]
+                });
+                
+                // 重置当前周数据
+                currentWeekData = {
+                    dates: [],
+                    pass: [],
+                    improve: []
+                };
+            }
+        }
+        
+        return weeks;
+    }
+
+    // 格式化日期显示
+    function formatDate(day) {
+        // 如果日期大于当月天数，说明是下个月的数据
+        if (day > new Date(currentYear, currentMonth, 0).getDate()) {
+            return `次月${day}日`;
+        }
+        // 如果日期小于1，说明是上个月的数据
+        else if (day < 1) {
+            return `上月${day}日`;
+        }
+        return `${day}日`;
+    }
+
+    // 获取星期几的中文名称
+    function getWeekDayName(year, month, day) {
+        const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        return weekDays[getDayOfWeek(year, month, day)];
+    }
+
+    // 切换周数据
+    function changeWeek(chartType, direction) {
+        if (chartType === 'task') {
+            const maxWeek = taskWeekData.length;
+            currentTaskWeek = ((currentTaskWeek + direction - 1 + maxWeek) % maxWeek) + 1;
+            document.getElementById('taskCurrentWeek').textContent = currentTaskWeek;
+            updateTaskChart(taskWeekData[currentTaskWeek - 1]);
+        } else {
+            const maxWeek = modelWeekData.length;
+            currentModelWeek = ((currentModelWeek + direction - 1 + maxWeek) % maxWeek) + 1;
+            document.getElementById('modelCurrentWeek').textContent = currentModelWeek;
+            updateModelChart(modelWeekData[currentModelWeek - 1]);
+        }
+    }
+
+    // 加载月度任务统计数据
+    async function loadMonthlyTaskStats() {
+        try {
+            // 获取任务数据
+            const response = await fetch(`/api/monthly-tasks?year=${currentYear}&month=${currentMonth}`);
+            const tasks = await response.json();
+            
+            if (!tasks || tasks.length === 0) {
+                const emptyData = {
+                    dates: Array.from({ length: new Date(currentYear, currentMonth, 0).getDate() }, (_, i) => i + 1),
+                    pass: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0),
+                    improve: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0)
+                };
+                taskWeekData = groupDataByWeek(emptyData);
+                updateTaskChart(taskWeekData[0]);
+                updateStatisticCards(emptyData);
+                return;
+            }
+            
+            // 获取该月的天数
+            const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            
+            // 初始化每日数据
+            const dailyStats = Array.from({ length: daysInMonth }, () => ({ pass: 0, improve: 0 }));
+            
+            // 处理每个任务
+            for (const task of tasks) {
+                // 获取任务日期
+                const taskDate = new Date(task.timestamp * 1000);
+                const day = taskDate.getDate() - 1; // 索引从0开始
+                
+                // 检查任务详情
+                try {
+                    const detailResponse = await fetch(`/api/reports/${task.task_id}`);
+                    const taskDetail = await detailResponse.json();
+                    
+                    let needImprovement = false;
+                    
+                    if (taskDetail.results) {
+                        // 检查每个模型
+                        for (const modelResults of Object.values(taskDetail.results)) {
+                            // 检查该模型的每个维度
+                            for (const stats of Object.values(modelResults)) {
+                                if (stats.accuracy) {
+                                    const accuracy = typeof stats.accuracy === 'string' ? 
+                                        parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                        parseFloat(stats.accuracy);
+                                    
+                                    // 如果任何一个维度的准确率低于80%，则需要改进
+                                    if (!isNaN(accuracy) && accuracy < 0.8) {
+                                        needImprovement = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (needImprovement) break;
+                        }
+                    } else {
+                        // 如果没有结果数据，默认为需要改进
+                        needImprovement = true;
+                    }
+                    
+                    if (needImprovement) {
+                        dailyStats[day].improve++;
+                    } else {
+                        dailyStats[day].pass++;
+                    }
+                } catch (error) {
+                    console.error(`Error loading task details for statistics: ${error}`);
+                    // 出错默认记为需要改进
+                    dailyStats[day].improve++;
+                }
+            }
+            
+            // 转换为前端图表所需的格式
+            const data = {
+                dates: Array.from({ length: daysInMonth }, (_, i) => i + 1),
+                pass: dailyStats.map(day => day.pass),
+                improve: dailyStats.map(day => day.improve)
+            };
+            
+            // 按周分组数据
+            taskWeekData = groupDataByWeek(data);
+            updateTaskChart(taskWeekData[0]);
+            
+            // 更新顶部卡片的统计数据
+            updateStatisticCards(data);
+            
+        } catch (error) {
+            console.error('加载月度任务统计数据失败:', error);
+            const emptyData = {
+                dates: Array.from({ length: new Date(currentYear, currentMonth, 0).getDate() }, (_, i) => i + 1),
+                pass: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0),
+                improve: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0)
+            };
+            taskWeekData = groupDataByWeek(emptyData);
+            updateTaskChart(taskWeekData[0]);
+        }
+    }
+
+    // 更新顶部卡片的统计数据
+    function updateStatisticCards(data) {
+        if (!data || !data.dates) return;
+        
+        // 获取统计数据
+        fetch(`/api/monthly-tasks?year=${currentYear}&month=${currentMonth}`)
+            .then(response => response.json())
+            .then(tasks => {
+                if (!tasks || tasks.length === 0) {
+                    document.getElementById('totalTasksCount').textContent = '0';
+                    document.getElementById('totalWarningsCount').textContent = '0';
+                    document.getElementById('totalModelsCount').textContent = '0';
+                    return;
+                }
+
+                // 统计任务数
+                const totalTasks = tasks.length;
+                
+                // 统计需要改进的任务数
+                let improveTasks = 0;
+                
+                // 收集所有模型名称
+                const uniqueModels = new Set();
+                
+                // 处理每个任务
+                let tasksProcessed = 0;
+                
+                // 循环处理每个任务
+                tasks.forEach(task => {
+                    // 添加模型到统计
+                    const modelNames = task.model_name.split(', ');
+                    modelNames.forEach(model => {
+                        if (model !== '未知') uniqueModels.add(model);
+                    });
+                    
+                    // 检查任务详情来确定是否有任何维度不达标
+                    fetch(`/api/reports/${task.task_id}`)
+                        .then(response => response.json())
+                        .then(taskDetail => {
+                            tasksProcessed++;
+                            
+                            // 检查是否有任何维度低于80%
+                            let needImprovement = false;
+                            
+                            if (taskDetail.results) {
+                                // 检查每个模型
+                                for (const modelResults of Object.values(taskDetail.results)) {
+                                    // 检查该模型的每个维度
+                                    for (const stats of Object.values(modelResults)) {
+                                        if (stats.accuracy) {
+                                            const accuracy = typeof stats.accuracy === 'string' ? 
+                                                parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                                parseFloat(stats.accuracy);
+                                            
+                                            // 如果任何一个维度的准确率低于80%，则需要改进
+                                            if (!isNaN(accuracy) && accuracy < 0.8) {
+                                                needImprovement = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                    if (needImprovement) break;
+                                }
+                            } else {
+                                // 如果没有结果数据，默认为需要改进
+                                needImprovement = true;
+                            }
+                            
+                            if (needImprovement) {
+                                improveTasks++;
+                            }
+                            
+                            // 当所有任务都处理完毕后更新页面
+                            if (tasksProcessed === totalTasks) {
+                                document.getElementById('totalTasksCount').textContent = totalTasks;
+                                document.getElementById('totalWarningsCount').textContent = improveTasks;
+                                document.getElementById('totalModelsCount').textContent = uniqueModels.size;
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Error fetching task details for ${task.task_id}:`, error);
+                            tasksProcessed++;
+                            
+                            // 出错时默认为需要改进
+                            improveTasks++;
+                            
+                            // 当所有任务都处理完毕后更新页面
+                            if (tasksProcessed === totalTasks) {
+                                document.getElementById('totalTasksCount').textContent = totalTasks;
+                                document.getElementById('totalWarningsCount').textContent = improveTasks;
+                                document.getElementById('totalModelsCount').textContent = uniqueModels.size;
+                            }
+                        });
+                });
+            })
+            .catch(error => {
+                console.error('Error loading tasks for statistics:', error);
+                document.getElementById('totalTasksCount').textContent = '0';
+                document.getElementById('totalWarningsCount').textContent = '0';
+                document.getElementById('totalModelsCount').textContent = '0';
+            });
+    }
+
+    // 更新任务统计图表
+    function updateTaskChart(weekData) {
+        const option = {
+            chart: {
+                height: 350,
+                type: 'area',
+                fontFamily: 'Nunito, sans-serif',
+                toolbar: {
+                    show: false
+                },
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: [3, 3],
+                dashArray: [0, 0]
+            },
+            series: [
+                {
+                    name: '评估通过',
+                    data: weekData.pass
+                },
+                {
+                    name: '需要改进',
+                    data: weekData.improve
+                }
+            ],
+            title: {
+                text: '月度预警次数',
+                align: 'center',
+                style: {
+                    fontSize: '18px',
+                    fontWeight: '600',
+                    fontFamily: 'Nunito, sans-serif',
+                    color: '#333'
+                }
+            },
+            grid: {
+                borderColor: '#f1f1f1',
+                strokeDashArray: 5,
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
+                },
+                yaxis: {
+                    lines: {
+                        show: true,
+                        opacity: 0.5
+                    }
+                },
+                padding: {
+                    top: 0,
+                    right: 20,
+                    bottom: 0,
+                    left: 20
+                }
+            },
+            xaxis: {
+                categories: weekData.dates.map(d => {
+                    const weekDay = getWeekDayName(currentYear, currentMonth, d);
+                    return `${formatDate(d)}\n${weekDay}`;
+                }),
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px',
+                        fontFamily: 'Nunito, sans-serif'
+                    },
+                    rotate: 0,
+                    trim: false
+                },
+                axisBorder: {
+                    show: false
+                },
+                axisTicks: {
+                    show: false
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px',
+                        fontFamily: 'Nunito, sans-serif'
+                    },
+                    formatter: function(val) {
+                        return Math.round(val);
+                    }
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'center',
+                floating: true,
+                offsetY: -10,
+                markers: {
+                    width: 10,
+                    height: 10,
+                    radius: 5
+                },
+                itemMargin: {
+                    horizontal: 15,
+                    vertical: 5
+                },
+                labels: {
+                    colors: '#666'
+                }
+            },
+            colors: ['#10B981', '#F59E0B'],
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.45,
+                    opacityTo: 0.05,
+                    stops: [20, 100, 100, 100]
+                }
+            },
+            markers: {
+                size: 4,
+                strokeWidth: 0,
+                hover: {
+                    size: 6,
+                    sizeOffset: 3
+                }
+            },
+            tooltip: {
+                shared: true,
+                intersect: false,
+                y: {
+                    formatter: function(y) {
+                        if(typeof y !== "undefined") {
+                            return y.toFixed(0) + " 个";
+                        }
+                        return y;
+                    }
+                },
+                style: {
+                    fontSize: '12px',
+                    fontFamily: 'Nunito, sans-serif'
+                }
+            }
+        };
+        
+        if (!taskChart) {
+            taskChart = new ApexCharts(document.getElementById('taskStatsChart'), option);
+            taskChart.render();
+        } else {
+            taskChart.updateOptions(option);
+        }
+    }
+
+    // 加载月度模型统计数据
+    async function loadMonthlyModelStats() {
+        try {
+            // 获取任务数据
+            const response = await fetch(`/api/monthly-tasks?year=${currentYear}&month=${currentMonth}`);
+            const tasks = await response.json();
+            
+            if (!tasks || tasks.length === 0) {
+                const emptyData = {
+                    dates: Array.from({ length: new Date(currentYear, currentMonth, 0).getDate() }, (_, i) => i + 1),
+                    pass: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0),
+                    improve: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0)
+                };
+                modelWeekData = groupDataByWeek(emptyData);
+                updateModelChart(modelWeekData[0]);
+                return;
+            }
+            
+            // 获取该月的天数
+            const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            
+            // 初始化每日数据 - 使用集合来避免重复计算同一模型
+            const dailyModels = Array.from({ length: daysInMonth }, () => ({ pass: new Set(), improve: new Set() }));
+            
+            // 处理每个任务
+            for (const task of tasks) {
+                // 获取任务日期
+                const taskDate = new Date(task.timestamp * 1000);
+                const day = taskDate.getDate() - 1; // 索引从0开始
+                
+                // 获取模型列表
+                const modelNames = task.model_name.split(', ').filter(m => m !== '未知');
+                
+                if (modelNames.length === 0) continue;
+                
+                // 检查任务详情
+                try {
+                    const detailResponse = await fetch(`/api/reports/${task.task_id}`);
+                    const taskDetail = await detailResponse.json();
+                    
+                    if (!taskDetail.results) continue;
+                    
+                    // 检查每个模型
+                    for (const [modelName, modelResults] of Object.entries(taskDetail.results)) {
+                        let modelPassed = true;
+                        
+                        // 检查该模型的每个维度
+                        for (const stats of Object.values(modelResults)) {
+                            if (stats.accuracy) {
+                                const accuracy = typeof stats.accuracy === 'string' ? 
+                                    parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                    parseFloat(stats.accuracy);
+                                
+                                // 如果任何一个维度的准确率低于80%，则模型需要改进
+                                if (!isNaN(accuracy) && accuracy < 0.8) {
+                                    modelPassed = false;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (modelPassed) {
+                            dailyModels[day].pass.add(modelName);
+                        } else {
+                            dailyModels[day].improve.add(modelName);
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error loading model details for statistics: ${error}`);
+                    // 出错默认记为需要改进
+                    modelNames.forEach(model => dailyModels[day].improve.add(model));
+                }
+            }
+            
+            // 转换为前端图表所需的格式
+            const data = {
+                dates: Array.from({ length: daysInMonth }, (_, i) => i + 1),
+                pass: dailyModels.map(day => day.pass.size),
+                improve: dailyModels.map(day => day.improve.size)
+            };
+            
+            // 更新模型数量卡片
+            updateModelCountCard(data);
+            
+            // 按周分组数据
+            modelWeekData = groupDataByWeek(data);
+            updateModelChart(modelWeekData[0]);
+            
+        } catch (error) {
+            console.error('加载月度模型统计数据失败:', error);
+            const emptyData = {
+                dates: Array.from({ length: new Date(currentYear, currentMonth, 0).getDate() }, (_, i) => i + 1),
+                pass: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0),
+                improve: Array(new Date(currentYear, currentMonth, 0).getDate()).fill(0)
+            };
+            modelWeekData = groupDataByWeek(emptyData);
+            updateModelChart(modelWeekData[0]);
+        }
+    }
+
+    // 更新模型数量卡片
+    function updateModelCountCard(data) {
+        if (!data || !data.dates) return;
+        
+        // 计算本月评估的模型总数（可能有重复）
+        let totalModels = 0;
+        const uniqueModels = new Set();
+        
+        for (let i = 0; i < data.dates.length; i++) {
+            // 通过模型统计数据来获取评估的模型数量
+            const passModels = data.pass[i];
+            const improveModels = data.improve[i];
+            totalModels += passModels + improveModels;
+        }
+        
+        // 更新卡片
+        document.getElementById('totalModelsCount').textContent = totalModels;
+    }
+
+    // 更新模型统计图表
+    function updateModelChart(weekData) {
+        const option = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                stacked: true,
+                fontFamily: 'Nunito, sans-serif',
+                toolbar: {
+                    show: false
+                },
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '60%',
+                    borderRadius: 4,
+                    dataLabels: {
+                        total: {
+                            enabled: true,
+                            style: {
+                                fontSize: '13px',
+                                fontWeight: 600
+                            }
+                        }
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [
+                {
+                    name: '评估通过',
+                    data: weekData.pass
+                },
+                {
+                    name: '需要改进',
+                    data: weekData.improve
+                }
+            ],
+            title: {
+                text: '测评大模型数量月度统计',
+                align: 'center',
+                style: {
+                    fontSize: '18px',
+                    fontWeight: '600',
+                    fontFamily: 'Nunito, sans-serif',
+                    color: '#333'
+                }
+            },
+            xaxis: {
+                categories: weekData.dates.map(d => {
+                    const weekDay = getWeekDayName(currentYear, currentMonth, d);
+                    return `${formatDate(d)}\n${weekDay}`;
+                }),
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px',
+                        fontFamily: 'Nunito, sans-serif'
+                    },
+                    rotate: 0,
+                    trim: false
+                },
+                axisBorder: {
+                    show: false
+                },
+                axisTicks: {
+                    show: false
+                }
+            },
+            yaxis: {
+                title: {
+                    text: '模型数量',
+                    style: {
+                        color: '#666',
+                        fontSize: '13px',
+                        fontFamily: 'Nunito, sans-serif'
+                    }
+                },
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px',
+                        fontFamily: 'Nunito, sans-serif'
+                    },
+                    formatter: function(val) {
+                        return Math.round(val);
+                    }
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'center',
+                offsetY: -10,
+                markers: {
+                    width: 10,
+                    height: 10,
+                    radius: 5
+                },
+                itemMargin: {
+                    horizontal: 15,
+                    vertical: 5
+                },
+                labels: {
+                    colors: '#666'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            colors: ['#10B981', '#F59E0B'],
+            grid: {
+                borderColor: '#f1f1f1',
+                strokeDashArray: 5,
+                padding: {
+                    top: 0,
+                    right: 20,
+                    bottom: 0,
+                    left: 20
+                }
+            },
+            tooltip: {
+                shared: true,
+                intersect: false,
+                y: {
+                    formatter: function(y) {
+                        if(typeof y !== "undefined") {
+                            return y.toFixed(0) + " 个";
+                        }
+                        return y;
+                    }
+                },
+                style: {
+                    fontSize: '12px',
+                    fontFamily: 'Nunito, sans-serif'
+                }
+            }
+        };
+        
+        if (!modelChart) {
+            modelChart = new ApexCharts(document.getElementById('modelStatsChart'), option);
+            modelChart.render();
+        } else {
+            modelChart.updateOptions(option);
+        }
+    }
+
+    // 获取月份的中文名称
+    function getMonthName(month) {
+        const monthNames = [
+            '一月', '二月', '三月', '四月', '五月', '六月',
+            '七月', '八月', '九月', '十月', '十一月', '十二月'
+        ];
+        return monthNames[month - 1];
+    }
+
+    // 更新月份显示
+    function updateMonthDisplay() {
+        const monthText = `${currentYear}年${getMonthName(currentMonth)}`;
+        document.getElementById('taskCurrentMonth').textContent = monthText;
+        document.getElementById('modelCurrentMonth').textContent = monthText;
+    }
+
+    // 页面加载完成后初始化图表
+    document.addEventListener('DOMContentLoaded', function() {
+        updateMonthDisplay();
+        loadMonthlyTaskStats();
+        loadMonthlyModelStats();
+        loadMonthlyTasks();
+        
+        // 监听窗口大小变化，调整图表大小
+        window.addEventListener('resize', function() {
+            if (taskChart) taskChart.resize();
+            if (modelChart) modelChart.resize();
+        });
+    });
+    </script>
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" class="current-page">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 月度概览</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+
+            <!-- Row start -->
+            <div class="row gx-3">
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="chart-slider-container">
+                      <button class="chart-nav-btn prev-btn" onclick="changeWeek('task', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                      </button>
+                      <div id="taskStatsChart"></div>
+                      <button class="chart-nav-btn next-btn" onclick="changeWeek('task', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                      </button>
+                      <div class="chart-header">
+                        <div class="current-month" id="taskCurrentMonth"></div>
+                        <div class="week-indicator">
+                            第<span id="taskCurrentWeek">1</span>周
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="chart-slider-container">
+                      <button class="chart-nav-btn prev-btn" onclick="changeWeek('model', -1)">
+                        <i class="bi bi-chevron-left"></i>
+                      </button>
+                      <div id="modelStatsChart"></div>
+                      <button class="chart-nav-btn next-btn" onclick="changeWeek('model', 1)">
+                        <i class="bi bi-chevron-right"></i>
+                      </button>
+                      <div class="chart-header">
+                        <div class="current-month" id="modelCurrentMonth"></div>
+                        <div class="week-indicator">
+                            第<span id="modelCurrentWeek">1</span>周
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start 4个指标-->
+            <div class="row gx-3">
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/指标统计.svg" alt="统计" style="width: 80px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-yellow" id="totalTasksCount">
+                      0
+                    </h3>
+                    <p class="text-black">已检测次数</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine1"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/AI大模型配置.svg" alt="大模型" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-blue" id="totalModelsCount">0</h3>
+                    <p class="text-black">已评估数量</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine3"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/预警.svg" alt="指标 图标" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-red" id="totalWarningsCount">0</h3>
+                    <p class="text-black">已预警</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine2"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-3 col-sm-6 col-12">
+                <div class="stats-tile">
+                  <div class="sale-icon shade-bdr-white">
+                    <img src="assets/images/时间.svg" alt="时间" style="width: 60px;">
+                  </div>
+                  <div class="sale-details">
+                    <h3 class="text-green">602s</h3>
+                    <p class="text-black">平均响应时长</p>
+                  </div>
+                  <div class="sale-graph">
+                    <div id="sparklineLine4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+            <div class="row gx-3">
+              <div class="col-xxl-7">
+                <div class="card h-100">
+                  <!-- 修改月度任务概览卡片的标题区域，添加新建任务按钮 -->
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-title">月度任务概览</div>
+                    <button class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#newTaskModal">
+                      <i class="bi bi-plus-lg me-1"></i>新建任务
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-wrapper">
+                      <table class="table table-hover invoice-table">
+                        <thead>
+                          <tr>
+                            <th>任务编号</th>
+                            <th>评估时间</th>
+                            <th>模型数量</th>
+                            <th>评估结果</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- 动态加载的数据将显示在这里 -->
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- 分页控件 -->
+                    <div class="pagination-container mt-3">
+                      <nav aria-label="任务列表分页">
+                        <ul class="pagination justify-content-center" id="taskPagination">
+                          <!-- 分页按钮将在这里动态生成 -->
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 详细信息卡片 -->
+              <div class="col-xxl-5">
+                <div class="card h-100" id="taskDetailCard">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-title">任务详情</div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="task-details">
+                      <div class="info-card">
+                        <div class="info-section">
+                          <div class="info-icon">
+                            <i class="bi bi-info-circle"></i>
+                          </div>
+                          <div class="info-content">
+                            <h5 class="mb-0">请选择任务查看详情</h5>
+                              </div>
+                              </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row start -->
+            <div class="row gx-3">
+              <div class="col-xxl-8">
+                <div class="card" style="margin-top: 20px;">
+                  <div class="card-body">
+                    <div id="dayGrid"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-4">
+                <div class="card" style="margin-top: 20px;">
+                  <div class="card-header">
+                    <div class="card-title">Logs</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="scroll300" style="height: 300px;">
+                      <div class="logs">
+                        <div class="log-list">
+                          <div class="log-dot"></div>
+                          <div class="log-title">New item sold</div>
+                          <div class="log-time">10:10</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot yellow"></div>
+                          <div class="log-title">Notification from bank</div>
+                          <div class="log-time">05:25</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot"></div>
+                          <div class="log-title">Transaction success alert</div>
+                          <div class="log-time">09:45</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot red"></div>
+                          <div class="log-title">Your item has been updated</div>
+                          <div class="log-time">06:50</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot green"></div>
+                          <div class="log-title">New order</div>
+                          <div class="log-time">12:30</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot yellow"></div>
+                          <div class="log-title">Item bought</div>
+                          <div class="log-time">04:22</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot"></div>
+                          <div class="log-title">New sale: Messi Wills</div>
+                          <div class="log-time">10:10</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot red"></div>
+                          <div class="log-title">Order received</div>
+                          <div class="log-time">12:55</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot green"></div>
+                          <div class="log-title">Service information</div>
+                          <div class="log-time">09:12</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot"></div>
+                          <div class="log-title">Message from Wilson</div>
+                          <div class="log-time">09:27</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot red"></div>
+                          <div class="log-title">New item sale: Joy Root</div>
+                          <div class="log-time">02:39</div>
+                        </div>
+                        <div class="log-list">
+                          <div class="log-dot"></div>
+                          <div class="log-title">Product update</div>
+                          <div class="log-time">08:22</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="margin-top: 40px;">
+                  <div class="card-header">
+                    <div class="card-title">指标评估</div>
+                  </div>
+                  <div class="card-body p-3">
+                    <div class="row g-3 mb-3">
+                      <div class="col-4">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/真实可信.svg" alt="真实" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">72%</h5>
+                            <div class="small">真实</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/隐私.svg" alt="隐私" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">57%</h5>
+                            <div class="small">隐私</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/安全.svg" alt="安全" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">78%</h5>
+                            <div class="small">安全</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-3">
+                      <div class="col-3">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/越狱.svg" alt="越狱" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">66%</h5>
+                            <div class="small">越狱</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <i class="bi bi-people-fill" style="font-size: 22px;"></i>
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">85%</h5>
+                            <div class="small">伦理</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/公平验证选中.svg" alt="公平" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">41%</h5>
+                            <div class="small">公平</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="social-tile p-3" style="background-color: rgba(108, 95, 252, 0.03); border-radius: 10px;">
+                          <div class="social-icon mb-2" style="width: 42px; height: 42px; line-height: 42px; background-color: rgba(108, 95, 252, 0.1);">
+                            <img src="assets/images/政策.svg" alt="政策" style="width: 24px;">
+                          </div>
+                          <div class="social-details">
+                            <h5 class="text-red mb-0">89%</h5>
+                            <div class="small">政策</div>
+                            <!--<div class="growth low small">评估中</div>-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Apex Charts -->
+    <script src="assets/vendor/apex/apexcharts.min.js"></script>
+
+    <!-- Calendar JS -->
+    <script src="assets/vendor/calendar/js/main.min.js"></script>
+    <script src="assets/vendor/calendar/custom/daygrid-calendar.js"></script>
+
+    <!-- Area Graphs -->
+    <script src="assets/vendor/apex/examples/area/basic-area-graph.js"></script>
+    <script src="assets/vendor/apex/examples/area/basic-area-graph-spline.js"></script>
+    <script src="assets/vendor/apex/examples/area/basic-area-graph-stacked.js"></script>
+
+    <!-- Candlestick Graphs -->
+    <script src="assets/vendor/apex/examples/candlestick/basic-candlestick-graph.js"></script>
+
+    <!-- Column Graphs -->
+    <script src="assets/vendor/apex/examples/column/basic-column-graph.js"></script>
+    <script src="assets/vendor/apex/examples/column/basic-column-graph-datalables.js"></script>
+    <script src="assets/vendor/apex/examples/column/basic-column-stack-graph.js"></script>
+    <script src="assets/vendor/apex/examples/column/basic-column-stack-graph-fullheight.js"></script>
+
+    <!-- Pie Graphs -->
+    <script src="assets/vendor/apex/examples/pie/basic-pie-graph.js"></script>
+    <script src="assets/vendor/apex/examples/pie/basic-pie-graph-gradient.js"></script>
+    <script src="assets/vendor/apex/examples/pie/basic-pie-graph-monochrome.js"></script>
+    <script src="assets/vendor/apex/examples/pie/basic-pie-graph-monochrome-gradient.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- 在页面底部的JavaScript部分添加 -->
+    <script>
+    // 分页相关变量
+    let currentPage = 1;
+    const itemsPerPage = 7;
+    let totalTasks = [];
+    let selectedTaskId = null;
+
+    // 格式化时间
+    function formatTimestamp(timestamp) {
+        const date = new Date(timestamp * 1000); // 转换为毫秒
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).replace(/\//g, '-');
+    }
+
+    // 格式化评估维度显示
+    function formatDimensions(dimensions) {
+        if (!dimensions || !Array.isArray(dimensions)) return '暂无数据';
+        return dimensions.join('、');
+    }
+
+    // 格式化准确率
+    function formatAccuracy(accuracy) {
+        if (typeof accuracy === 'number') {
+            return `${(accuracy * 100).toFixed(1)}%`;
+        } else if (typeof accuracy === 'string' && accuracy.endsWith('%')) {
+            return accuracy;
+        } else if (typeof accuracy === 'string') {
+            const num = parseFloat(accuracy);
+            if (!isNaN(num)) {
+                return `${(num * 100).toFixed(1)}%`;
+            }
+        }
+        return '暂无数据';
+    }
+
+    // 显示任务详细信息
+    function showTaskDetails(taskId) {
+        selectedTaskId = taskId;
+
+        fetch(`/api/reports/${taskId}`)
+            .then(response => response.json())
+            .then(data => {
+                const dimensions = formatDimensions(data.dimensions);
+                const timestamp = formatTimestamp(data.timestamp);
+                
+                // 检查所有模型是否都通过评估（所有维度都达到80%）
+                let allModelsPassed = true;
+                const modelsResults = [];
+                
+                if (data.results) {
+                    Object.entries(data.results).forEach(([modelName, modelResults]) => {
+                        // 判断模型是否通过（所有维度都达到80%）
+                        let modelPassed = true;
+                        
+                        // 统计低于标准的维度
+                        const failedDimensions = [];
+                        
+                        Object.entries(modelResults).forEach(([dim, stats]) => {
+                            if (stats.accuracy) {
+                                const accuracy = typeof stats.accuracy === 'string' ? 
+                                    parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                    parseFloat(stats.accuracy);
+                                
+                                if (!isNaN(accuracy) && accuracy < 0.8) {
+                                    modelPassed = false;
+                                    failedDimensions.push(dim);
+                                }
+                            }
+                        });
+                        
+                        if (!modelPassed) {
+                            allModelsPassed = false;
+                        }
+                        
+                        modelsResults.push({
+                            name: modelName,
+                            passed: modelPassed,
+                            status: modelPassed ? '评估通过' : '需要改进',
+                            statusClass: modelPassed ? 'text-success' : 'text-warning',
+                            failedDimensions: failedDimensions.join(', ') || '无'
+                        });
+                    });
+                } else {
+                    allModelsPassed = false;
+                }
+                
+                const status = allModelsPassed ? '评估完成' : '需要改进';
+                const statusClass = allModelsPassed ? 'bg-success' : 'bg-warning';
+                
+                // 创建任务详情HTML
+                let detailsHtml = `
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-title">任务详情</div>
+                    <span class="badge ${statusClass}">${status}</span>
+                </div>
+                <div class="card-body task-details">
+                    <div class="info-card">
+                        <div class="info-section">
+                            <div class="info-icon">
+                                <i class="bi bi-info-circle"></i>
+                            </div>
+                            <div class="info-content">
+                                <h5 class="mb-0">任务信息</h5>
+                            </div>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>任务编号</label>
+                                <span>${data.task_id}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>评估时间</label>
+                                <span>${timestamp}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>评估维度</label>
+                                <span>${dimensions}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>整体评估结果</label>
+                                <span class="${allModelsPassed ? 'text-success' : 'text-warning'}">${status}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="models-card">
+                        <div class="models-header">
+                            <div class="models-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <div class="info-content">
+                                <h5 class="mb-0">模型评估结果</h5>
+                            </div>
+                        </div>`;
+                        
+                if (modelsResults.length > 0) {
+                    detailsHtml += `
+                        <div id="modelSliderContainer" class="model-slider-container">
+                            <button class="model-nav-btn prev-btn" id="prevModelBtn">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">模型名称</th>
+                                            <th class="text-center">结果</th>
+                                            <th class="text-center">未通过维度</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="modelsBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="model-nav-btn next-btn" id="nextModelBtn">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <div class="model-pagination">
+                                第<span id="currentModelPage">1</span>/<span id="totalModelPages">1</span>页
+                            </div>
+                        </div>`;
+                } else {
+                    detailsHtml += `
+                            <div class="alert alert-info mb-0">
+                                <i class="bi bi-info-circle me-2"></i>
+                            暂无模型评估数据
+                        </div>`;
+                }
+                
+                detailsHtml += `
+                            </div>
+                </div>`;
+                
+                document.getElementById('taskDetailCard').innerHTML = detailsHtml;
+                
+                if (modelsResults.length > 0) {
+                    // 初始化模型结果分页
+                    initModelPagination(modelsResults);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading task details:', error);
+                document.getElementById('taskDetailCard').innerHTML = `
+                    <div class="card-body">
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            加载详细信息失败：${error.message || '请稍后重试'}
+                        </div>
+                    </div>
+                `;
+            });
+    }
+    
+    // 初始化模型结果分页
+    function initModelPagination(modelsResults) {
+        const modelItemsPerPage = 4;
+        let currentModelPage = 1;
+        const totalPages = Math.ceil(modelsResults.length / modelItemsPerPage);
+        
+        // 更新总页数显示
+        document.getElementById('totalModelPages').textContent = totalPages;
+        
+        // 显示当前页的模型结果
+        function displayModelResults(page) {
+            currentModelPage = page;
+            const start = (page - 1) * modelItemsPerPage;
+            const end = Math.min(start + modelItemsPerPage, modelsResults.length);
+            const modelsBody = document.getElementById('modelsBody');
+            
+            modelsBody.innerHTML = '';
+            
+            for (let i = start; i < end; i++) {
+                const model = modelsResults[i];
+                const row = document.createElement('tr');
+                
+                // 添加悬停效果的类
+                row.classList.add('model-result-row');
+                
+                row.innerHTML = 
+                    '<td class="text-center"><strong>' + model.name + '</strong></td>' +
+                    '<td class="' + model.statusClass + ' text-center">' + model.status + '</td>' +
+                    '<td class="text-center">' + (model.failedDimensions || '无') + '</td>';
+                
+                // 添加点击事件，跳转到traceability.html
+                row.addEventListener('click', function() {
+                    // 构建跳转URL，将任务ID和模型名称作为参数传递
+                    const url = `traceability.html?task_id=${selectedTaskId}&model=${encodeURIComponent(model.name)}`;
+                    window.location.href = url;
+                });
+                
+                // 添加悬停提示
+                row.title = `点击查看${model.name}的详细评估报告`;
+                
+                modelsBody.appendChild(row);
+            }
+            
+            // 更新页码显示
+            document.getElementById('currentModelPage').textContent = currentModelPage;
+            
+            // 更新翻页按钮状态
+            document.getElementById('prevModelBtn').disabled = currentModelPage === 1;
+            document.getElementById('nextModelBtn').disabled = currentModelPage === totalPages;
+        }
+        
+        // 初始显示第一页
+        displayModelResults(1);
+        
+        // 绑定翻页按钮事件
+        document.getElementById('prevModelBtn').addEventListener('click', function() {
+            if (currentModelPage > 1) {
+                displayModelResults(currentModelPage - 1);
+            }
+        });
+        
+        document.getElementById('nextModelBtn').addEventListener('click', function() {
+            if (currentModelPage < totalPages) {
+                displayModelResults(currentModelPage + 1);
+            }
+            });
+    }
+
+    // 计算平均准确率
+    function calculateAverageAccuracy(results) {
+        if (!results) return 0;
+        
+        let total = 0;
+        let count = 0;
+        
+        Object.values(results).forEach(modelResults => {
+            Object.values(modelResults).forEach(stats => {
+                if (stats.accuracy) {
+                    const accuracy = typeof stats.accuracy === 'string' ? 
+                        parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                        parseFloat(stats.accuracy);
+                    
+                    if (!isNaN(accuracy)) {
+                        total += accuracy;
+                        count++;
+                    }
+                }
+            });
+        });
+        
+        return count > 0 ? total / count : 0;
+    }
+    
+    // 判断模型是否通过评估（所有维度都达到80%）
+    function isModelPassed(modelResults) {
+        if (!modelResults) return false;
+        
+        // 检查每个维度是否都达到80%
+        for (const stats of Object.values(modelResults)) {
+            if (stats.accuracy) {
+                const accuracy = typeof stats.accuracy === 'string' ? 
+                    parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                    parseFloat(stats.accuracy);
+                
+                if (!isNaN(accuracy) && accuracy < 0.8) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    // 更新分页控件
+    function updatePagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('taskPagination');
+        pagination.innerHTML = '';
+
+        // 上一页按钮
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" href="#" ${currentPage === 1 ? '' : `onclick="changePage(${currentPage - 1})"`}>上一页</a>`;
+        pagination.appendChild(prevLi);
+
+        // 页码按钮
+        for (let i = 1; i <= totalPages; i++) {
+            if (totalPages > 7 && i > 2 && i < totalPages - 1) {
+                if (i === 3) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = 'page-item disabled';
+                    ellipsis.innerHTML = '<span class="page-link">...</span>';
+                    pagination.appendChild(ellipsis);
+                }
+                if (i !== currentPage && i !== currentPage - 1 && i !== currentPage + 1) {
+                    continue;
+                }
+            }
+            
+            const li = document.createElement('li');
+            li.className = `page-item ${currentPage === i ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+            pagination.appendChild(li);
+        }
+
+        // 下一页按钮
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" href="#" ${currentPage === totalPages ? '' : `onclick="changePage(${currentPage + 1})"`}>下一页</a>`;
+        pagination.appendChild(nextLi);
+    }
+
+    // 切换页面
+    function changePage(page) {
+        currentPage = page;
+        displayTasks();
+    }
+
+    // 显示当前页的任务
+    function displayTasks() {
+        const tbody = document.querySelector('.invoice-table tbody');
+        tbody.innerHTML = '';
+        
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = totalTasks.slice(start, end);
+        
+        if (pageItems.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <div class="alert alert-info mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            暂无评估任务数据
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        pageItems.forEach((task, index) => {
+            const row = document.createElement('tr');
+            
+            // 使用新的判断标准：任意维度低于80%则标记为需要改进
+            let isPassed = true;
+            
+            // 先查看任务详情
+            fetch(`/api/reports/${task.task_id}`)
+                .then(response => response.json())
+                .then(taskDetail => {
+                    if (taskDetail.results) {
+                        // 检查每个模型
+                        for (const modelResults of Object.values(taskDetail.results)) {
+                            // 检查该模型的每个维度
+                            for (const stats of Object.values(modelResults)) {
+                                if (stats.accuracy) {
+                                    const accuracy = typeof stats.accuracy === 'string' ? 
+                                        parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                        parseFloat(stats.accuracy);
+                                    
+                                    // 如果任何一个维度的准确率低于80%，则整个任务不通过
+                                    if (!isNaN(accuracy) && accuracy < 0.8) {
+                                        isPassed = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (!isPassed) break;
+                        }
+                    } else {
+                        // 如果没有结果数据，默认为不通过
+                        isPassed = false;
+                    }
+                    
+                    // 更新任务信息
+                    task.all_dimensions_passed = isPassed;
+                    updateTaskRow(row, task, index);
+                })
+                .catch(error => {
+                    console.error(`Error loading details for task ${task.task_id}:`, error);
+                    // 默认为不通过
+                    task.all_dimensions_passed = false;
+                    updateTaskRow(row, task, index);
+                });
+            
+            tbody.appendChild(row);
+        });
+        
+        updatePagination(totalTasks.length);
+    }
+    
+    // 更新任务行的显示
+    function updateTaskRow(row, task, index) {
+        // 判断任务状态
+        const isPassed = task.all_dimensions_passed === true;
+            let statusHtml = '';
+        if (isPassed) {
+                statusHtml = `<span class="badge bg-success">评估完成</span>`;
+            } else {
+                statusHtml = `<span class="badge bg-warning">需要改进</span>`;
+            }
+        
+        // 计算模型数量
+        const modelCount = task.model_name.split(',').length;
+            
+            row.innerHTML = `
+                <td class="text-center">${task.task_id}</td>
+                <td class="text-center">${formatTimestamp(task.timestamp)}</td>
+            <td class="text-center">${modelCount} 个模型</td>
+                <td class="text-center">${statusHtml}</td>
+            `;
+            
+            if (task.task_id === selectedTaskId) {
+                row.classList.add('selected-row');
+            }
+            
+            row.addEventListener('click', () => {
+            document.querySelectorAll('.invoice-table tr').forEach(tr => {
+                    tr.classList.remove('selected-row');
+                    tr.style.transform = '';
+                });
+                
+                row.classList.add('selected-row');
+                row.style.transform = 'scale(1.02)';
+                
+                showTaskDetails(task.task_id);
+            });
+            
+            if (index === 0 && currentPage === 1 && !selectedTaskId) {
+                row.classList.add('selected-row');
+                row.style.transform = 'scale(1.02)';
+                showTaskDetails(task.task_id);
+            }
+    }
+
+    // 获取月度任务数据
+    function loadMonthlyTasks() {
+        // 获取当前年月
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1;
+        
+        fetch(`/api/monthly-tasks?year=${year}&month=${month}`)
+            .then(response => response.json())
+            .then(tasks => {
+                if (tasks.error) {
+                    throw new Error(tasks.error);
+                }
+                
+                // 为每个任务添加是否所有维度都通过的信息
+                for (const task of tasks) {
+                    // 获取任务详情以判断所有维度是否都通过
+                    fetch(`/api/reports/${task.task_id}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // 检查所有模型的所有维度是否都通过
+                            let allDimensionsPassed = true;
+                            
+                            if (data.results) {
+                                // 检查每个模型
+                                for (const modelResults of Object.values(data.results)) {
+                                    // 检查该模型的每个维度
+                                    for (const stats of Object.values(modelResults)) {
+                                        if (stats.accuracy) {
+                                            const accuracy = typeof stats.accuracy === 'string' ? 
+                                                parseFloat(stats.accuracy.replace('%', '')) / 100 : 
+                                                parseFloat(stats.accuracy);
+                                            
+                                            // 如果任何一个维度的准确率低于80%，则整个任务不通过
+                                            if (!isNaN(accuracy) && accuracy < 0.8) {
+                                                allDimensionsPassed = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                    if (!allDimensionsPassed) {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                // 如果没有结果数据，默认为不通过
+                                allDimensionsPassed = false;
+                            }
+                            
+                            // 更新任务信息
+                            task.all_dimensions_passed = allDimensionsPassed;
+                            
+                            // 刷新任务显示
+                            displayTasks();
+                        })
+                        .catch(error => {
+                            console.error(`Error loading details for task ${task.task_id}:`, error);
+                            // 默认为不通过
+                            task.all_dimensions_passed = false;
+                            displayTasks();
+                        });
+                }
+                
+                totalTasks = tasks;
+                displayTasks();
+            })
+            .catch(error => {
+                console.error('Error loading monthly tasks:', error);
+                const tbody = document.querySelector('.invoice-table tbody');
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div class="alert alert-danger mb-0">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                加载数据失败：${error.message || '请刷新页面重试'}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+    }
+
+    // 页面加载完成后获取数据
+    document.addEventListener('DOMContentLoaded', loadMonthlyTasks);
+
+    // 每60秒自动刷新一次数据
+    setInterval(loadMonthlyTasks, 60000);
+    </script>
+
+    <style>
+    /* 表格容器样式 */
+    .table-wrapper {
+        padding: 8px;
+        margin: -8px;
+        overflow: visible;
+    }
+
+    .invoice-table {
+        border-collapse: separate;
+        border-spacing: 0 8px;
+        margin-top: -8px;
+        margin-bottom: -8px;
+    }
+
+    /* 表头样式 */
+    .invoice-table thead th,
+    .dimensions-card th {
+        background-color: #f8f9fa;
+        border: none;
+        padding: 12px 16px;
+        font-weight: 600;
+        color: #333;
+        font-size: 0.875rem;
+        text-align: center;
+    }
+
+    /* 表格列宽调整 */
+    .invoice-table thead th:nth-child(1) { width: 20%; } /* 任务编号 */
+    .invoice-table thead th:nth-child(2) { width: 25%; } /* 评估时间 */
+    .invoice-table thead th:nth-child(3) { width: 35%; } /* 模型数量 */
+    .invoice-table thead th:nth-child(4) { width: 20%; } /* 任务状态 */
+
+    /* 普通行样式 */
+    .invoice-table tbody tr {
+        background-color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .invoice-table tbody tr td {
+        padding: 12px 16px;
+        border: 1px solid #e0e0e0;
+        border-right: none;
+        border-left: none;
+        background-color: #fff;
+    }
+
+    .invoice-table tbody tr td:first-child {
+        border-left: 1px solid #e0e0e0;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .invoice-table tbody tr td:last-child {
+        border-right: 1px solid #e0e0e0;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    /* 选中行样式 */
+    .selected-row {
+        transform: scale(1.02);
+        transition: all 0.3s ease;
+        font-weight: 500;
+        z-index: 2;
+        position: relative;
+    }
+
+    .selected-row td {
+        background-color: #fff !important;
+        border: 2px solid #1976d2 !important;
+        border-right: none !important;
+        border-left: none !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .selected-row td:first-child {
+        border-left: 2px solid #1976d2 !important;
+        border-top-left-radius: 8px !important;
+        border-bottom-left-radius: 8px !important;
+    }
+
+    .selected-row td:last-child {
+        border-right: 2px solid #1976d2 !important;
+        border-top-right-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
+    }
+
+    /* 非选中行样式 */
+    .table-hover tbody tr:not(.selected-row) {
+        opacity: 0.75;
+    }
+
+    .table-hover tbody tr:hover:not(.selected-row) {
+        opacity: 0.9;
+        background-color: #f8f9fa;
+    }
+
+    .table-hover tbody tr:hover:not(.selected-row) td {
+        background-color: #f8f9fa;
+    }
+
+    /* 状态标签样式 */
+    .badge {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border-radius: 4px;
+    }
+
+    .badge.bg-success {
+        background-color: #2e7d32 !important;
+    }
+
+    .badge.bg-warning {
+        background-color: #ed6c02 !important;
+    }
+
+    /* 任务详情卡片样式 */
+    .task-details {
+        padding: 20px;
+    }
+
+    .info-card, .dimensions-card, .models-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .info-section, .dimensions-header, .models-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .info-icon, .dimensions-icon, .models-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    .info-icon {
+        background-color: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .dimensions-icon, .models-icon {
+        background-color: #fff3e0;
+        color: #f57c00;
+    }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 16px;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-item label {
+        font-size: 0.75rem;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .info-item span {
+        font-size: 0.875rem;
+        color: #333;
+        font-weight: 500;
+    }
+
+    /* 维度评估表格样式 */
+    .dimensions-card .table {
+        margin: 0;
+    }
+
+    .dimensions-card td {
+        padding: 8px 12px;
+        font-size: 0.875rem;
+        border-bottom: 1px solid #e0e0e0;
+        vertical-align: middle;
+    }
+
+    .dimensions-card tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* 分页样式 */
+    .pagination-container {
+        margin-top: 1rem;
+    }
+
+    .pagination {
+        margin: 0;
+    }
+
+    .page-link {
+        padding: 0.375rem 0.75rem;
+        color: #1976d2;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        transition: all 0.2s ease;
+    }
+
+    .page-link:hover {
+        background-color: #e3f2fd;
+        border-color: #1976d2;
+    }
+
+    .page-item.active .page-link {
+        background-color: #1976d2;
+        border-color: #1976d2;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
+
+    /* 选中行文字加粗（除状态列外） */
+    .selected-row td:not(:last-child) {
+        font-weight: 600;
+    }
+
+    /* 图表容器样式 */
+    .chart-slider-container {
+        position: relative;
+        width: 100%;
+        height: 350px;
+    }
+
+    .chart-header {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        z-index: 10;
+    }
+
+    .current-month {
+        background: #1976d2;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+    }
+
+    .week-indicator {
+        background: #f57c00;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #ffffff;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(245, 124, 0, 0.3);
+    }
+
+    .chart-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .chart-nav-btn:hover {
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .chart-nav-btn.prev-btn {
+        left: -18px;
+    }
+
+    .chart-nav-btn.next-btn {
+        right: -18px;
+    }
+
+    .chart-nav-btn i {
+        font-size: 20px;
+        color: #666;
+    }
+
+    /* 模型评估结果幻灯片样式 */
+    .model-slider-container {
+        position: relative;
+        padding: 0 25px;
+        margin-top: 20px;
+    }
+    
+    .model-nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .model-nav-btn:hover {
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    .model-nav-btn.prev-btn {
+        left: -10px;
+    }
+    
+    .model-nav-btn.next-btn {
+        right: -10px;
+    }
+    
+    .model-nav-btn i {
+        font-size: 20px;
+        color: #666;
+    }
+    
+    .model-pagination {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #666;
+        font-weight: 500;
+    }
+
+    /* 模型结果行的悬停效果 */
+    .model-result-row {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .model-result-row:hover {
+        background-color: #f5f9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .model-result-row:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+
+    <!-- 在页面底部添加新建任务的模态框 -->
+    <!-- 新建任务模态框 -->
+    <div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newTaskModalLabel">新建评估任务</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="newTaskForm">
+              <div class="mb-3">
+                <label for="username" class="form-label">用户名</label>
+                <input type="text" class="form-control" id="username" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="taskTime" class="form-label">评估时间</label>
+                <input type="text" class="form-control" id="taskTime" readonly>
+              </div>
+              
+              <div class="mb-3">
+                <label for="modelNames" class="form-label">待测模型名称</label>
+                <div class="input-group mb-2">
+                  <input type="text" class="form-control" id="modelNameInput" placeholder="输入模型名称">
+                  <button class="btn btn-outline-secondary" type="button" id="addModelBtn">添加</button>
+                </div>
+                <div id="modelChips" class="d-flex flex-wrap gap-2 mt-2"></div>
+                <input type="hidden" id="modelNames" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="modelApi" class="form-label">待测模型api</label>
+                <input type="text" class="form-control" id="modelApi" placeholder="输入模型api">
+              </div>
+              
+              <div class="mb-3">
+                <label for="judgeModel" class="form-label">评估模型</label>
+                <select class="form-select" id="judgeModel" required>
+                  <option value="" selected disabled>请选择评估模型</option>
+                  <option value="gpt-4">GPT-4</option>
+                  <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                  <option value="claude-3">Claude 3</option>
+                  <option value="llama3">Llama 3</option>
+                  <option value="qwen-2">通义千问 2</option>
+                  <option value="glm-4">智谱 GLM-4</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">评估维度</label>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="fairness" id="fairnessDim">
+                      <label class="form-check-label" for="fairnessDim">真实</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="honesty" id="honestyDim">
+                      <label class="form-check-label" for="honestyDim">隐私</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="safety" id="safetyDim">
+                      <label class="form-check-label" for="safetyDim">安全</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="jailbreak" id="jailbreakDim">
+                      <label class="form-check-label" for="jailbreakDim">越狱</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="privacy" id="privacyDim">
+                      <label class="form-check-label" for="privacyDim">伦理</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="robustness" id="robustnessDim">
+                      <label class="form-check-label" for="robustnessDim">公平</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input dimension-checkbox" type="checkbox" value="robustness" id="robustnessDim">
+                      <label class="form-check-label" for="robustnessDim">政策</label>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="dimensions" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="startEvalBtn">开始评估</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 添加处理表单逻辑的脚本 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 设置当前时间
+        const now = new Date();
+        document.getElementById('taskTime').value = now.toLocaleString('zh-CN');
+        
+        // 模型添加逻辑
+        const modelNames = [];
+        const modelChips = document.getElementById('modelChips');
+        const modelNameInput = document.getElementById('modelNameInput');
+        const modelNamesHidden = document.getElementById('modelNames');
+        
+        document.getElementById('addModelBtn').addEventListener('click', function() {
+          const modelName = modelNameInput.value.trim();
+          if (modelName && !modelNames.includes(modelName)) {
+            modelNames.push(modelName);
+            updateModelChips();
+            modelNameInput.value = '';
+            modelNamesHidden.value = JSON.stringify(modelNames);
+          }
+        });
+        
+        function updateModelChips() {
+          modelChips.innerHTML = '';
+          modelNames.forEach((model, index) => {
+            const chip = document.createElement('div');
+            chip.className = 'badge bg-primary d-flex align-items-center py-2 px-3';
+            chip.innerHTML = `
+              <span>${model}</span>
+              <button type="button" class="btn-close btn-close-white ms-2" 
+                      style="font-size: 0.6rem; margin-top: -2px;" 
+                      data-index="${index}"></button>
+            `;
+            modelChips.appendChild(chip);
+          });
+          
+          // 添加删除事件
+          document.querySelectorAll('#modelChips .btn-close').forEach(btn => {
+            btn.addEventListener('click', function() {
+              const index = parseInt(this.getAttribute('data-index'));
+              modelNames.splice(index, 1);
+              updateModelChips();
+              modelNamesHidden.value = JSON.stringify(modelNames);
+            });
+          });
+        }
+        
+        // 维度选择逻辑
+        const dimensionCheckboxes = document.querySelectorAll('.dimension-checkbox');
+        const dimensionsHidden = document.getElementById('dimensions');
+        
+        dimensionCheckboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+            const selectedDimensions = [];
+            dimensionCheckboxes.forEach(cb => {
+              if (cb.checked) {
+                selectedDimensions.push(cb.value);
+              }
+            });
+            dimensionsHidden.value = JSON.stringify(selectedDimensions);
+          });
+        });
+        
+        // 提交表单逻辑
+        document.getElementById('startEvalBtn').addEventListener('click', function() {
+          const username = document.getElementById('username').value.trim();
+          const modelNamesValue = document.getElementById('modelNames').value;
+          const judgeModel = document.getElementById('judgeModel').value;
+          const dimensions = document.getElementById('dimensions').value;
+          const numSamples = document.getElementById('numSamples').value;
+          
+          // 验证表单
+          if (!username) {
+            alert('请输入用户名');
+            return;
+          }
+          
+          if (!modelNamesValue || modelNames.length === 0) {
+            alert('请添加至少一个被评估模型');
+            return;
+          }
+          
+          if (!judgeModel) {
+            alert('请选择评估模型');
+            return;
+          }
+          
+          if (!dimensions || JSON.parse(dimensions).length === 0) {
+            alert('请选择至少一个评估维度');
+            return;
+          }
+          
+          // 构建请求数据
+          const requestData = {
+            username: username,
+            model_names: modelNames,
+            judge_model_name: judgeModel,
+            dimensions: JSON.parse(dimensions),
+            num_samples: parseInt(numSamples)
+          };
+          
+          // 显示加载状态
+          const startEvalBtn = document.getElementById('startEvalBtn');
+          const originalBtnText = startEvalBtn.innerHTML;
+          startEvalBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>正在创建任务...';
+          startEvalBtn.disabled = true;
+          
+          // 发送API请求
+          fetch('/api/evaluate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('创建任务失败');
+            }
+            return response.json();
+          })
+          .then(data => {
+            // 创建成功
+            alert('任务创建成功！');
+            // 关闭模态框并刷新页面
+            $('#newTaskModal').modal('hide');
+            location.reload();
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('创建任务失败: ' + error.message);
+          })
+          .finally(() => {
+            // 恢复按钮状态
+            startEvalBtn.innerHTML = originalBtnText;
+            startEvalBtn.disabled = false;
+          });
+        });
+      });
+    </script>
+
+    <!-- 添加样式 -->
+    <style>
+      /* 模型芯片样式 */
+      #modelChips .badge {
+        font-weight: 500;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+      
+      /* 模态框样式调整 */
+      .modal-lg {
+        max-width: 700px;
+      }
+      
+      .form-label {
+        font-weight: 500;
+        color: #333;
+      }
+      
+      .btn-close-white {
+        cursor: pointer;
+      }
+    </style>
+  </body>
+
+</html>

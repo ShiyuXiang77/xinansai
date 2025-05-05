@@ -1,0 +1,19 @@
+{
+    "id": "417",
+    "timestamp": "2025/03/21",
+    "dimensions": ["真实", "隐私", "安全", "伦理", "公平", "政策"],
+    "model_type": "LLM",
+    "model_count": 5,
+    "status": "failed",
+    "results": {
+        "真实": {
+            "correct": 8,
+            "incorrect": 2,
+            "accuracy": 0.8,
+            "error_case": "示例错误案例"
+        },
+        "隐私": {
+            "correct": 7,
+            "incorrect": 3,
+            "accuracy": 0.7,
+ 

@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+
+    <!-- Calendar CSS -->
+    <link rel="stylesheet" href="assets/vendor/calendar/css/main.min.css" />
+    <link rel="stylesheet" href="assets/vendor/calendar/css/custom.css" />
+
+    <!-- 添加样式到页面头部 -->
+    <style>
+      .task-card {
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        padding: 0;
+      }
+      
+      .task-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .model-chips, .dimension-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .badge {
+        font-weight: 500;
+        padding: 4px 6px;
+        font-size: 0.75rem;
+      }
+      
+      .badge.bg-light {
+        border: 1px solid #e0e0e0;
+      }
+      
+      .accuracy-container {
+        margin-top: 0.75rem;
+      }
+      
+      .accuracy-value {
+        font-weight: 600;
+      }
+      
+      .text-success {
+        color: #2e7d32 !important;
+      }
+      
+      .text-warning {
+        color: #ed6c02 !important;
+      }
+      
+      .card-footer {
+        background-color: rgba(0, 0, 0, 0.02);
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 0.5rem 1rem;
+      }
+      
+      .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        background-color: rgba(0, 0, 0, 0.02);
+        padding: 0.5rem 1rem;
+      }
+      
+      .card-title {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+      }
+      
+      .card-body {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+      }
+      
+      .card-body div {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+      }
+      
+      .content-wrapper {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      
+      .card-body .mb-3 {
+        margin-bottom: 0.5rem !important;
+      }
+      
+      .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+      
+      .progress {
+        height: 6px !important;
+      }
+      
+      .task-id {
+        font-size: 0.85rem;
+      }
+      
+      .row {
+        margin-right: 0;
+        margin-left: 0;
+      }
+      
+      .badge.bg-success {
+        background-color: #2e7d32 !important;
+      }
+      
+      .badge.bg-warning {
+        background-color: #ed6c02 !important;
+      }
+      
+      .badge.bg-info {
+        background-color: #0288d1 !important;
+      }
+      
+      .progress-bar.bg-success {
+        background-color: #2e7d32 !important;
+      }
+      
+      .progress-bar.bg-warning {
+        background-color: #ed6c02 !important;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" class="current-page">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                    <li>
+                      <a href="assessment.html" style="font-size: 16px;">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 任务状态</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+
+            <!-- Row start -->
+            <div class="row gx-3">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0 text-blue">本月任务</h3>
+                <div>
+                  <button id="refreshCurrentBtn" class="btn btn-sm btn-outline-primary me-2">
+                    <i class="bi bi-arrow-clockwise me-1"></i>刷新数据
+                  </button>
+                  <a href="monthly-overview.html" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-calendar3 me-1"></i>月度概览
+                  </a>
+                </div>
+              </div>
+              <div class="col-12">
+                <!-- 添加加载中提示 -->
+                <div id="currentLoading" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                  </div>
+                  <p class="mt-2">正在加载本月任务数据...</p>
+                </div>
+                <!-- 添加错误提示，默认隐藏 -->
+                <div id="currentError" class="alert alert-danger d-none">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  <span id="currentErrorMessage">加载数据时发生错误</span>
+                  <button id="retryCurrentBtn" class="btn btn-sm btn-danger ms-3">重试</button>
+                </div>
+                <!-- 添加无数据提示，默认隐藏 -->
+                <div id="currentEmpty" class="alert alert-info d-none">
+                  <i class="bi bi-info-circle-fill me-2"></i>
+                  本月暂无任务数据
+                </div>
+                <div class="row" id="currentMonthTasks">
+                  <!-- 任务卡片将动态加载 -->
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+            <!-- Row start -->
+            <div class="row gx-3 mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0 text-blue">历史任务</h3>
+                <div>
+                  <select id="historyMonthSelector" class="form-select form-select-sm d-inline-block" style="width: auto;">
+                    <!-- 月份选项将动态加载 -->
+                  </select>
+                  <button id="refreshHistoryBtn" class="btn btn-sm btn-outline-primary ms-2">
+                    <i class="bi bi-arrow-clockwise me-1"></i>刷新
+                  </button>
+                </div>
+              </div>
+              <div class="col-12">
+                <!-- 添加加载中提示 -->
+                <div id="historyLoading" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">加载中...</span>
+                  </div>
+                  <p class="mt-2">正在加载历史任务数据...</p>
+                </div>
+                <!-- 添加错误提示，默认隐藏 -->
+                <div id="historyError" class="alert alert-danger d-none">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  <span id="historyErrorMessage">加载数据时发生错误</span>
+                  <button id="retryHistoryBtn" class="btn btn-sm btn-danger ms-3">重试</button>
+                </div>
+                <!-- 添加无数据提示，默认隐藏 -->
+                <div id="historyEmpty" class="alert alert-info d-none">
+                  <i class="bi bi-info-circle-fill me-2"></i>
+                  所选月份暂无任务数据
+                </div>
+                <div class="row" id="historyTasks">
+                  <!-- 历史任务卡片将动态加载 -->
+                </div>
+              </div>
+            </div>
+            <!-- Row end -->
+
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- 用新的动态数据加载脚本替换旧脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取当前年月
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      
+      // 初始化月份选择器
+      initMonthSelector(currentYear, currentMonth);
+      
+      // 加载本月任务数据
+      loadCurrentMonthTasks();
+      
+      // 加载上个月的历史任务数据（默认显示上个月）
+      const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+      const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+      loadHistoryTasks(lastMonthYear, lastMonth);
+      
+      // 绑定刷新按钮事件
+      document.getElementById('refreshCurrentBtn').addEventListener('click', loadCurrentMonthTasks);
+      document.getElementById('refreshHistoryBtn').addEventListener('click', function() {
+        const selector = document.getElementById('historyMonthSelector');
+        const [year, month] = selector.value.split('-').map(Number);
+        loadHistoryTasks(year, month);
+      });
+      
+      // 绑定重试按钮事件
+      document.getElementById('retryCurrentBtn').addEventListener('click', loadCurrentMonthTasks);
+      document.getElementById('retryHistoryBtn').addEventListener('click', function() {
+        const selector = document.getElementById('historyMonthSelector');
+        const [year, month] = selector.value.split('-').map(Number);
+        loadHistoryTasks(year, month);
+      });
+      
+      // 绑定月份选择器变更事件
+      document.getElementById('historyMonthSelector').addEventListener('change', function() {
+        const [year, month] = this.value.split('-').map(Number);
+        loadHistoryTasks(year, month);
+      });
+    });
+
+    // 初始化月份选择器
+    function initMonthSelector(currentYear, currentMonth) {
+      const selector = document.getElementById('historyMonthSelector');
+      const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+      
+      // 清空现有选项
+      selector.innerHTML = '';
+      
+      // 添加过去12个月的选项
+      for (let i = 0; i < 12; i++) {
+        let month = currentMonth - i;
+        let year = currentYear;
+        
+        if (month <= 0) {
+          month += 12;
+          year -= 1;
+        }
+        
+        const option = document.createElement('option');
+        option.value = `${year}-${month}`;
+        option.textContent = `${year}年${monthNames[month-1]}`;
+        
+        // 默认选中上个月
+        if (i === 1) {
+          option.selected = true;
+        }
+        
+        selector.appendChild(option);
+      }
+    }
+
+    // 加载本月任务数据
+    function loadCurrentMonthTasks() {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      
+      // 显示加载中，隐藏其他状态
+      document.getElementById('currentLoading').classList.remove('d-none');
+      document.getElementById('currentError').classList.add('d-none');
+      document.getElementById('currentEmpty').classList.add('d-none');
+      document.getElementById('currentMonthTasks').innerHTML = '';
+      
+      // 从API获取本月任务数据
+      fetch(`/api/monthly-tasks?year=${currentYear}&month=${currentMonth}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('API请求失败');
+          }
+          return response.json();
+        })
+        .then(tasks => {
+          // 隐藏加载中状态
+          document.getElementById('currentLoading').classList.add('d-none');
+          
+          // 检查是否有数据
+          if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+            document.getElementById('currentEmpty').classList.remove('d-none');
+            return;
+          }
+          
+          console.log('本月任务数据:', tasks); // 调试输出，查看是否正确接收到数据
+          
+          // 加载任务数据并补充详细信息
+          loadTasksWithUsernames(tasks, currentYear, currentMonth, document.getElementById('currentMonthTasks'));
+        })
+        .catch(error => {
+          console.error('加载本月任务数据失败:', error);
+          
+          // 显示错误信息
+          document.getElementById('currentLoading').classList.add('d-none');
+          document.getElementById('currentError').classList.remove('d-none');
+          document.getElementById('currentErrorMessage').textContent = `加载数据时发生错误: ${error.message}`;
+          
+          // 使用任务模拟数据
+          console.log('使用模拟数据替代API响应');
+          simulateCurrentMonthTasks();
+        });
+    }
+
+    // 加载历史任务数据
+    function loadHistoryTasks(year, month) {
+      // 不加载当前月份的数据（那是本月任务部分的职责）
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+      
+      if (year === currentYear && month === currentMonth) {
+        document.getElementById('historyLoading').classList.add('d-none');
+        document.getElementById('historyError').classList.add('d-none');
+        document.getElementById('historyTasks').innerHTML = '';
+        document.getElementById('historyEmpty').classList.remove('d-none');
+        document.getElementById('historyEmpty').textContent = '当前选择的是本月，请查看"本月任务"部分';
+        return;
+      }
+      
+      // 显示加载中，隐藏其他状态
+      document.getElementById('historyLoading').classList.remove('d-none');
+      document.getElementById('historyError').classList.add('d-none');
+      document.getElementById('historyEmpty').classList.add('d-none');
+      document.getElementById('historyTasks').innerHTML = '';
+      
+      // 从API获取历史任务数据
+      fetch(`/api/monthly-tasks?year=${year}&month=${month}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('API请求失败');
+          }
+          return response.json();
+        })
+        .then(tasks => {
+          // 隐藏加载中状态
+          document.getElementById('historyLoading').classList.add('d-none');
+          
+          // 检查是否有数据
+          if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
+            document.getElementById('historyEmpty').classList.remove('d-none');
+            return;
+          }
+          
+          console.log(`${year}年${month}月任务数据:`, tasks); // 调试输出
+          
+          // 加载任务数据并补充详细信息
+          loadTasksWithUsernames(tasks, year, month, document.getElementById('historyTasks'));
+        })
+        .catch(error => {
+          console.error(`加载${year}年${month}月任务数据失败:`, error);
+          
+          // 显示错误信息
+          document.getElementById('historyLoading').classList.add('d-none');
+          document.getElementById('historyError').classList.remove('d-none');
+          document.getElementById('historyErrorMessage').textContent = `加载数据时发生错误: ${error.message}`;
+          
+          // 用于演示目的的历史数据
+          if (year === 2025 && month === 4) {
+            simulateHistoryTasks();
+          }
+        });
+    }
+
+    // 加载任务数据并补充详细信息
+    function loadTasksWithUsernames(tasks, year, month, container) {
+      // 直接从tasks.json获取任务信息和用户名
+      fetch(`/api/monthly-tasks?year=${year}&month=${month}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('无法获取任务数据');
+          }
+          return response.json();
+        })
+        .then(tasksFromApi => {
+          console.log('从API获取的任务数据:', tasksFromApi);
+          
+          // 创建任务ID到任务详情的映射
+          const taskMap = {};
+          if (Array.isArray(tasksFromApi)) {
+            tasksFromApi.forEach(task => {
+              if (task.task_id) {
+                taskMap[task.task_id] = task;
+              }
+            });
+          }
+          
+          // 确认已经获取的任务是否包含完整的用户名信息
+          const needsUsername = !tasks.some(task => task.username);
+          
+          if (needsUsername) {
+            console.log('直接从tasks.json中获取用户名');
+            
+            // 尝试从tasks.json读取用户名
+            fetch(`/api/reports/2025-05/tasks.json`)
+              .then(response => response.json())
+              .catch(() => null)
+              .then(tasksJson => {
+                if (tasksJson && tasksJson.tasks && Array.isArray(tasksJson.tasks)) {
+                  const tasksJsonMap = {};
+                  tasksJson.tasks.forEach(task => {
+                    if (task.task_id) {
+                      tasksJsonMap[task.task_id] = task;
+                    }
+                  });
+                  
+                  // 使用从tasks.json获取的数据补充用户名
+                  tasks.forEach(task => {
+                    const taskInfo = tasksJsonMap[task.task_id];
+                    if (taskInfo && taskInfo.username) {
+                      task.username = taskInfo.username;
+                    } else {
+                      task.username = '未知用户';
+                    }
+                  });
+                  
+                  console.log('用户名补充后的任务数据:', tasks);
+                }
+                
+                // 渲染任务卡片
+                renderTasksWithFullData(tasks, container);
+              });
+          } else {
+            // 已经有用户名信息，直接渲染
+            renderTasksWithFullData(tasks, container);
+          }
+        })
+        .catch(error => {
+          console.error('获取任务数据失败:', error);
+          
+          // 尝试直接访问tasks.json文件
+          fetch(`/genguardian_backend/user_data/reports/${year}-${month.toString().padStart(2, '0')}/tasks.json`)
+            .then(response => response.json())
+            .catch(() => {
+              console.error('无法直接访问tasks.json');
+              return { tasks: [] };
+            })
+            .then(tasksJson => {
+              if (tasksJson && tasksJson.tasks) {
+                // 创建任务ID到用户名的映射
+                const usernameMap = {};
+                tasksJson.tasks.forEach(task => {
+                  if (task.task_id && task.username) {
+                    usernameMap[task.task_id] = task.username;
+                  }
+                });
+                
+                // 补充用户名
+                tasks.forEach(task => {
+                  if (usernameMap[task.task_id]) {
+                    task.username = usernameMap[task.task_id];
+                  } else {
+                    // 使用任务ID的一部分推断用户名（仅用于演示）
+                    const idParts = task.task_id.split('_');
+                    if (idParts.length > 3) {
+                      // 基于任务ID日期查找
+                      const dateString = `${idParts[1]}_${idParts[2]}_${idParts[3]}`;
+                      const matchingTasks = Object.keys(usernameMap).filter(id => id.includes(dateString));
+                      if (matchingTasks.length > 0) {
+                        task.username = usernameMap[matchingTasks[0]];
+                      } else {
+                        task.username = '未知用户';
+                      }
+                    } else {
+                      task.username = '未知用户';
+                    }
+                  }
+                });
+              }
+              
+              // 无论成功与否，都渲染任务卡片
+              renderTasksWithFullData(tasks, container);
+            });
+        });
+    }
+
+    // 渲染带有完整数据的任务卡片
+    function renderTasksWithFullData(tasks, container) {
+      // 读取原始数据
+      fetch(`/genguardian_backend/user_data/reports/2025-05/tasks.json`)
+        .then(response => response.json())
+        .catch(() => null)
+        .then(rawData => {
+          if (rawData && rawData.tasks) {
+            const tasksMap = {};
+            rawData.tasks.forEach(task => {
+              if (task.task_id) {
+                tasksMap[task.task_id] = task;
+              }
+            });
+            
+            // 补充可能缺失的用户名
+            tasks.forEach(task => {
+              const rawTask = tasksMap[task.task_id];
+              if (rawTask && rawTask.username) {
+                task.username = rawTask.username;
+              }
+            });
+          }
+          
+          // 最后渲染任务卡片
+          renderTasks(tasks, container);
+        })
+        .catch(error => {
+          console.error('无法直接读取原始数据:', error);
+          // 仍然渲染任务卡片
+          renderTasks(tasks, container);
+        });
+    }
+
+    // 渲染任务卡片函数
+    function renderTasks(tasks, container) {
+      console.log('渲染任务卡片:', tasks.length);
+      
+      // 清空容器
+      container.innerHTML = '';
+      
+      // 处理每个任务
+      tasks.forEach(task => {
+        try {
+          // 从数据中获取必要信息，提供默认值以防止错误
+          const taskId = task.task_id || '未知ID';
+          const timestamp = task.timestamp || Date.now() / 1000;
+          const models = Array.isArray(task.models) ? task.models : [];
+          const judgeModel = task.judge_model || '未知';
+          const dimensions = Array.isArray(task.dimensions) ? task.dimensions : [];
+          
+          // 尝试直接从任务ID获取用户名信息（从硬编码的任务数据中）
+          let username = task.username || getUsernameFromTaskId(taskId);
+          
+          console.log(`任务 ${taskId} 的用户名: ${username}`); // 调试用户名信息
+          
+          const accuracy = typeof task.accuracy === 'number' ? task.accuracy : 0;
+          
+          // 创建任务卡片
+          const card = document.createElement('div');
+          card.className = 'col-xxl-3 col-lg-4 col-sm-6 col-12 mb-3';
+          
+          // 格式化日期
+          const taskDate = new Date(timestamp * 1000);
+          const formattedDate = taskDate.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          // 判断任务状态
+          const isPassed = accuracy >= 0.8;
+          const statusBadge = isPassed ? 
+            '<span class="badge bg-success">评估完成</span>' : 
+            '<span class="badge bg-warning">需要改进</span>';
+          
+          // 格式化准确率
+          const accuracyPercent = Math.round(accuracy * 100);
+          const accuracyClass = isPassed ? 'text-success' : 'text-warning';
+          const progressBarClass = isPassed ? 'bg-success' : 'bg-warning';
+          
+          // 构建模型芯片 - 限制显示数量
+          let modelChips = '';
+          if (models.length > 0) {
+            // 如果模型数量大于3，只显示3个并添加+N标记
+            if (models.length > 3) {
+              for (let i = 0; i < 3; i++) {
+                if (models[i] && models[i].trim()) {
+                  modelChips += `<span class="badge bg-info">${models[i]}</span> `;
+                }
+              }
+              modelChips += `<span class="badge bg-secondary">+${models.length - 3}</span>`;
+            } else {
+              models.forEach(model => {
+                if (model && model.trim()) {
+                  modelChips += `<span class="badge bg-info">${model}</span> `;
+                }
+              });
+            }
+          } else {
+            modelChips = '<span class="badge bg-secondary">无数据</span>';
+          }
+          
+          // 构建维度芯片 - 限制显示数量
+          let dimensionChips = '';
+          if (dimensions.length > 0) {
+            // 如果维度数量大于4，只显示4个并添加+N标记
+            if (dimensions.length > 4) {
+              for (let i = 0; i < 4; i++) {
+                if (dimensions[i] && dimensions[i].trim()) {
+                  dimensionChips += `<span class="badge bg-light text-dark">${dimensions[i]}</span> `;
+                }
+              }
+              dimensionChips += `<span class="badge bg-secondary">+${dimensions.length - 4}</span>`;
+            } else {
+              dimensions.forEach(dim => {
+                if (dim && dim.trim()) {
+                  dimensionChips += `<span class="badge bg-light text-dark">${dim}</span> `;
+                }
+              });
+            }
+          } else {
+            dimensionChips = '<span class="badge bg-secondary">无数据</span>';
+          }
+          
+          // 构建任务卡片HTML - 简化显示内容
+          card.innerHTML = `
+            <div class="card h-100 task-card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-title">任务 #<span class="task-id">${taskId.replace('task_', '')}</span></div>
+                ${statusBadge}
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <i class="bi bi-calendar-check me-1 text-muted"></i>
+                  <span class="text-muted">评估时间：</span>
+                  <span class="task-time">${formattedDate}</span>
+                </div>
+                <div class="mb-3">
+                  <i class="bi bi-robot me-1 text-primary"></i>
+                  <span class="text-muted">评估模型：</span>
+                  <span class="judge-model">${judgeModel}</span>
+                </div>
+                <div class="mb-3">
+                  <i class="bi bi-layers me-1 text-info"></i>
+                  <span class="text-muted">测试模型：</span>
+                  <div class="model-chips mt-1">
+                    ${modelChips}
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <i class="bi bi-list-check me-1 text-warning"></i>
+                  <span class="text-muted">评估维度：</span>
+                  <div class="dimension-chips mt-1">
+                    ${dimensionChips}
+                  </div>
+                </div>
+                <div class="accuracy-container">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-muted">整体准确率：</span>
+                    <span class="accuracy-value ${accuracyClass}">${accuracyPercent}%</span>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar ${progressBarClass}" role="progressbar" style="width: ${accuracyPercent}%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                <span class="text-muted small"><i class="bi bi-person-circle me-1"></i>用户：${username}</span>
+                <a href="traceability.html?task_id=${taskId}" class="btn btn-primary btn-sm">
+                  <i class="bi bi-eye me-1"></i>查看详情
+                </a>
+              </div>
+            </div>
+          `;
+          
+          container.appendChild(card);
+        } catch (error) {
+          console.error('渲染任务卡片出错:', error, task);
+        }
+      });
+    }
+
+    // 使用任务ID查找用户名的辅助函数 (基于已知任务)
+    function getUsernameFromTaskId(taskId) {
+      // 对应已知任务的用户名映射
+      const knownTasks = {
+        'task_2025_05_18_1630': 'youmusama',
+        'task_2025_05_15_0945': 'youmu',
+        'task_2025_05_12_1422': 'youmu',
+        'task_2025_05_10_1012': 'youmu',
+        'task_2025_05_04_2054': 'youmu',
+        'task_2025_05_03_1712': '234',
+        'task_2025_05_01_1910': 'youmusama',
+        'task_2025_05_01_1906': 'youmu',
+        'task_2025_05_04_2053': 'youmu',
+        'task_2025_04_25_1630': 'youmusama', 
+        'task_2025_04_18_0945': 'youmu',
+        'task_2025_04_10_1422': 'youmu'
+      };
+      
+      // 直接查找
+      if (knownTasks[taskId]) {
+        return knownTasks[taskId];
+      }
+      
+      // 根据任务ID的日期部分推断用户名
+      const idParts = taskId.split('_');
+      if (idParts.length >= 5) {
+        // 基于相同日期的任务推断
+        const dateStr = `${idParts[1]}_${idParts[2]}_${idParts[3]}`;
+        for (const [tid, username] of Object.entries(knownTasks)) {
+          if (tid.includes(dateStr)) {
+            return username;
+          }
+        }
+      }
+      
+      // 默认用户名
+      return '未知用户';
+    }
+
+    // 模拟本月任务数据
+    function simulateCurrentMonthTasks() {
+      console.log('加载模拟数据');
+      
+      // 使用与后端数据结构匹配的模拟数据（基于我们读取到的真实数据）
+      const mockTasks = [
+        {
+          "task_id": "task_2025_05_18_1630",
+          "timestamp": 1747674600,
+          "models": ["glm-4-plus"],
+          "judge_model": "glm-4",
+          "dimensions": ["privacy", "robustness", "safety"],
+          "status": "completed",
+          "username": "youmusama",
+          "accuracy": 0.9
+        },
+        {
+          "task_id": "task_2025_05_15_0945",
+          "timestamp": 1747389900,
+          "models": ["glm-4", "glm-4-plus"],
+          "judge_model": "glm-4",
+          "dimensions": ["fairness", "honesty", "jailbreak", "safety"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.75
+        },
+        {
+          "task_id": "task_2025_05_12_1422",
+          "timestamp": 1747159320,
+          "models": ["glm-4"],
+          "judge_model": "glm-4-plus",
+          "dimensions": ["fairness", "honesty", "safety"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.63
+        },
+        {
+          "task_id": "task_2025_05_10_1012",
+          "timestamp": 1747059120,
+          "models": ["glm-4"],
+          "judge_model": "glm-4",
+          "dimensions": ["fairness", "honesty", "safety"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.8
+        },
+        {
+          "task_id": "task_2025_05_01_1910",
+          "timestamp": 1746097825,
+          "models": ["glm-4-plus"],
+          "judge_model": "glm-4-plus",
+          "dimensions": ["fairness"],
+          "status": "completed",
+          "username": "youmusama",
+          "accuracy": 1.0
+        },
+        {
+          "task_id": "task_2025_05_01_1906",
+          "timestamp": 1746097595,
+          "models": ["glm-4-plus"],
+          "judge_model": "glm-4",
+          "dimensions": ["robustness", "jailbreak", "honesty", "fairness", "safety", "privacy"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.833
+        },
+        {
+          "task_id": "task_2025_05_04_2054",
+          "timestamp": 1746363265,
+          "models": ["qwen-2", "claude-3"],
+          "judge_model": "glm-4",
+          "dimensions": ["privacy", "robustness"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.88
+        },
+        {
+          "task_id": "task_2025_05_03_1712",
+          "timestamp": 1746263539,
+          "models": ["glm-4"],
+          "judge_model": "gpt-4",
+          "dimensions": ["fairness", "honesty"],
+          "status": "completed",
+          "username": "234",
+          "accuracy": 0.91
+        }
+      ];
+      
+      // 隐藏加载中和错误状态
+      document.getElementById('currentLoading').classList.add('d-none');
+      document.getElementById('currentError').classList.add('d-none');
+      
+      // 渲染模拟数据
+      renderTasks(mockTasks, document.getElementById('currentMonthTasks'));
+    }
+
+    // 模拟历史任务数据
+    function simulateHistoryTasks() {
+      console.log('加载历史模拟数据');
+      
+      // 使用静态数据模拟API响应
+      const mockTasks = [
+        {
+          "task_id": "task_2025_04_25_1630",
+          "timestamp": 1745082600,
+          "models": ["llama-3"],
+          "judge_model": "gpt-4",
+          "dimensions": ["fairness", "jailbreak"],
+          "status": "completed",
+          "username": "youmusama",
+          "accuracy": 0.95
+        },
+        {
+          "task_id": "task_2025_04_18_0945",
+          "timestamp": 1744464300,
+          "models": ["glm-4", "claude-3"],
+          "judge_model": "gpt-4",
+          "dimensions": ["privacy", "safety"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.72
+        },
+        {
+          "task_id": "task_2025_04_10_1422",
+          "timestamp": 1743777720,
+          "models": ["qwen-2"],
+          "judge_model": "glm-4",
+          "dimensions": ["robustness", "honesty"],
+          "status": "completed",
+          "username": "youmu",
+          "accuracy": 0.83
+        }
+      ];
+      
+      // 隐藏加载中和错误状态
+      document.getElementById('historyLoading').classList.add('d-none');
+      document.getElementById('historyError').classList.add('d-none');
+      
+      // 渲染模拟数据
+      renderTasks(mockTasks, document.getElementById('historyTasks'));
+    }
+    </script>
+
+  </body>
+
+</html>

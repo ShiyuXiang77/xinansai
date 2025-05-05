@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap Admin Dashboards">
+    <meta name="author" content="Bootstrap Gallery" />
+    <link rel="canonical" href="https://www.bootstrap.gallery/">
+    <meta property="og:url" content="https://www.bootstrap.gallery">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates | Bootstrap Gallery">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Bootstrap Gallery">
+    <link rel="shortcut icon" href="assets/images/favicon.svg">
+
+    <!-- Title -->
+    <title>GenGuardian: 生成式AI自适应可信监管系统</title>
+
+    <!-- *************
+			************ Common Css Files *************
+		************ -->
+    <!-- Main CSS File -->
+    <!-- trustgen -->
+    <link href="trustgen/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+
+    <!-- map -->
+    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<!-- Echarts3 -->
+	<script type="text/javascript" src="static/js/echarts.min.js"></script>
+    <!-- 全国344个市、区、州对应的数字编号 -->
+	<script type="text/javascript" src="static/js/citymap.js"></script>
+
+    <!-- raw -->
+    <!-- Animated css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Bootstrap font icons css -->
+    <link rel="stylesheet" href="assets/fonts/bootstrap/bootstrap-icons.css">
+    <!-- Main css -->
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <!-- *************
+			************ Vendor Css Files *************
+		************ -->
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" href="assets/vendor/overlay-scroll/OverlayScrollbars.min.css">
+  </head>
+
+  <body>
+
+    <!-- Loading wrapper start -->
+    <div id="loading-wrapper">
+      <div class="spinner">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+        <div class="line4"></div>
+        <div class="line5"></div>
+        <div class="line6"></div>
+      </div>
+    </div>
+    <!-- Loading wrapper end -->
+
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+      <!-- Sidebar wrapper start -->
+      <nav class="sidebar-wrapper">
+
+        <!-- Sidebar brand starts -->
+        <div class="sidebar-brand">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="GenGuardian: 生成式AI自适应可信监管系统" />
+          </a>
+        </div>
+        <!-- Sidebar brand starts -->
+
+        <!-- Sidebar menu starts -->
+        <div class="sidebar-menu">
+          <div class="sidebarMenuScroll">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-house"></i>
+                  <span class="menu-text">实时监控</span>
+                </a>
+                <div class="sidebar-submenu active">
+                  <ul>
+                    <li>
+                      <a href="index.html" style="font-size: 16px;">态势感知</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-list-task"></i>
+                  <span class="menu-text">任务管理</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="monthly-overview.html" style="font-size: 16px;">月度概览</a>
+                    </li>
+                    <li>
+                      <a href="task-status.html" style="font-size: 16px;">任务状态</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown active">
+                <a href="#">
+                  <i class="bi bi-graph-up-arrow"></i>
+                  <span class="menu-text">数据分析</span>
+                </a>
+                <div class="sidebar-submenu ">
+                  <ul>
+                    <li>
+                      <a href="traceability.html" style="font-size: 16px;">合规溯源</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="assessment.html" class="current-page">评估溯源</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <span class="menu-text">风险处置</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="risk-disposal.html" style="font-size: 16px;">沙盒演示</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="bi bi-robot"></i>
+                  <span class="menu-text">智慧问答</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="question-and-answer.html" style="font-size: 16px;">智能助手</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="starter-page.html">
+                  <i class="bi bi-hand-index-thumb"></i>
+                  <span class="menu-text">Link</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Sidebar menu ends -->
+
+      </nav>
+      <!-- Sidebar wrapper end -->
+
+      <!-- *************
+				************ Main container start *************
+			************* -->
+      <div class="main-container">
+
+        <!-- Page header starts -->
+        <div class="page-header">
+
+          <div class="toggle-sidebar" id="toggle-sidebar"><i class="bi bi-list"></i></div>
+
+          <!-- Breadcrumb start -->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <i class="bi bi-house"></i>
+            </li>
+            <li class="breadcrumb-item breadcrumb-active" aria-current="page">GenGuardian: 合规溯源</li>
+          </ol>
+          <!-- Breadcrumb end -->
+
+          <!-- Header actions ccontainer start -->
+          <div class="header-actions-container">
+
+            <!-- Search container start -->
+            <div class="search-container">
+
+              <!-- Search input group start -->
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="搜索">
+                <button class="btn" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <!-- Search input group end -->
+
+            </div>
+            <!-- Search container end -->
+
+            <!-- Header actions start -->
+            <ul class="header-actions">
+
+              <!-- Messages start -->
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" aria-haspopup="true">
+                  <i class="bi bi-bell fs-4 lh-1"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user.png" class="img-4x me-3 rounded-3" alt="GenGuardian" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">会员已到期</p>
+                        <p class="small m-0 text-secondary">今日 7:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2 border-bottom">
+                      <img src="assets/images/user2.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">恭喜！</p>
+                        <p class="small m-0 text-secondary">今日 8:00pm</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-item">
+                    <div class="d-flex py-2">
+                      <img src="assets/images/user3.png" class="img-4x me-3 rounded-3" alt="Free Admin Theme" />
+                      <div class="m-0">
+                        <h6 class="mb-1">小红</h6>
+                        <p class="mb-2">新的测评任务已完成</p>
+                        <p class="small m-0 text-secondary">今日 9:30pm</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Messages end -->
+
+              <li class="dropdown d-none d-md-block">
+                <a href="#" id="countries" data-toggle="dropdown" aria-haspopup="true">
+                  <img src="assets/images/flags/1x1/cn.svg" class="flag-img" alt="GenGuardian" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end mini" aria-labelledby="countries">
+                  <div class="country-container">
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/us.svg" alt="Free Admin Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/in.svg" alt="Free Google Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/br.svg" alt="Free Admin Panels" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/tr.svg" alt="Free Modern Dashboards" />
+                    </a>
+                    <a href="index.html">
+                      <img src="assets/images/flags/1x1/ca.svg" alt="Free Bootstrap Dashboards" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown">
+                <a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
+                  <span class="user-name d-none d-md-block">小红</span>
+                  <span class="avatar">
+                    <img src="assets/images/user3.png" alt="Free Admin Templates">
+                    <span class="status busy"></span>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
+                  <div class="header-profile-actions">
+                    <a href="profile.html">Profile</a>
+                    <a href="account-settings.html">Settings</a>
+                    <a href="login.html">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Header actions end -->
+
+          </div>
+          <!-- Header actions ccontainer end -->
+
+        </div>
+        <!-- Page header ends -->
+
+        <!-- Content wrapper scroll start -->
+        <div class="content-wrapper-scroll">
+
+          <!-- Content wrapper start -->
+          <div class="content-wrapper">
+            <!-- 添加评估维度与模型交叉分析部分 -->
+            <div class="row gx-3 mb-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">评估维度分析</div>
+                    <div class="tools">
+                      <select id="model-select" class="form-select form-select-sm" style="width: 200px; display: inline-block;">
+                        <option value="all" selected>所有模型</option>
+                        <option value="llm">Large Language Models</option>
+                        <option value="vlm">Vision Language Models</option>
+                        <option value="t2i">Text-to-Image Models</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <!-- 评估维度雷达图 -->
+                      <div class="col-md-6">
+                        <div id="dimensions-radar-chart" style="height: 380px;"></div>
+                      </div>
+                      <!-- 评估结果汇总 -->
+                      <div class="col-md-6">
+                        <div id="models-dimensions-chart" style="height: 380px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 各维度详细分析卡片 -->
+            <div class="row gx-3 mb-4">
+              <!-- 真实性维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/真实可信.svg" alt="真实" style="width: 20px;" class="me-2">
+                      真实性维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-honesty" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">78%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">65%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">71%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 隐私维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/隐私.svg" alt="隐私" style="width: 20px;" class="me-2">
+                      隐私维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-privacy" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">62%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">53%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">58%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 安全维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/安全.svg" alt="安全" style="width: 20px;" class="me-2">
+                      安全维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-robustness" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">83%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">74%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">79%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 越狱维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/越狱.svg" alt="越狱" style="width: 20px;" class="me-2">
+                      越狱维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-jailbreak" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">70%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">63%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">68%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 伦理维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <i class="bi bi-people-fill me-2"></i>
+                      伦理维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-safety" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">88%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">82%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">85%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 公平维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/公平验证选中.svg" alt="公平" style="width: 20px;" class="me-2">
+                      公平维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-fairness" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">45%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">38%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">42%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 政策维度卡片 -->
+              <div class="col-md-6 col-xl-4 mb-3">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <img src="assets/images/政策.svg" alt="政策" style="width: 20px;" class="me-2">
+                      政策维度分析
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="models-dimension-policy" style="height: 250px;"></div>
+                    <div class="mt-3">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>LLM模型平均分:</span>
+                        <span class="fw-bold">92%</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>VLM模型平均分:</span>
+                        <span class="fw-bold">85%</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>T2I模型平均分:</span>
+                        <span class="fw-bold">90%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 评估指标与模型详细数据表格 -->
+            <div class="row gx-3 mb-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">评估指标详细数据</div>
+                    <div class="tools">
+                      <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-primary active" data-dimension="all">全部维度</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="honesty">真实</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="privacy">隐私</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="robustness">安全</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="jailbreak">越狱</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="safety">伦理</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="fairness">公平</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-dimension="policy">政策</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th rowspan="2">模型名称</th>
+                            <th rowspan="2">模型类型</th>
+                            <th colspan="7" class="text-center">评估维度</th>
+                            <th rowspan="2">平均分</th>
+                            <th rowspan="2">通过率</th>
+                          </tr>
+                          <tr>
+                            <th>真实</th>
+                            <th>隐私</th>
+                            <th>安全</th>
+                            <th>越狱</th>
+                            <th>伦理</th>
+                            <th>公平</th>
+                            <th>政策</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>GPT-4</td>
+                            <td>LLM</td>
+                            <td class="bg-success bg-opacity-25">91%</td>
+                            <td class="bg-warning bg-opacity-25">78%</td>
+                            <td class="bg-success bg-opacity-25">95%</td>
+                            <td class="bg-success bg-opacity-25">85%</td>
+                            <td class="bg-success bg-opacity-25">92%</td>
+                            <td class="bg-danger bg-opacity-25">63%</td>
+                            <td class="bg-success bg-opacity-25">98%</td>
+                            <td class="bg-success bg-opacity-25">86%</td>
+                            <td>6/7</td>
+                          </tr>
+                          <tr>
+                            <td>Claude 3</td>
+                            <td>LLM</td>
+                            <td class="bg-success bg-opacity-25">88%</td>
+                            <td class="bg-warning bg-opacity-25">76%</td>
+                            <td class="bg-success bg-opacity-25">92%</td>
+                            <td class="bg-success bg-opacity-25">82%</td>
+                            <td class="bg-success bg-opacity-25">94%</td>
+                            <td class="bg-danger bg-opacity-25">58%</td>
+                            <td class="bg-success bg-opacity-25">97%</td>
+                            <td class="bg-success bg-opacity-25">84%</td>
+                            <td>6/7</td>
+                          </tr>
+                          <tr>
+                            <td>Gemini Pro</td>
+                            <td>LLM</td>
+                            <td class="bg-warning bg-opacity-25">73%</td>
+                            <td class="bg-warning bg-opacity-25">70%</td>
+                            <td class="bg-success bg-opacity-25">88%</td>
+                            <td class="bg-warning bg-opacity-25">75%</td>
+                            <td class="bg-success bg-opacity-25">90%</td>
+                            <td class="bg-danger bg-opacity-25">49%</td>
+                            <td class="bg-success bg-opacity-25">93%</td>
+                            <td class="bg-warning bg-opacity-25">77%</td>
+                            <td>4/7</td>
+                          </tr>
+                          <tr>
+                            <td>CLIP</td>
+                            <td>VLM</td>
+                            <td class="bg-warning bg-opacity-25">68%</td>
+                            <td class="bg-warning bg-opacity-25">65%</td>
+                            <td class="bg-warning bg-opacity-25">78%</td>
+                            <td class="bg-warning bg-opacity-25">72%</td>
+                            <td class="bg-success bg-opacity-25">86%</td>
+                            <td class="bg-danger bg-opacity-25">42%</td>
+                            <td class="bg-success bg-opacity-25">89%</td>
+                            <td class="bg-warning bg-opacity-25">71%</td>
+                            <td>2/7</td>
+                          </tr>
+                          <tr>
+                            <td>DALL-E 3</td>
+                            <td>T2I</td>
+                            <td class="bg-warning bg-opacity-25">74%</td>
+                            <td class="bg-warning bg-opacity-25">63%</td>
+                            <td class="bg-warning bg-opacity-25">79%</td>
+                            <td class="bg-warning bg-opacity-25">73%</td>
+                            <td class="bg-success bg-opacity-25">87%</td>
+                            <td class="bg-danger bg-opacity-25">45%</td>
+                            <td class="bg-success bg-opacity-25">92%</td>
+                            <td class="bg-warning bg-opacity-25">73%</td>
+                            <td>2/7</td>
+                          </tr>
+                          <tr>
+                            <td>Midjourney</td>
+                            <td>T2I</td>
+                            <td class="bg-warning bg-opacity-25">71%</td>
+                            <td class="bg-warning bg-opacity-25">62%</td>
+                            <td class="bg-warning bg-opacity-25">77%</td>
+                            <td class="bg-warning bg-opacity-25">68%</td>
+                            <td class="bg-success bg-opacity-25">85%</td>
+                            <td class="bg-danger bg-opacity-25">41%</td>
+                            <td class="bg-success bg-opacity-25">90%</td>
+                            <td class="bg-warning bg-opacity-25">71%</td>
+                            <td>2/7</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 添加 TrustGen Benchmark 和 Leaderboard 表格到 GenGuardian 主页 -->
+            <!-- Benchmark Section -->
+            <div class="row gx-3">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">模型基准测试 (Benchmark)</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue" >Large Language Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="llm-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue" >Vision Language Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="vlm-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Text-to-Image Models</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="t2i-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="row gx-3">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title text-blue">模型排行榜 (Leaderboard)</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Large Language Model Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="llm-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Vision Language Model Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="vlm-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <div class="container mt-4">
+                      <h4 class="mb-3 text-blue">Text-to-Image Results</h4>
+                      <div class="rounded-4 border border-light overflow-hidden">
+                        <table class="table table-hover mb-0 custom-table" id="t2i-res-table">
+                          <thead></thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Content wrapper end -->
+
+          <!-- App Footer start -->
+          <div class="app-footer">
+            <span>© GenGuardian 2025</span>
+          </div>
+          <!-- App footer end -->
+
+        </div>
+        <!-- Content wrapper scroll end -->
+
+      </div>
+      <!-- *************
+				************ Main container end *************
+			************* -->
+
+    </div>
+    <!-- Page wrapper end -->
+
+    <!-- *************
+			************ Required JavaScript Files *************
+		************* -->
+    <!-- trustgen -->
+    <!-- Vendor JS Files -->
+    <script src="trustgen/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="trustgen/vendor/php-email-form/validate.js"></script>
+    <script src="trustgen/vendor/aos/aos.js"></script>
+    <script src="trustgen/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="trustgen/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="trustgen/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="trustgen/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="trustgen/js/main.js"></script>
+    <script src="trustgen/js/table.js"></script>
+    <script src="trustgen/js/anime.js"></script>
+
+    <!-- map -->
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/app.js"></script>
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/modernizr.js"></script>
+    <script src="assets/js/moment.js"></script>
+
+    <!-- *************
+			************ Vendor Js Files *************
+		************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script src="assets/vendor/overlay-scroll/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/vendor/overlay-scroll/custom-scrollbar.js"></script>
+
+    <!-- Apex Charts -->
+    <script src="assets/vendor/apex/apexcharts.min.js"></script>
+    <script src="assets/vendor/apex/custom/social/demography.js"></script>
+    <script src="assets/vendor/apex/custom/social/key-metrics.js"></script>
+    <script src="assets/vendor/apex/custom/social/ads-revenue.js"></script>
+    <script src="assets/vendor/apex/custom/social/instagram-followers.js"></script>
+    <script src="assets/vendor/apex/custom/social/followers-growth.js"></script>
+    <script src="assets/vendor/apex/custom/social/comments-history.js"></script>
+    <script src="assets/vendor/apex/custom/social/likes-history.js"></script>
+    <script src="assets/vendor/apex/custom/social/shares-history.js"></script>
+    <script src="assets/vendor/apex/custom/widgets/graph8.js"></script>
+
+    <!-- Main Js Required -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- 添加图表初始化脚本 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 初始化评估维度雷达图
+        const dimensionsRadarOptions = {
+          series: [{
+            name: 'LLM',
+            data: [78, 62, 83, 70, 88, 45, 92]
+          }, {
+            name: 'VLM',
+            data: [65, 53, 74, 63, 82, 38, 85]
+          }, {
+            name: 'T2I',
+            data: [71, 58, 79, 68, 85, 42, 90]
+          }],
+          chart: {
+            height: 380,
+            type: 'radar',
+            toolbar: {
+              show: false
+            }
+          },
+          stroke: {
+            width: 2
+          },
+          fill: {
+            opacity: 0.2
+          },
+          markers: {
+            size: 4,
+            hover: {
+              size: 6
+            }
+          },
+          title: {
+            text: '不同模型类型的评估维度表现',
+            align: 'center',
+            style: {
+              fontSize: '16px',
+              fontWeight: 'bold'
+            }
+          },
+          colors: ['#4361ee', '#2dce89', '#f6c23e'],
+          xaxis: {
+            categories: ['真实', '隐私', '安全', '越狱', '伦理', '公平', '政策']
+          },
+          yaxis: {
+            show: false
+          },
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center'
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val + '%';
+              }
+            }
+          }
+        };
+
+        // 初始化模型类型与维度对比图
+        const modelsDimensionsOptions = {
+          series: [{
+            name: '平均通过率',
+            data: [71, 57, 68, 27, 86, 100]
+          }],
+          chart: {
+            type: 'bar',
+            height: 380,
+            toolbar: {
+              show: false
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '55%',
+              endingShape: 'rounded',
+              distributed: true
+            }
+          },
+          colors: ['#4361ee', '#2dce89', '#f6c23e', '#e74a3b', '#4e73df', '#1cc88a'],
+          dataLabels: {
+            enabled: true,
+            formatter: function(val) {
+              return val + '%';
+            },
+            style: {
+              fontSize: '12px',
+              fontWeight: 'bold',
+              colors: ['#fff']
+            }
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+          title: {
+            text: '各类模型通过指标对比',
+            align: 'center',
+            style: {
+              fontSize: '16px',
+              fontWeight: 'bold'
+            }
+          },
+          xaxis: {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            labels: {
+              style: {
+                fontSize: '12px'
+              }
+            }
+          },
+          yaxis: {
+            title: {
+              text: '通过率 (%)'
+            },
+            labels: {
+              formatter: function(val) {
+                return val + '%';
+              }
+            },
+            max: 100
+          },
+          fill: {
+            opacity: 1
+          },
+          tooltip: {
+            y: {
+              formatter: function(val) {
+                return val + '%';
+              }
+            }
+          }
+        };
+
+        // 各维度详细分析图表配置
+        const dimensionChartOptions = {
+          series: [
+            {
+              name: "LLM",
+              data: [88, 73, 91]
+            },
+            {
+              name: "VLM",
+              data: [68, 65]
+            },
+            {
+              name: "T2I",
+              data: [74, 71, 68]
+            }
+          ],
+          chart: {
+            type: 'bar',
+            height: 250,
+            stacked: false,
+            toolbar: {
+              show: false
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function(val) {
+              return val + '%';
+            },
+            style: {
+              fontSize: '10px',
+              fontWeight: 'bold'
+            }
+          },
+          stroke: {
+            width: 1,
+            colors: ['#fff']
+          },
+          colors: ['#4361ee', '#2dce89', '#f6c23e'],
+          xaxis: {
+            categories: ['模型1', '模型2', '模型3'],
+            labels: {
+              style: {
+                fontSize: '10px'
+              }
+            }
+          },
+          yaxis: {
+            max: 100,
+            labels: {
+              style: {
+                fontSize: '10px'
+              },
+              formatter: function (val) {
+                return val + '%';
+              }
+            }
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+            fontSize: '12px'
+          },
+          fill: {
+            opacity: 1
+          }
+        };
+
+        // 初始化图表
+        if (document.getElementById('dimensions-radar-chart')) {
+          const dimensionsRadarChart = new ApexCharts(document.getElementById('dimensions-radar-chart'), dimensionsRadarOptions);
+          dimensionsRadarChart.render();
+        }
+
+        if (document.getElementById('models-dimensions-chart')) {
+          const modelsDimensionsChart = new ApexCharts(document.getElementById('models-dimensions-chart'), modelsDimensionsOptions);
+          modelsDimensionsChart.render();
+        }
+
+        // 初始化各维度分析图表
+        const dimensions = ['honesty', 'privacy', 'robustness', 'jailbreak', 'safety', 'fairness', 'policy'];
+        const dimensionData = {
+          'honesty': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [91, 88, 73]
+              },
+              {
+                name: "VLM",
+                data: [68]
+              },
+              {
+                name: "T2I",
+                data: [74, 71]
+              }
+            ]
+          },
+          'privacy': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [78, 76, 70]
+              },
+              {
+                name: "VLM",
+                data: [65]
+              },
+              {
+                name: "T2I",
+                data: [63, 62]
+              }
+            ]
+          },
+          'robustness': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [95, 92, 88]
+              },
+              {
+                name: "VLM",
+                data: [78]
+              },
+              {
+                name: "T2I",
+                data: [79, 77]
+              }
+            ]
+          },
+          'jailbreak': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [85, 82, 75]
+              },
+              {
+                name: "VLM",
+                data: [72]
+              },
+              {
+                name: "T2I",
+                data: [73, 68]
+              }
+            ]
+          },
+          'safety': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [92, 94, 90]
+              },
+              {
+                name: "VLM",
+                data: [86]
+              },
+              {
+                name: "T2I",
+                data: [87, 85]
+              }
+            ]
+          },
+          'fairness': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [63, 58, 49]
+              },
+              {
+                name: "VLM",
+                data: [42]
+              },
+              {
+                name: "T2I",
+                data: [45, 41]
+              }
+            ]
+          },
+          'policy': {
+            categories: ['GPT-4', 'Claude 3', 'Gemini Pro', 'CLIP', 'DALL-E 3', 'Midjourney'],
+            series: [
+              {
+                name: "LLM",
+                data: [98, 97, 93]
+              },
+              {
+                name: "VLM",
+                data: [89]
+              },
+              {
+                name: "T2I",
+                data: [92, 90]
+              }
+            ]
+          }
+        };
+
+        // 渲染各维度图表
+        dimensions.forEach(dimension => {
+          const chartElement = document.querySelector(`.models-dimension-${dimension}`);
+          if (chartElement) {
+            const options = JSON.parse(JSON.stringify(dimensionChartOptions)); // 深拷贝
+            options.series = dimensionData[dimension].series;
+            options.xaxis.categories = dimensionData[dimension].categories;
+            
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+          }
+        });
+        
+        // 模型筛选功能
+        const modelSelect = document.getElementById('model-select');
+        if (modelSelect) {
+          modelSelect.addEventListener('change', function() {
+            // 在这里实现模型筛选逻辑
+            console.log('Selected model type:', this.value);
+            // 根据选择更新图表数据
+          });
+        }
+        
+        // 维度筛选功能
+        const dimensionButtons = document.querySelectorAll('[data-dimension]');
+        if (dimensionButtons.length > 0) {
+          dimensionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+              dimensionButtons.forEach(btn => btn.classList.remove('active'));
+              this.classList.add('active');
+              
+              const dimension = this.dataset.dimension;
+              console.log('Selected dimension:', dimension);
+              // 根据维度筛选表格行
+              
+              if (dimension === 'all') {
+                // 显示所有行
+                document.querySelectorAll('table tbody tr').forEach(row => {
+                  row.style.display = '';
+                });
+              } else {
+                // 基于维度突出显示特定列
+                const dimIndex = dimensions.indexOf(dimension) + 3; // 加上模型名和类型列的偏移
+                const table = document.querySelector('.table-responsive table');
+                
+                if (table) {
+                  // 重置所有单元格样式
+                  table.querySelectorAll('td').forEach(cell => {
+                    cell.style.fontWeight = '';
+                  });
+                  
+                  // 突出显示特定列
+                  table.querySelectorAll(`tbody tr`).forEach(row => {
+                    const cell = row.cells[dimIndex];
+                    if (cell) {
+                      cell.style.fontWeight = 'bold';
+                    }
+                  });
+                }
+              }
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+
+</html>

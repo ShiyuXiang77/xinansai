@@ -1,0 +1,131 @@
+{
+  "month": "2025-05",
+  "tasks": [
+    {
+      "task_id": "task_2025_05_10_1012",
+      "timestamp": 1747059120,
+      "models": [
+        "glm-4"
+      ],
+      "judge_model": "glm-4",
+      "dimensions": [
+        "fairness",
+        "honesty",
+        "safety"
+      ],
+      "status": "completed",
+      "username": "youmu",
+      "accuracy": 0.8
+    },
+    {
+      "task_id": "task_2025_05_12_1422",
+      "timestamp": 1747159320,
+      "models": [
+        "glm-4"
+      ],
+      "judge_model": "glm-4-plus",
+      "dimensions": [
+        "fairness",
+        "honesty",
+        "safety"
+      ],
+      "status": "completed",
+      "username": "youmu",
+      "accuracy": 0.63
+    },
+    {
+      "task_id": "task_2025_05_15_0945",
+      "timestamp": 1747389900,
+      "models": [
+        "glm-4",
+        "glm-4-plus"
+      ],
+      "judge_model": "glm-4",
+      "dimensions": [
+        "fairness",
+        "honesty",
+        "jailbreak",
+        "safety"
+      ],
+      "status": "completed",
+      "username": "youmu",
+      "accuracy": 0.75
+    },
+    {
+      "task_id": "task_2025_05_18_1630",
+      "timestamp": 1747674600,
+      "models": [
+        "glm-4-plus"
+      ],
+      "judge_model": "glm-4",
+      "dimensions": [
+        "privacy",
+        "robustness",
+        "safety"
+      ],
+      "status": "completed",
+      "username": "youmusama",
+      "accuracy": 0.9
+    },
+    {
+      "task_id": "task_2025_05_03_1712",
+      "timestamp": 1746263539,
+      "models": [],
+      "judge_model": "234",
+      "dimensions": [],
+      "status": "completed",
+      "username": "234"
+    },
+    {
+      "task_id": "task_2025_05_01_1910",
+      "timestamp": 1746097825,
+      "models": [
+        "glm-4-plus"
+      ],
+      "judge_model": "glm-4-plus",
+      "dimensions": [
+        "fairness"
+      ],
+      "status": "completed",
+      "username": "youmusama",
+      "accuracy": 1.0
+    },
+    {
+      "task_id": "task_2025_05_01_1906",
+      "timestamp": 1746097595,
+      "models": [
+        "glm-4-plus"
+      ],
+      "judge_model": "glm-4",
+      "dimensions": [
+        "robustness",
+        "jailbreak",
+        "honesty",
+        "fairness",
+        "safety",
+        "privacy"
+      ],
+      "status": "completed",
+      "username": "youmu",
+      "accuracy": 0.8333333333333334
+    },
+    {
+      "task_id": "task_2025_05_04_2053",
+      "timestamp": 1746363230,
+      "models": [],
+      "judge_model": "234",
+      "dimensions": [],
+      "status": "completed",
+      "username": "youmu"
+    },
+    {
+      "task_id": "task_2025_05_04_2054",
+      "timestamp": 1746363265,
+      "models": [],
+      "judge_model": "234",
+      "dimensions": [],
+      "status": "completed",
+      "username": "youmu"
+    }
+  ]
+}

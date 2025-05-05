@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LLM Evaluation Backend Test Frontend</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        label { display: block; margin-top: 1em; }
+        input, select, textarea { width: 300px; }
+        #progress { margin-top: 1em; font-weight: bold; }
+        #log { margin-top: 1em; background: #f4f4f4; padding: 1em; height: 200px; overflow-y: auto; }
+        #report { margin-top: 2em; background: #e8f7e4; padding: 1em; }
+        #paraphrase_result { margin-top: 2em; background: #e4f0f7; padding: 1em; }
+        #all_reports { margin-top: 2em; background: #f7f4e4; padding: 1em; }
+        button { margin-top: 1em; }
+        .multiselect { width: 300px; height: 100px; }
+        .report-block { border: 1px solid #aaa; background: #fff; margin: 1em 0; padding: 1em; }
+    </style>
+</head>
+<body>
+    <h2>LLM Evaluation Backend Test Frontend</h2>
+    <form id="addModelForm" style="background:#f9f9f9;padding:1em;border:1px solid #ccc;">
+        <h3>Add Model</h3>
+        <label>Username: <input type="text" id="add_username" required></label>
+        <label>Model Name: <input type="text" id="add_model_name" required></label>
+        <label>API Key: <input type="text" id="add_api_key" required></label>
+        <label>Base URL: <input type="text" id="add_base_url" required></label>
+        <button type="submit">Add Model</button>
+        <span id="addModelResult" style="margin-left:1em;"></span>
+        <br>
+        <button type="button" onclick="listModels(true)">List Models</button>
+        <span id="listModelsResult" style="margin-left:1em;color:#333;"></span>
+    </form>
+
+    <form id="paraphraseForm" style="background:#f9f9ff;padding:1em;border:1px solid #99c;">
+        <h3>Create Paraphrased Data</h3>
+        <label>Username: <input type="text" id="paraphrase_username" required></label>
+        <label>Model:
+            <select id="paraphrase_model" required></select>
+        </label>
+        <label>Dimension:
+            <input type="text" id="paraphrase_dimension" value="fairness" required>
+        </label>
+        <label>Number of New Data: <input type="number" id="paraphrase_num" value="2" min="1" required></label>
+        <label>Extra Instructions (optional): <input type="text" id="paraphrase_extra"></label>
+        <button type="submit">Create Paraphrased Data</button>
+    </form>
+    <div id="paraphrase_result"></div>
+
+    <form id="evalForm">
+        <label>Username: <input type="text" id="username" required></label>
+        <label>Models to Evaluate:
+            <select id="model_names" class="multiselect" multiple required></select>
+        </label>
+        <label>Judge Model:
+            <select id="judge_model_name" required></select>
+        </label>
+        <label>Dimensions (comma separated): <input type="text" id="dimensions" value="fairness,honesty,jailbreak,privacy,robustness,safety" required></label>
+        <label>Number of Samples per Dimension: <input type="number" id="num_samples" value="2" min="1" required></label>
+        <button type="submit">Start Evaluation</button>
+    </form>
+    <div id="progress"></div>
+    <div id="log"></div>
+    <button onclick="fetchReport()">Fetch Latest Report</button>
+    <div id="report"></div>
+
+    <div style="margin-top:2em;">
+        <h3>All Reports for User</h3>
+        <label>Username: <input type="text" id="all_reports_username" required></label>
+        <button onclick="fetchAllReports()" type="button">Fetch All Reports</button>
+    </div>
+    <div id="all_reports"></div>
+
+    <script>
+        const addModelForm = document.getElementById('addModelForm');
+        const addModelResult = document.getElementById('addModelResult');
+        const modelNamesSelect = document.getElementById('model_names');
+        const judgeModelSelect = document.getElementById('judge_model_name');
+        const listModelsResult = document.getElementById('listModelsResult');
+        const paraphraseModelSelect = document.getElementById('paraphrase_model');
+        const paraphraseForm = document.getElementById('paraphraseForm');
+        const paraphraseResultDiv = document.getElementById('paraphrase_result');
+        const allReportsDiv = document.getElementById('all_reports');
+
+        addModelForm.onsubmit = function(e) {
+            e.preventDefault();
+            addModelResult.textContent = '';
+            addModelResult.style.color = '';
+            const username = document.getElementById('add_username').value.trim();
+            const model_name = document.getElementById('add_model_name').value.trim();
+            const api_key = document.getElementById('add_api_key').value.trim();
+            const base_url = document.getElementById('add_base_url').value.trim();
+            fetch('/api/add_model', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, model_name, api_key, base_url })
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (res.ok) {
+                    addModelResult.textContent = data.message || 'Success';
+                    addModelResult.style.color = 'green';
+                    listModels(); // refresh model list
+                } else {
+                    addModelResult.textContent = data.message || 'Failed';
+                    addModelResult.style.color = 'red';
+                }
+            })
+            .catch(err => {
+                addModelResult.textContent = 'Failed: ' + err;
+                addModelResult.style.color = 'red';
+            });
+        };
+
+        function listModels(updateSelects) {
+            const username = document.getElementById('add_username').value.trim() || document.getElementById('username').value.trim() || document.getElementById('paraphrase_username').value.trim() || document.getElementById('all_reports_username').value.trim();
+            if (!username) {
+                listModelsResult.textContent = 'Please enter username first.';
+                return;
+            }
+            listModelsResult.textContent = 'Loading...';
+            fetch('/api/list_models?username=' + encodeURIComponent(username))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.models && data.models.length > 0) {
+                        listModelsResult.textContent = 'Models: ' + data.models.join(', ');
+                        if (updateSelects) {
+                            updateModelSelects(data.models);
+                        }
+                    } else {
+                        listModelsResult.textContent = 'No models found for this user.';
+                        if (updateSelects) {
+                            updateModelSelects([]);
+                        }
+                    }
+                })
+                .catch(err => {
+                    listModelsResult.textContent = 'Failed to fetch models: ' + err;
+                    if (updateSelects) {
+                        updateModelSelects([]);
+                    }
+                });
+        }
+
+        function updateModelSelects(models) {
+            // Update multi-select for models to evaluate
+            modelNamesSelect.innerHTML = '';
+            judgeModelSelect.innerHTML = '';
+            paraphraseModelSelect.innerHTML = '';
+            models.forEach(m => {
+                const opt1 = document.createElement('option');
+                opt1.value = m;
+                opt1.textContent = m;
+                modelNamesSelect.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = m;
+                opt2.textContent = m;
+                judgeModelSelect.appendChild(opt2);
+
+                const opt3 = document.createElement('option');
+                opt3.value = m;
+                opt3.textContent = m;
+                paraphraseModelSelect.appendChild(opt3);
+            });
+        }
+
+        // When username changes, refresh model list
+        document.getElementById('username').addEventListener('change', function() {
+            listModels(true);
+        });
+        document.getElementById('paraphrase_username').addEventListener('change', function() {
+            listModels(true);
+        });
+        document.getElementById('all_reports_username').addEventListener('change', function() {
+            listModels(true);
+        });
+
+        // On page load, try to load models if username is filled
+        window.onload = function() {
+            if (document.getElementById('username').value.trim() || document.getElementById('paraphrase_username').value.trim() || document.getElementById('all_reports_username').value.trim()) {
+                listModels(true);
+            }
+        };
+
+        paraphraseForm.onsubmit = function(e) {
+            e.preventDefault();
+            paraphraseResultDiv.textContent = 'Creating...';
+            const username = document.getElementById('paraphrase_username').value.trim();
+            const model_name = paraphraseModelSelect.value;
+            const dimension = document.getElementById('paraphrase_dimension').value.trim();
+            const num_samples = parseInt(document.getElementById('paraphrase_num').value, 10);
+            const extra_instructions = document.getElementById('paraphrase_extra').value.trim();
+
+            if (!username || !model_name || !dimension || !num_samples) {
+                paraphraseResultDiv.textContent = 'Please fill all required fields.';
+                return;
+            }
+
+            // 构造请求体，extra_instructions 为空时不传
+            const payload = {
+                username,
+                model_name,
+                dimension,
+                num_samples
+            };
+            if (extra_instructions) {
+                payload.extra_instructions = extra_instructions;
+            }
+
+            fetch('/api/paraphrase_data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    paraphraseResultDiv.innerHTML = `<b>Created ${data.created} new data:</b><br><pre style="background:#fff;border:1px solid #ccc;padding:0.5em;">${JSON.stringify(data.data, null, 2)}</pre>`;
+                } else {
+                    paraphraseResultDiv.textContent = data.message || 'Failed to create paraphrased data.';
+                }
+            })
+            .catch(err => {
+                paraphraseResultDiv.textContent = 'Failed: ' + err;
+            });
+        };
+
+        const form = document.getElementById('evalForm');
+        const progressDiv = document.getElementById('progress');
+        const logDiv = document.getElementById('log');
+        const reportDiv = document.getElementById('report');
+
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            progressDiv.textContent = '';
+            logDiv.textContent = '';
+            reportDiv.textContent = '';
+            const username = document.getElementById('username').value.trim();
+            const model_names = Array.from(modelNamesSelect.selectedOptions).map(opt => opt.value);
+            const judge_model_name = judgeModelSelect.value;
+            const dimensions = document.getElementById('dimensions').value.split(',').map(s => s.trim()).filter(Boolean);
+            const num_samples = parseInt(document.getElementById('num_samples').value, 10);
+
+            if (!model_names.length) {
+                alert('Please select at least one model to evaluate.');
+                return;
+            }
+            if (!judge_model_name) {
+                alert('Please select a judge model.');
+                return;
+            }
+
+            const payload = {
+                username,
+                model_names,
+                judge_model_name,
+                dimensions,
+                num_samples
+            };
+
+            const evtSource = new EventSourcePolyfill('/api/evaluate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                payload: JSON.stringify(payload)
+            });
+
+            evtSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.progress !== undefined) {
+                        let msg = `Progress: ${data.progress}%`;
+                        if (data.current_model) msg += ` | Model: ${data.current_model}`;
+                        if (data.current_dimension) msg += ` | Dimension: ${data.current_dimension}`;
+                        progressDiv.textContent = msg;
+                        logDiv.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+                    }
+                    if (data.status === 'done') {
+                        logDiv.textContent += `[${new Date().toLocaleTimeString()}] Evaluation finished. Report saved at: ${data.report_path}\n`;
+                        progressDiv.textContent = 'Evaluation finished!';
+                    }
+                    if (data.result) {
+                        logDiv.textContent += `[${new Date().toLocaleTimeString()}] Result: ${JSON.stringify(data.result)}\n`;
+                    }
+                } catch (err) {
+                    logDiv.textContent += `[${new Date().toLocaleTimeString()}] Error parsing event: ${event.data}\n`;
+                }
+                logDiv.scrollTop = logDiv.scrollHeight;
+            };
+            evtSource.onerror = function(err) {
+                logDiv.textContent += `[${new Date().toLocaleTimeString()}] SSE connection closed or error.\n`;
+                progressDiv.textContent = 'Error or connection closed.';
+                evtSource.close();
+            };
+        };
+
+        // Polyfill for POST SSE (EventSource only supports GET natively)
+        // https://github.com/amvtek/EventSource
+        function EventSourcePolyfill(url, options) {
+            if (!options || options.method === 'GET') {
+                return new EventSource(url);
+            }
+            // POST SSE polyfill using fetch and ReadableStream
+            let controller = new AbortController();
+            let listeners = {};
+            fetch(url, {
+                method: options.method,
+                headers: options.headers,
+                body: options.payload,
+                signal: controller.signal
+            }).then(response => {
+                const reader = response.body.getReader();
+                let decoder = new TextDecoder();
+                let buffer = '';
+                function read() {
+                    reader.read().then(({done, value}) => {
+                        if (done) {
+                            if (listeners['error']) listeners['error']();
+                            return;
+                        }
+                        buffer += decoder.decode(value, {stream: true});
+                        let parts = buffer.split('\n\n');
+                        buffer = parts.pop();
+                        for (let part of parts) {
+                            if (part.startsWith('data:')) {
+                                let data = part.replace(/^data:\s*/, '');
+                                if (listeners['message']) listeners['message']({data});
+                            }
+                        }
+                        read();
+                    });
+                }
+                read();
+            }).catch(err => {
+                if (listeners['error']) listeners['error'](err);
+            });
+            return {
+                onmessage: null,
+                onerror: null,
+                close: () => controller.abort(),
+                addEventListener: function(type, fn) {
+                    listeners[type] = fn;
+                },
+                set onmessage(fn) { listeners['message'] = fn; },
+                set onerror(fn) { listeners['error'] = fn; }
+            };
+        }
+
+        function fetchReport() {
+            // 兼容老接口，默认用 username 字段
+            const username = document.getElementById('username').value.trim();
+            let url = '/api/report';
+            if (username) {
+                url += '?username=' + encodeURIComponent(username);
+            }
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    // Pretty print multi-model results
+                    if (data && data.results) {
+                        let html = `<b>Judge Model:</b> ${data.judge_model || data.judgeName || ''}<br>`;
+                        if (data.username) html += `<b>Username:</b> ${data.username}<br>`;
+                        if (data.timestamp) html += `<b>Timestamp:</b> ${data.timestamp}<br>`;
+                        for (const [model, dims] of Object.entries(data.results)) {
+                            html += `<hr><b>Model:</b> ${model}<br>`;
+                            for (const [dim, stats] of Object.entries(dims)) {
+                                html += `<b>Dimension:</b> ${dim}<br>`;
+                                html += `Correct: ${stats.correct}, Incorrect: ${stats.incorrect}, Accuracy: ${stats.accuracy}<br>`;
+                                html += `Error case: <pre style="background:#fff;border:1px solid #ccc;padding:0.5em;">${typeof stats.error_case === 'string' ? stats.error_case : JSON.stringify(stats.error_case, null, 2)}</pre>`;
+                            }
+                        }
+                        reportDiv.innerHTML = html;
+                    } else {
+                        reportDiv.textContent = JSON.stringify(data, null, 2);
+                    }
+                })
+                .catch(err => {
+                    reportDiv.textContent = 'Failed to fetch report: ' + err;
+                });
+        }
+
+        function fetchAllReports() {
+            const username = document.getElementById('all_reports_username').value.trim();
+            if (!username) {
+                allReportsDiv.textContent = 'Please enter username.';
+                return;
+            }
+            allReportsDiv.textContent = 'Loading...';
+            fetch('/api/reports?username=' + encodeURIComponent(username))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.reports && data.reports.length > 0) {
+                        let html = `<b>Total Reports:</b> ${data.count}<br>`;
+                        data.reports.forEach((rep, idx) => {
+                            html += `<div class="report-block"><b>Report #${idx + 1}</b><br>`;
+                            html += `<b>Filename:</b> ${rep._filename || ''}<br>`;
+                            html += `<b>Username:</b> ${rep.username || ''}<br>`;
+                            html += `<b>Timestamp:</b> ${rep.timestamp || ''}<br>`;
+                            html += `<b>Judge Model:</b> ${rep.judge_model || ''}<br>`;
+                            html += `<b>Model(s):</b> ${rep.model || ''}<br>`;
+                            if (rep.results) {
+                                for (const [model, dims] of Object.entries(rep.results)) {
+                                    html += `<hr><b>Model:</b> ${model}<br>`;
+                                    for (const [dim, stats] of Object.entries(dims)) {
+                                        html += `<b>Dimension:</b> ${dim}<br>`;
+                                        html += `Correct: ${stats.correct}, Incorrect: ${stats.incorrect}, Accuracy: ${stats.accuracy}<br>`;
+                                        html += `Error case: <pre style="background:#fff;border:1px solid #ccc;padding:0.5em;">${typeof stats.error_case === 'string' ? stats.error_case : JSON.stringify(stats.error_case, null, 2)}</pre>`;
+                                    }
+                                }
+                            }
+                            html += `</div>`;
+                        });
+                        allReportsDiv.innerHTML = html;
+                    } else {
+                        allReportsDiv.textContent = JSON.stringify(data, null, 2);
+                    }
+                })
+                .catch(err => {
+                    allReportsDiv.textContent = 'Failed to fetch reports: ' + err;
+                });
+        }
+    </script>
+</body>
+</html>
